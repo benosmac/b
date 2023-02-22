@@ -1,0 +1,102 @@
+---
+import { Image } from "@astrojs/image/components";
+export interface props {
+  images: any;
+  maxCols: number;
+}
+
+const { images, maxCols } = Astro.props;
+let gridSize = `${100 / maxCols}%`;
+---
+
+<!-- 
+  A simple gallery component that outputs a grid of images from an array of source urls
+  Uses @Astro's Image component
+  Defaults to 2-column
+  Images with filenames ending in -wide.jpg will span both columns
+-->
+<section class="gallery">
+  {
+    images.map((imgSrc: string) => (
+      <Image
+        src={imgSrc}
+        alt=""
+        width="1337px"
+        aspectRatio="16:9"
+        class={imgSrc.endsWith("-wide.jpg") ? "wide" : ""}
+      />
+    ))
+  }
+</section>
+<script>
+  const images = document.querySelectorAll(".gallery > img");
+
+  function changeTargetImage(image: any) {
+    let currentTarget = document.getElementById("target");
+    currentTarget ? (currentTarget.id = "") : "";
+    image.id = "target";
+  }
+  function focusImage(image: any) {
+    changeTargetImage(image);
+    setTimeout(
+      () =>
+        image.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        }),
+      300
+    );
+  }
+
+  images.forEach((image) => {
+    image.addEventListener("click", () => {
+      focusImage(image);
+    });
+  });
+</script>
+<style define:vars={{ gridSize }}>
+  .gallery {
+    grid-column: 1 / span all;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+  img {
+    cursor: pointer;
+    max-width: 100%;
+    flex-basis: 100%;
+
+    padding: 1rem 0;
+  }
+  @media (min-width: 666px) {
+    .gallery {
+      padding: 0 1.5rem;
+    }
+    img {
+      max-width: 50%;
+      flex: 1 1 50%;
+      padding: 0.5rem;
+    }
+    img.wide {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+  @media (min-width: 888px) {
+    img {
+      max-width: var(--gridSize);
+    }
+    img.wide {
+      max-width: calc(var(--gridSize) * 2);
+    }
+  }
+
+  @media (min-width: 666px) {
+  }
+  #target {
+    max-width: 100%;
+    transition: all 0.2s ease;
+  }
+</style>

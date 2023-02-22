@@ -1,0 +1,33 @@
+---
+import Layout from "./Layout.astro";
+import Gallery from "@components/Gallery.astro";
+import SmallTitle from "@components/SmallTitle.astro";
+import { Image } from "@astrojs/image/components";
+export interface Props {
+  title: string;
+  slug: string;
+  priority: number;
+  maxCols: number;
+}
+const { title, slug, priority, maxCols } = Astro.props;
+//Create path to images folder using slug
+const pathToImages = `/src/images/${slug}`;
+// Get all project images
+// required because Vite's import.meta.glob does not accept variables in the path
+// returns: Array of image paths
+const allImages = Object.keys(
+  import.meta.glob("/src/images/**/*.jpg", {
+    as: "url",
+  })
+);
+// Filter allImages array using pathToImages
+const filteredImages = allImages.filter((image) =>
+  image.includes(pathToImages)
+);
+---
+
+<Layout title={title}>
+  <SmallTitle title={title} />
+  <Gallery images={filteredImages} maxCols={maxCols} />
+</Layout>
+<style></style>

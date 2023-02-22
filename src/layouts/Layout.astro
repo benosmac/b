@@ -1,0 +1,162 @@
+---
+import Header from "../components/Header.astro";
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body id="body" class="transition">
+    <Header />
+    <!-- <svg
+      id="bg"
+      data-name="Background"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1337"
+      height="1330.18"
+      viewBox="0 0 1337 1330.18"
+    >
+      <defs>
+        <style>
+          .layer-a {
+            fill: #d0ddd6;
+          }
+
+          .layer-b {
+            fill: #b0ccbc;
+          }
+        </style>
+      </defs>
+      <path
+        class="layer-a"
+        d="M1334.28,1210.88c-37.83-21.2-84.75-4.58-128.08-6.2-32.8-1.23-67.35-13-97.25.55-15.37,7-27.17,19.77-38.52,32.24l-51.72,56.85c-10,11-20.27,22.18-33.52,28.85-30.49,15.33-67.18,2.81-98-11.81s-63.9-31.75-97.3-24.81c-27.52,5.71-51.06,27.32-79.16,27.22-49.89-.18-81.61-67.12-131.4-64.13-8.06.49-16.31,2.87-24,.52-25-7.63-20.82-54.25-46.56-58.84-19.31-3.44-32.53,21.87-52,24.29-13,1.61-24.69-7.37-37.24-11.12-25.54-7.62-52.66,7.26-71.29,26.32s-32.45,42.67-52.74,59.94c-11.37,9.68-25.52,17.39-40.42,16.57-28.28-1.55-46.3-31.5-72.73-41.66-39.79-15.28-84.54,18-125.87,7.53-29.42-7.44-60.68-22.58-56-52.57V0H1337Z"
+        transform="translate(0)"></path>
+      <path
+        class="layer-b"
+        d="M1.79,757.28l11.82,79.53c5.29,35.62,11.15,72.73,31.49,101.94s59.92,47.4,90.81,31c10.2-5.43,18.86-14.18,29.9-17.34,27-7.71,51.84,20.63,79.83,21.92s52.5-24.81,80.56-22.8c30.92,2.21,51.83,37.23,82.49,41.94,28.6,4.4,53.77-18.68,73.16-40.95s41.15-47.34,70-48.75c33.12-1.62,58.59,28.2,80.82,53.72s54.36,51.24,85.41,39.21c5.82-2.26,11.26-5.79,17.39-6.73,14.81-2.25,27.4,10.83,41.8,15,17.07,5,35.6-3.2,48.59-15.73s21.77-28.93,31.33-44.43a414.45,414.45,0,0,1,64.31-80c17.92-17.34,42.58-33.93,65.35-24.54,21.35,8.81,32.25,37.76,55,41.35,30.07,4.75,53.86-39.07,83.29-31.09,26.16,7.09,36.41,51.53,63.17,47.51,4.28-.65,8.35-2.64,12.67-2.73,13-.29,20,14.9,27.78,25.74,22.9,32.13,67.82,33.73,106.29,32.3L1337,0H.47Z"
+        transform="translate(0)"></path>
+    </svg> -->
+
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>
+<script>
+  // Handle Page in/out transitions
+  const links = document.querySelectorAll("a");
+  const bodyEl = document.getElementById("body");
+  links.forEach((link) => {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      bodyEl?.classList.add("transition");
+      setTimeout(function () {
+        window.location.href = link.href;
+      }, 333);
+    });
+  });
+  window.addEventListener("load", function (event) {
+    bodyEl?.classList.remove("transition");
+  });
+</script>
+<style is:global>
+  :root {
+    /* Colours */
+    --accent: rgb(136, 187, 168);
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      #da62c4 30%,
+      white 60%
+    );
+    --base: #333;
+
+    /* Breakpoints */
+    --medium-viewport-width: 666px;
+    --large-viewport-width: 888px;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Nunito", sans-serif;
+    background-color: rgb(250, 250, 250);
+  }
+  body {
+    margin: 0;
+  }
+  main {
+    max-width: 1111px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+  h1,
+  h2 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+  }
+  p {
+    margin: 0 0 2em 0;
+  }
+  #main {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+    transition: all 0.333s ease;
+  }
+  .transition #main {
+    transform: translateY(2vh);
+    /* transition-delay: 0s; */
+    opacity: 0;
+    filter: blur(10px);
+  }
+  #bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    transform: scale(1);
+    /* width: 100vw;
+    height: 100vh; */
+    /* transform: translateY(-90%); */
+  }
+  #bg .layer-a,
+  #bg .layer-b {
+    transform: translateY(-80%);
+    transition: all 0.4s ease-in-out 0.1s;
+  }
+  #bg .layer-b {
+    transition: all 0.5s ease-in-out 0s;
+  }
+  .transition #bg .layer-a {
+    transform: translateY(0%);
+    transition-delay: 0.25s;
+  }
+  .transition #bg .layer-b {
+    transform: translateY(0%);
+    transition-delay: 0.25s;
+  }
+</style>

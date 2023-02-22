@@ -1,0 +1,78 @@
+---
+import Layout from "@layouts/Layout.astro";
+import CategoryCard from "@components/CategoryCard.astro";
+
+const projects = await Astro.glob("./*.astro");
+---
+
+<Layout title="Welcome to Astro.">
+  <!-- <ul role="list" class="link-card-grid">
+    {console.log(projects)}
+    {
+      projects.map((project) => (
+        <CategoryCard
+          href={project.url}
+          title={project.default}
+          img={`/src/images/${project.file}/feature.jpg`}
+        />
+      ))
+    }
+  </ul> -->
+  <section class="categories">
+    <ul role="list" class="link-card-grid">
+      <CategoryCard
+        href="/work/design"
+        title="Design"
+        img="src/images/flyer-open-front.jpg"
+        colour="rgb(136, 187, 168)"
+      />
+      <CategoryCard
+        href="/work/web"
+        title="Web"
+        img="src/images/pw_home-m.jpg"
+        colour="rgb(136, 187, 168)"
+      />
+      <CategoryCard
+        href="/work/art"
+        title="Art"
+        img="src/images/commercialrd_FULL.jpg"
+        colour="rgb(136, 187, 168)"
+      />
+      <CategoryCard
+        href="/work/photography"
+        title="Photography"
+        img="src/images/goat.jpg"
+        colour="rgb(136, 187, 168)"
+      />
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 0;
+    max-width: 1400px;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .categories {
+    grid-column: 1 / span all;
+  }
+  .link-card-grid {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr)); */
+    /* gap: 1rem; */
+    padding: 2rem;
+  }
+  @media (min-width: 666px) {
+    .link-card-grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 2rem;
+      row-gap: 2rem;
+    }
+  }
+</style>

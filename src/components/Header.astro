@@ -1,0 +1,51 @@
+---
+import Nav from "@components/Nav.astro";
+import Logo from "@components/logo.astro";
+---
+
+<header>
+  <a class="logo" href="/"><Logo /></a>
+  <Nav />
+</header>
+<style>
+  a {
+    text-decoration: none;
+  }
+  header h2 {
+    font-size: 18px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 800;
+  }
+  h2 span {
+    display: block;
+  }
+  h2 span:first-child {
+    /* font-weight: normal; */
+    color: rgb(0, 138, 85);
+  }
+  h2 span:last-child {
+    /* font-weight: 100; */
+    color: rgb(148, 187, 172);
+  }
+
+  header {
+    /* position: sticky;
+    top: 0; */
+    /* background: rgb(240, 240, 240); */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    justify-content: space-between;
+    padding: 1em 2em;
+    padding: 0.5em 1em;
+  }
+  @media (min-width: 666px) {
+    header {
+      padding: 1em 2em;
+    }
+  }
+  .logo {
+    padding: 0.5em 0 0 0;
+  }
+</style>

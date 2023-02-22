@@ -1,0 +1,56 @@
+---
+import Layout from "./Layout.astro";
+import Gallery from "@components/Gallery.astro";
+import { Image } from "@astrojs/image/components";
+export interface Props {
+  title: string;
+  slug: string;
+  priority: number;
+  maxCols: number;
+  customColour: string;
+  category: Array<string>;
+}
+const { frontmatter } = Astro.props;
+//Create path to images folder using slug
+const pathToImages = `/src/images/${frontmatter.slug}`;
+// Get all project images
+// required because Vite's import.meta.glob does not accept variables in the path
+// returns: Array of image paths
+const allImages = Object.keys(
+  import.meta.glob("/src/images/**/*.jpg", {
+    as: "url",
+  })
+);
+// Filter allImages array using pathToImages
+const filteredImages = allImages.filter((image) =>
+  image.includes(pathToImages)
+);
+
+const customColour = frontmatter.customColour;
+---
+
+<Layout title={frontmatter.title}>
+  <section class="description">
+    <h1>{frontmatter.title}</h1>
+    <slot />
+  </section>
+  <Gallery images={filteredImages} maxCols={frontmatter.maxCols} />
+</Layout>
+
+<style define:vars={{ customColour }}>
+  .description {
+    grid-column: 1 / span all;
+    background: var(--customColour);
+    padding: 2em;
+    margin-bottom: 2em;
+  }
+  .description p {
+    max-width: 42em;
+  }
+  @media (min-width: 666px) {
+    .description {
+      grid-column: 1 / span 4;
+      margin: 2em;
+    }
+  }
+</style>

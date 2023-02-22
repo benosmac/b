@@ -1,0 +1,50 @@
+---
+export interface Props {
+  title: string;
+  href: string;
+  img: string;
+  colour: string;
+}
+
+const { href, title, img, colour } = Astro.props;
+---
+
+<li class="category-card" style={`background-image: url(${img})`}>
+  <a href={href}>
+    <h2 style={`background-color: ${colour}`}>
+      {title}
+    </h2>
+  </a>
+</li>
+<style>
+  .category-card {
+    list-style: none;
+    display: flex;
+    height: 50vh;
+    background-size: cover;
+    background-position: 50%;
+  }
+
+  .category-card > a {
+    width: 100%;
+    text-decoration: none;
+    line-height: 1.4;
+    padding: 0;
+    display: flex;
+    color: #111;
+  }
+  .category-card > a > h2 {
+    flex-grow: 0;
+    align-self: flex-end;
+    margin: 0;
+    font-size: 1rem;
+    transition: all 0.33s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 1em;
+  }
+  .category-card:is(:hover, :focus-within) {
+    /* background-position: 0; */
+  }
+  .category-card:is(:hover, :focus-within) h2 {
+    flex-grow: 0.15;
+  }
+</style>
