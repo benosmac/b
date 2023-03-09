@@ -10,9 +10,21 @@ export interface Props {
 const { projectsCategory, title } = Astro.props;
 
 const projects = await Astro.glob("../pages/work/*.mdx");
-const filteredProjects = projects.filter(
-  (project) => project.frontmatter.category.indexOf(projectsCategory) >= 0
-);
+const filteredProjects = projects
+  .filter(
+    (project) => project.frontmatter.category.indexOf(projectsCategory) >= 0
+  )
+  .sort((a, b) => {
+    const aPriority = a.frontmatter.priority;
+    const bPriority = b.frontmatter.priority;
+    if (aPriority > bPriority) {
+      return 1;
+    }
+    if (aPriority < bPriority) {
+      return -1;
+    }
+    return 0;
+  });
 ---
 
 <Layout title={title}>

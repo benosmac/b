@@ -22,14 +22,13 @@ const allImages = Object.keys(
   })
 );
 // Filter allImages array using pathToImages
-const filteredImages = allImages.filter((image) =>
-  image.includes(pathToImages)
+const filteredImages = allImages.filter(
+  (image) => image.includes(pathToImages) && !image.includes("feature")
 );
-
 const customColour = frontmatter.customColour;
 ---
 
-<Layout title={frontmatter.title}>
+<Layout title={frontmatter.title} logoColour={frontmatter.customColour}>
   <section class="description">
     <h1>{frontmatter.title}</h1>
     <slot />
@@ -40,9 +39,11 @@ const customColour = frontmatter.customColour;
 <style define:vars={{ customColour }}>
   .description {
     grid-column: 1 / span all;
-    background: var(--customColour);
-    padding: 2em;
-    margin-bottom: 2em;
+    margin: 2em 2em 0 2em;
+  }
+  h1 {
+    border-bottom: 2px solid var(--customColour);
+    padding: 0 0 0.5em 0;
   }
   .description p {
     max-width: 42em;
@@ -50,7 +51,6 @@ const customColour = frontmatter.customColour;
   @media (min-width: 666px) {
     .description {
       grid-column: 1 / span 4;
-      margin: 2em;
     }
   }
 </style>
