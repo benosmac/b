@@ -1,14 +1,17 @@
-import { defineConfig } from "astro/config";
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
-import image from "@astrojs/image";
+import image from '@astrojs/image'
 
 // https://astro.build/config
-import mdx from "@astrojs/mdx";
+import mdx from '@astrojs/mdx'
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [image({
-    serviceEntryPoint: "@astrojs/image/sharp"
-  }), mdx()]
-});
+    integrations: [
+        image({
+            serviceEntryPoint: '@astrojs/image/sharp',
+        }),
+        mdx(),
+    ],
+})
