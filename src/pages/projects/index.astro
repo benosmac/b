@@ -1,0 +1,58 @@
+---
+import Layout from '@layouts/Layout.astro'
+import ProjectCard from '@components/ProjectCard.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+
+const projects: Array<CollectionEntry<'projects'>> = await getCollection(
+    'projects'
+)
+
+const sortedProjects = projects.sort((a, b) => {
+    const aPriority = a.data.priority
+    const bPriority = b.data.priority
+    if (aPriority > bPriority) {
+        return 1
+    }
+    if (aPriority < bPriority) {
+        return -1
+    }
+    return 0
+})
+---
+
+<Layout title="Projects">
+    <ul role="list" class="link-card-grid">
+        {
+            sortedProjects.map((project) => (
+                <ProjectCard
+                    href={'/projects/' + project.slug}
+                    title={project.data.title}
+                    img={`/src/images/${project.slug}/feature.jpg`}
+                    colour={
+                        project.data.customColour
+                            ? project.data.customColour
+                            : 'oklch(96.7% 0.06 100)'
+                    }
+                    categories={project.data.categories}
+                />
+            ))
+        }
+    </ul>
+</Layout>
+
+<style>
+    h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0;
+    }
+    .link-card-grid {
+        display: grid;
+        grid-column: 1 / span all;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        column-gap: 2rem;
+        padding: 2rem;
+        row-gap: 2rem;
+    }
+</style>

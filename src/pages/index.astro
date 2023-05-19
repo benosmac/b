@@ -1,79 +1,113 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import CategoryCard from "../components/CategoryCard.astro";
+import Layout from '../layouts/LayoutHome.astro'
+import Button from '@components/Button.astro'
+import { Icon } from 'astro-icon'
+import ProjectCard from '@components/ProjectCard.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+
+const featuredProjects: Array<CollectionEntry<'projects'>> =
+    await getCollection('projects', ({ data }) => {
+        return data.isFeatured === true
+    })
 ---
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
-  <section class="intro">
-    <h2>Designer & Frontend Developer from Melbourne, Australia</h2>
-  </section>
-  <section class="work">
-    <ul role="list" class="link-card-grid">
-      <CategoryCard
-        href="/work/design"
-        title="Design"
-        img="src/images/flyer-open-front.jpg"
-        colour="rgb(136, 187, 168)"
-      />
-      <CategoryCard
-        href="/work/web"
-        title="Web"
-        img="src/images/pw_home-m.jpg"
-        colour="rgb(136, 187, 168)"
-      />
-      <CategoryCard
-        href="/work/art"
-        title="Art"
-        img="src/images/commercialrd_FULL.jpg"
-        colour="rgb(136, 187, 168)"
-      />
-      <CategoryCard
-        href="/work/photography"
-        title="Photography"
-        img="src/images/goat.jpg"
-        colour="rgb(136, 187, 168)"
-      />
-    </ul>
-  </section>
+    <section class="intro">
+        <h2>Designer & frontend developer from Melbourne, Australia</h2>
+        <span>
+            <Button
+                text="Read things about me "
+                url="#about"
+                hasIcon={true}
+                iconPosition="right"
+                size="borderless"
+                ><Icon name="mdi:arrow-down" slot="icon" />
+            </Button>
+        </span>
+    </section>
+    <section class="work">
+        <div class="work-header">
+            <h2>Projects</h2>
+            <Button
+                text="View all"
+                url="/projects"
+                hasIcon={true}
+                iconPosition="right"
+                size="borderless"
+                ><Icon name="mdi:arrow-right" slot="icon" />
+            </Button>
+        </div>
+        <ul role="list" class="project-card-grid">
+            {
+                featuredProjects.map((project) => (
+                    <ProjectCard
+                        href={'/projects/' + project.slug}
+                        title={project.data.title}
+                        img={`/src/images/${project.slug}/feature.jpg`}
+                        colour={
+                            //TODO: Implement default colour in TS interface
+                            project.data.customColour
+                                ? project.data.customColour
+                                : '#eee'
+                        }
+                        categories={project.data.categories}
+                    />
+                ))
+            }
+        </ul>
+    </section>
 </Layout>
 
 <style>
-  h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  .intro {
-    grid-column: 1 / span 3;
-    /* margin: 2rem; */
-    padding: 2rem;
-    /* border: 3px solid var(--base); */
-    /* background-color: rgb(136, 187, 168); */
-  }
-  .intro h2 {
-    font-weight: 200;
-  }
-  .work {
-    grid-column: 1 / span all;
-  }
-  .link-card-grid {
-    display: grid;
-    row-gap: 2rem;
-    /* grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr)); */
-    /* gap: 1rem; */
-    padding: 2rem;
-    margin: 0;
-  }
-  @media (min-width: 666px) {
-    .link-card-grid {
-      grid-template-columns: repeat(2, 1fr);
-      column-gap: 2rem;
+    h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0;
     }
-  }
-  /* @media (min-width: 1111px) {
-    .link-card-grid {
-      grid-template-columns: repeat(4, 1fr);
-      column-gap: 2rem;
+    .intro {
+        position: relative;
+        grid-column: 1 / span 5;
+        color: oklch(26.4% 0.059 95);
+        padding: 2rem;
     }
-  } */
+    .intro h2 {
+        font-weight: 200;
+        font-size: 1.25rem;
+        margin-bottom: 0.25em;
+    }
+    .intro span {
+        display: inline-block;
+    }
+    .intro :global(.button) {
+        padding-left: 0;
+        font-weight: 200;
+    }
+    .work {
+        display: flex;
+        flex-direction: column;
+        grid-column: 1 / span all;
+        padding: 0 2rem 2rem 2rem;
+    }
+    .work-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--surface-4);
+        margin-bottom: var(--gapSize);
+        padding-bottom: calc(var(--gapSize) / 2);
+    }
+    .work-header h2 {
+        margin: 0;
+        color: var(--accent);
+    }
+    .project-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        column-gap: 2rem;
+        row-gap: 2rem;
+        padding: 0;
+        margin-bottom: 2rem;
+        margin-top: 0;
+    }
 </style>

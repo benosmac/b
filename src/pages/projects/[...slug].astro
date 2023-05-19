@@ -1,0 +1,198 @@
+---
+import Gallery from '@components/Gallery.astro'
+import Layout from '@layouts/Layout.astro'
+import Button from '@components/Button.astro'
+import { Icon } from 'astro-icon'
+import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+
+// Generate paths for entire collection
+export async function getStaticPaths() {
+    const projects = await getCollection('projects')
+    return projects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }))
+}
+
+interface Props {
+    project: CollectionEntry<'projects'>
+}
+
+// Get the project
+const { project } = Astro.props
+// Get the content
+const { Content } = await project.render()
+
+// Get path to images folder for this project
+const pathToImages = `/images/${project.slug}`
+
+// Get all project images
+// This is required because Vite's import.meta.glob does not accept variables in the path
+// Returns: Array of image paths
+const allImages: Array<string> = Object.keys(
+    import.meta.glob('/src/images/**/*.jpg', {
+        as: 'url',
+    })
+)
+// Filter only images for current project
+// Exclude feature image
+const filteredImages: Array<string> = allImages.filter(
+    (image) => image.includes(pathToImages) && !image.includes('feature')
+)
+//Set custom accent colour
+const customColour: string = project.data.customColour
+    ? project.data.customColour
+    : 'oklch(46.6% 0.099 190)'
+
+const categories: Array<string> = project.data.categories
+---
+
+<Layout title={project.data.title}>
+    <section class="description">
+        <div class="content">
+            <h1>{project.data.title}</h1>
+            <Content />
+            <footer class="details" role="contentinfo">
+                <span>
+                    <h5>Role:</h5>
+                    <ul>
+                        {categories.map((category) => <li>{category}</li>)}
+                    </ul>
+                </span>
+                <span>
+                    <h5>Completed:</h5>
+                    <time datetime={project.data.date}>{project.data.date}</time
+                    >
+                </span>
+                {
+                    project.data.liveUrl && (
+                        <span>
+                            <h5>Link</h5>
+                            <a href={project.data.liveUrl} target="_blank">
+                                {project.data.liveUrl}{' '}
+                                <Icon name="mdi:open-in-new" />
+                            </a>
+                        </span>
+                    )
+                }
+            </footer>
+        </div>
+    </section>
+    <div class="gallery-wrapper">
+        <Gallery images={filteredImages} maxCols={project.data.maxCols} />
+    </div>
+    <div class="back-button-wrapper">
+        <!-- <a href="/projects" class="button back-button">Back to projects</a> -->
+        <Button url="/projects" text="Back to projects" hasIcon={true}
+            ><Icon name="mdi:arrow-left" slot="icon" />
+        </Button>
+    </div>
+</Layout>
+
+<style define:vars={{ customColour }}>
+    .description {
+        grid-column: 1 / span all;
+        padding: var(--gapSize);
+        background-color: var(--surface-1);
+    }
+    .content {
+        max-width: 36em;
+        margin: 0 auto;
+    }
+    h1 {
+        /* display: inline-block; */
+        border-bottom: 1px solid var(--customColour);
+        padding: 0 0 calc(var(--gapSize) / 2) 0;
+    }
+    .details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gapSize);
+        margin: calc(var(--gapSize) / 2) 0 0 0;
+        padding-top: var(--gapSize);
+        font-size: 0.75rem;
+    }
+    .details span {
+        border-left: 1px solid var(--customColour);
+        padding-left: 1em;
+    }
+    /* @media (min-width: 1000px) {
+        .details {
+            flex-direction: column;
+        }
+    } */
+    .details h5 {
+        font-size: 1em;
+        margin: 0 0 0.25em 0;
+    }
+    .details ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .details li {
+        display: inline-block;
+        padding: 0;
+        margin: 0 0.25rem 0 0;
+    }
+    .details li:not(:nth-last-child(1)):after {
+        content: ',';
+    }
+    .details time {
+        display: block;
+    }
+    .details a {
+        color: var(--base);
+        /* border-bottom: 1px solid var(--customColour);
+        padding-bottom: 1px; */
+    }
+    /* .details a:hover,
+    .details a:focus-visible {
+        text-decoration: none;
+    } */
+    .back-button-wrapper {
+        display: grid;
+        grid-column: 1 / span all;
+        justify-content: flex-start;
+        padding: var(--gapSize);
+    }
+    .back-button {
+        bottom: var(--gapSize);
+    }
+    .gallery-wrapper {
+        display: grid;
+        justify-content: center;
+        grid-column: 1 / span all;
+        margin: var(--gapSize) 0;
+    }
+    @media (min-width: 1000px) {
+        .description {
+            grid-column: 6 / span 2;
+            order: 2;
+            padding: calc(var(--gapSize) * 2) var(--gapSize);
+        }
+        .content {
+            position: sticky;
+            top: calc(var(--gapSize) * 2);
+        }
+        .gallery-wrapper {
+            grid-column: 1 / span 5;
+            order: 1;
+            margin: calc(var(--gapSize) * 0.75) 0;
+        }
+        .back-button-wrapper {
+            background-color: var(--surface-1);
+            order: 3;
+            grid-column: 6 / span 2;
+        }
+    }
+    @media (min-width: 1300px) {
+        h1 {
+            font-size: 2rem;
+        }
+        .description {
+            padding: calc(var(--gapSize) * 2);
+        }
+    }
+</style>

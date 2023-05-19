@@ -1,12 +1,13 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from '@astrojs/image/components'
 export interface props {
-  images: any;
-  maxCols: number;
+    images: Array<string>
+    maxCols: number
 }
 
-const { images, maxCols } = Astro.props;
-let gridSize = `${100 / maxCols}%`;
+const { images, maxCols } = Astro.props
+let columnWidth = `${100 / maxCols}%`
+const defaultImageWidth = '1111'
 ---
 
 <!-- 
@@ -15,88 +16,85 @@ let gridSize = `${100 / maxCols}%`;
   Defaults to 2-column
   Images with filenames ending in -wide.jpg will span both columns
 -->
-<section class="gallery">
-  {
-    images.map((imgSrc: string) => (
-      <Image
-        src={imgSrc}
-        alt=""
-        width="1337px"
-        aspectRatio="16:9"
-        class={imgSrc.endsWith("-wide.jpg") ? "wide" : ""}
-      />
-    ))
-  }
-</section>
+<div class="gallery">
+    {
+        images.map((imgSrc: string) => (
+            <Image
+                src={import(imgSrc /* @vite-ignore */)}
+                alt=""
+                width={defaultImageWidth}
+                format="webp"
+                class={imgSrc.endsWith('-wide.jpg') ? 'wide' : ''}
+            />
+        ))
+    }
+</div>
 <script>
-  const images = document.querySelectorAll(".gallery > img");
+    const images = document.querySelectorAll('.gallery > img')
 
-  function changeTargetImage(image: any) {
-    let currentTarget = document.getElementById("target");
-    currentTarget ? (currentTarget.id = "") : "";
-    image.id = "target";
-  }
-  function focusImage(image: any) {
-    changeTargetImage(image);
-    setTimeout(
-      () =>
-        image.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "nearest",
-        }),
-      300
-    );
-  }
+    function focusImage(image: any) {
+        image.classList.add('full-width')
+        setTimeout(
+            () =>
+                image.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest',
+                }),
+            300
+        )
+    }
 
-  images.forEach((image) => {
-    image.addEventListener("click", () => {
-      focusImage(image);
-    });
-  });
+    images.forEach((image) => {
+        image.addEventListener('click', () => {
+            focusImage(image)
+        })
+    })
 </script>
-<style define:vars={{ gridSize }}>
-  .gallery {
-    grid-column: 1 / span all;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: flex-start;
-    padding: 0 1rem;
-  }
-  img {
-    cursor: pointer;
-    max-width: 100%;
-    flex-basis: 100%;
-
-    padding: 1rem 0;
-  }
-  @media (min-width: 666px) {
+<style define:vars={{ columnWidth, defaultImageWidth }}>
     .gallery {
-      padding: 0 1.5rem;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+        padding: 0 1rem;
+        max-width: calc(var(--defaultImageWidth) * 1px);
     }
     img {
-      max-width: 50%;
-      flex: 1 1 50%;
-      padding: 0.5rem;
+        background-color: var(--surface-1);
+        cursor: pointer;
+        max-width: 100%;
+        flex-basis: 100%;
+        height: auto;
+        margin: calc(var(--gapSize) / 2) 0;
     }
-    img.wide {
-      flex-basis: 100%;
-      max-width: 100%;
+    @media (min-width: 666px) {
+        .gallery {
+            padding: 0 1.5rem;
+        }
+        img {
+            max-width: calc(50% - calc(var(--gapSize) / 2));
+            flex: 1 1 50%;
+            margin: calc(var(--gapSize) / 4);
+        }
+        .wide {
+            max-width: calc(100% - calc(var(--gapSize) / 2));
+        }
+        .full-width {
+            max-width: calc(100% - calc(var(--gapSize) / 2));
+            transition: all 0.2s ease;
+        }
     }
-  }
-  @media (min-width: 888px) {
-    img {
-      max-width: var(--gridSize);
+    @media (min-width: 1000px) {
+        img {
+            max-width: calc(var(--columnWidth) - calc(var(--gapSize) / 2));
+        }
+        img.wide {
+            max-width: calc(
+                calc(var(--columnWidth) * 2) - calc(var(--gapSize) / 2)
+            );
+        }
     }
-    img.wide {
-      max-width: calc(var(--gridSize) * 2);
-    }
-  }
 
-  @media (min-width: 666px) {
-  }
-  #target {
-    max-width: 100%;
-    transition: all 0.2s ease;
-  }
+    @media (min-width: 1300px) {
+    }
 </style>

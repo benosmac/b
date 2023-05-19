@@ -1,0 +1,89 @@
+:root {
+    /* Colours */
+    --base: #111;
+    --accent: oklch(44.1% 0.125 165);
+    --surface-1: oklch(97% 0.0088 165);
+    --surface-2: oklch(99% 0.003 85);
+    --surface-3: oklch(92% 0.045 85);
+    --surface-4: oklch(92% 0.03 165);
+    --text-light: var(--surface-2);
+
+    /* Fonts */
+    --heading: 'Nunito', sans-serif;
+    --headingWeight: 700;
+    --body: 'Nunito', sans-serif;
+    --bodyWeight: 300;
+
+    /* Margin & Padding */
+    --gapSize: 2rem;
+    --negativeGapSize: calc(var(--gapSize) * -1);
+    /* Animation timing functions */
+    --defaultTiming: cubic-bezier(0.41, 0.1, 0.5, 0.51);
+    --outQuadratic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --easeInBackwards: cubic-bezier(0.6, -0.28, 0.74, 0.05);
+
+    --diagnolLinesBG: url('/src/images/diagonal-lines.svg');
+}
+* {
+    box-sizing: border-box;
+}
+html {
+    font-family: var(--heading);
+    font-weight: var(--bodyWeight);
+    background-color: var(--surface-2);
+    line-height: 1.75;
+    color: var(--base);
+}
+body {
+    margin: 0;
+    font-size: 0.875rem;
+}
+main,
+#footer {
+    /* max-width: 1111px; */
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heading);
+    font-weight: var(--headingWeight);
+    line-height: 1.3;
+    margin-block-start: 0;
+    margin-block-end: calc(var(--gapSize) / 2);
+}
+p {
+    margin: 0 0 var(--gapSize) 0;
+}
+i,
+em {
+    font-style: italic;
+}
+a,
+a:visited {
+    text-decoration: none;
+    /* border-bottom: 1px solid; */
+    color: var(--accent);
+    font-weight: normal;
+}
+a:hover,
+a:focus-visible,
+a:visited:hover,
+a:visited:focus-visible {
+    text-decoration: underline;
+}
+
+[astro-icon] {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}

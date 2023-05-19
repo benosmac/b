@@ -1,42 +1,70 @@
 ---
 ---
 
-<footer>
-  <div class="contact">
-    <h3>Say ahoy!</h3>
-    <ul>
-      <li><a href="mailto:bengamin@bengam.in">bengamin@bengam.in</a></li>
-      <li><a href="#LinkToLinkdin">LinkdIn</a></li>
-    </ul>
-  </div>
-  <div class="name">
-    <h4>What's the deal with my name?</h4>
-    <p>
-      It's just my name. It was meant to be Benjamin, but someone typed it
-      wrongly on my birth certificate. You can just call me Ben though.
-    </p>
-  </div>
+<footer id="footer">
+    <div class="contact">
+        <h3>Ahoy-hoy</h3>
+        <ul>
+            <li><a href="mailto:bengamin@bengam.in">bengamin@bengam.in</a></li>
+            <li><a href="#LinkToLinkdin">LinkdIn</a></li>
+        </ul>
+    </div>
+    <div class="name">
+        <h4>What's a Bengamin?</h4>
+        <p>
+            It's just my name. It was meant to be Benjamin, but someone typed it
+            wrongly on my birth certificate. Ben is fine though.
+        </p>
+    </div>
 </footer>
 <style>
-  footer {
-    display: flex;
-  }
-  .contact {
-    padding: 2rem;
-    flex-basis: 75%;
-    background: rgb(230, 245, 240);
-  }
-  .name {
-    font-size: 0.75rem;
-    padding: 2rem;
-    flex-basis: 25%;
-    background: rgb(220, 235, 230);
-  }
-  a {
-    color: var(--accent);
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
+    /* footer {
+        display: grid;
+        flex-wrap: wrap;
+    } */
+    .contact {
+        grid-column: 1 / span all;
+        padding: 2rem;
+        /* flex-basis: 100%; */
+        background: var(--surface-4);
+    }
+    .name {
+        grid-column: 1 / span all;
+        font-size: 0.75rem;
+        padding: 2rem;
+        /* flex-basis: 100%; */
+        background: var(--accent);
+        color: var(--text-light);
+        letter-spacing: 0.01em;
+    }
+    @media (min-width: 666px) {
+        /* footer {
+            flex-wrap: nowrap;
+        } */
+        .contact {
+            grid-column: 1 / span 4;
+            /* flex-basis: 50%; */
+        }
+        .name {
+            grid-column: 5 / span 3;
+            /* flex-basis: 50%; */
+        }
+    }
+    @media (min-width: 1300px) {
+        .contact {
+            grid-column: 1 / span 5;
+            /* flex-basis: 75%; */
+        }
+        .name {
+            grid-column: 6 / span 2;
+            /* flex-basis: 25%; */
+        }
+    }
+    a {
+        color: var(--accent);
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
 </style>
