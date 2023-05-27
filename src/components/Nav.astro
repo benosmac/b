@@ -1,17 +1,22 @@
 ---
+import Button from '@components/Button.astro'
+import Icon from 'astro-icon'
 ---
 
 <nav>
-    <a href="/projects">Projects</a>
-    <a href="/info">Info</a>
+    <Button
+        text="Projects "
+        url="/projects"
+        iconPosition="right"
+        size="borderless"
+    />
+    <Button text="About " url="/about" iconPosition="right" size="borderless" />
 </nav>
 <style>
     nav {
         align-self: center;
     }
-    a {
-        padding: 1em;
-        color: var(--accent);
-        text-decoration: none;
+    nav :global(.button) {
+        display: inline;
     }
 </style>

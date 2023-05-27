@@ -1,0 +1,180 @@
+/* Draw vertical and horizontal grid lines using pseudo elements */
+.home {
+    /* Vertical */
+    #main,
+    .project-card {
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 1px;
+            background: var(--accent);
+            z-index: 1;
+        }
+    }
+    #main {
+        &::before {
+            bottom: 0;
+            left: var(--gapSize);
+        }
+        &::after {
+            bottom: 0;
+            right: var(--gapSize);
+        }
+    }
+    .project-card {
+        position: relative;
+        &::after {
+            right: 0;
+            bottom: var(--negativeGapSize);
+        }
+        &::before {
+            left: 0;
+            bottom: var(--negativeGapSize);
+        }
+    }
+
+    /* Horizontal */
+}
+
+.intro,
+.project-card-grid,
+.project-card .grid-line {
+    &::before,
+    &::after {
+        content: '';
+        height: 1px;
+        background: var(--accent);
+        position: absolute;
+        z-index: 1;
+    }
+}
+.intro {
+    &::before,
+    &::after {
+        width: 100vw;
+        left: 0;
+    }
+    &::before {
+        top: 0;
+    }
+    &::after {
+        bottom: calc(var(--gapSize) / 2);
+    }
+}
+.project-card-grid {
+    &::before,
+    &::after {
+        width: 100vw;
+        left: var(--negativeGapSize);
+    }
+    &::before {
+        top: var(--negativeGapSize);
+    }
+    &::after {
+        bottom: var(--negativeGapSize);
+    }
+}
+.project-card .grid-line {
+    &::before,
+    &::after {
+        left: var(--negativeGapSize);
+        right: var(--negativeGapSize);
+    }
+    &::before {
+        top: 0;
+    }
+    &::after {
+        bottom: 0;
+    }
+}
+
+/* Animate grid lines */
+
+/* Vertical */
+.home-is-loading {
+    #main,
+    .project-card {
+        &::before,
+        &::after {
+            animation-name: scaleInFromTop;
+            animation-timing-function: var(--defaultTiming);
+            animation-duration: 0.5s;
+        }
+    }
+}
+.home-is-loaded {
+    #main,
+    .project-card {
+        &::before,
+        &::after {
+            animation-name: scaleOutToBottom;
+            animation-timing-function: var(--defaultTiming);
+            animation-duration: 0.5s;
+            animation-delay: 0.5s;
+            animation-fill-mode: forwards;
+        }
+    }
+}
+
+/* Horizontal */
+.home-is-loading {
+    .intro,
+    .project-card-grid,
+    .project-card .grid-line {
+        &::before,
+        &::after {
+            animation-name: scaleInFromLeft;
+            animation-timing-function: var(--defaultTiming);
+            animation-duration: 0.5s;
+        }
+    }
+}
+.home-is-loaded {
+    .intro,
+    .project-card-grid,
+    .project-card .grid-line {
+        &::before,
+        &::after {
+            animation-name: scaleOutToRight;
+            animation-timing-function: var(--defaultTiming);
+            animation-duration: 0.5s;
+            animation-delay: 0.5s;
+            animation-fill-mode: forwards;
+        }
+    }
+}
+
+/* Animate content blocks */
+/* First hide the content within the blocks */
+header,
+.intro > *,
+.work-header,
+.project-card img,
+.project-card .title-wrapper {
+    opacity: 0;
+}
+
+/* Animate image block fills */
+.project-card a {
+    animation-name: scaleFromTopWithDelay;
+    animation-timing-function: var(--defaultTiming);
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+/* Show the content within blocks */
+.home-is-loaded {
+    & header,
+    .work-header,
+    .intro > *,
+    .project-card img,
+    .project-card .title-wrapper {
+        animation: fadeIn;
+        animation-duration: 0.5s;
+        animation-timing-function: var(--defaultTiming);
+        animation-fill-mode: forwards;
+        animation-delay: 0.25s;
+    }
+}

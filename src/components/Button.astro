@@ -1,13 +1,19 @@
 ---
-//  A button component with size and icon options
-//  It is designed to use inline SVG icons by passing an Astro component containing your SVG code
-//  into the named slot provided
+//  Button component with style and icon options
+//  It is designed to be used with @astro-icon by passing an Icon component
+//  into the named slot
+//  For @astro-icon usage see https://github.com/natemoo-re/astro-icon#readme
 
 //  Example usage with icon:
 
-//  <Button url="/blog" hasIcon="true" iconPosition="right" size="little">
-//     <SnazzyIcon slot="icon" />
-//  </Button>
+// <Button
+//  text="Cats"
+//  url="/cats"
+//  hasIcon={true}
+//  iconPosition="right"
+//  size="big"
+//  ><Icon name="mdi:cat" slot="icon" />
+// </Button>
 
 interface Props {
     url: string
@@ -33,7 +39,7 @@ if (size) classes.push(size)
         align-items: center;
         gap: 0.5em;
         position: relative;
-        background-color: var(--surface-1);
+        background-color: var(--surface-2);
         border: 2px solid var(--surface-4);
         border-radius: 0.2em;
         text-decoration: none;

@@ -29,11 +29,7 @@ const sortedProjects = projects.sort((a, b) => {
                     href={'/projects/' + project.slug}
                     title={project.data.title}
                     img={`/src/images/${project.slug}/feature.jpg`}
-                    colour={
-                        project.data.customColour
-                            ? project.data.customColour
-                            : 'oklch(96.7% 0.06 100)'
-                    }
+                    customColour={project.data.customColour}
                     categories={project.data.categories}
                 />
             ))

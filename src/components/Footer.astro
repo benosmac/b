@@ -18,24 +18,18 @@
     </div>
 </footer>
 <style>
-    /* footer {
-        display: grid;
-        flex-wrap: wrap;
-    } */
+    footer {
+        border-top: var(--border);
+    }
     .contact {
         grid-column: 1 / span all;
         padding: 2rem;
-        /* flex-basis: 100%; */
-        background: var(--surface-4);
+        border-bottom: var(--border);
     }
     .name {
         grid-column: 1 / span all;
         font-size: 0.75rem;
         padding: 2rem;
-        /* flex-basis: 100%; */
-        background: var(--accent);
-        color: var(--text-light);
-        letter-spacing: 0.01em;
     }
     @media (min-width: 666px) {
         /* footer {
@@ -43,14 +37,17 @@
         } */
         .contact {
             grid-column: 1 / span 4;
+            border-bottom: none;
             /* flex-basis: 50%; */
         }
         .name {
             grid-column: 5 / span 3;
+            border-left: var(--border);
             /* flex-basis: 50%; */
         }
     }
-    @media (min-width: 1300px) {
+
+    @media (min-width: 1000px) {
         .contact {
             grid-column: 1 / span 5;
             /* flex-basis: 75%; */

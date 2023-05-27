@@ -4,11 +4,11 @@ export interface Props {
     title: string
     href: string
     img: string
-    colour: string
+    customColour: string
     categories: Array<string>
 }
 
-const { title, href, img, colour, categories } = Astro.props
+const { title, href, img, customColour, categories } = Astro.props
 const featureImageUrl: string = `url(${img})`
 ---
 
@@ -29,7 +29,7 @@ const featureImageUrl: string = `url(${img})`
     <!-- Filthy boy needed to draw horizontal lines in homepage grid animation. -->
     <span class="grid-line"></span>
 </li>
-<style define:vars={{ colour, featureImageUrl }}>
+<style define:vars={{ customColour, featureImageUrl }}>
     .project-card {
         list-style: none;
         display: flex;
@@ -45,12 +45,31 @@ const featureImageUrl: string = `url(${img})`
         padding: 0;
         color: #000;
         overflow: hidden;
-        background-color: var(--surface-1);
+        background-color: var(--surface-4);
     }
     .project-card img {
         align-self: center;
         max-width: 100%;
         height: auto;
+    }
+
+    /* Redefine colour custom properties inside the component to theme it with the customColour prop */
+    .title-wrapper {
+        /* Replacing the accent colour custom property */
+        --accent: var(--customColour);
+        /* Defining a relative complimentary colour using color-mix in cylindrical colour space  with longer hue option. 
+        */
+        --secondary: color-mix(
+            in oklch longer hue,
+            var(--accent),
+            var(--accent)
+        );
+        /* Replacing surface custom properties with tints of new colours. 
+        Using OKLAB here as it's the most predictable for mixing in rectangular colour spaces*/
+        --surface-1: color-mix(in oklab, var(--accent) 8%, #fff);
+        --surface-2: color-mix(in oklab, var(--secondary) 4%, #fff);
+        --surface-3: color-mix(in oklab, var(--secondary) 2%, #fff);
+        --surface-4: color-mix(in oklab, var(--accent) 25%, #fff);
     }
     .title-wrapper {
         display: flex;
@@ -60,7 +79,7 @@ const featureImageUrl: string = `url(${img})`
         min-height: 25%;
         align-self: flex-end;
         align-items: center;
-        background-color: var(--colour);
+        background-color: var(--surface-4);
         margin: 0;
         padding: 2rem;
         font-size: 1rem;
@@ -111,6 +130,7 @@ const featureImageUrl: string = `url(${img})`
         align-self: stretch;
     }
     .project-card h2 {
+        color: var(--accent);
         font-size: 1.125rem;
         margin: 0 0 1rem 0;
         flex-grow: 1;
@@ -121,9 +141,10 @@ const featureImageUrl: string = `url(${img})`
         padding: 0;
     }
     .project-card li {
+        color: var(--accent);
         display: inline-block;
         padding: 0.25rem 0.5rem;
         margin: 0.5rem 0.5rem 0 0;
-        background: rgba(255, 255, 255, 0.25);
+        background: var(--surface-1);
     }
 </style>

@@ -14,7 +14,9 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
     <section class="intro">
-        <h2>Designer & frontend developer from Melbourne, Australia</h2>
+        <h2>
+            <span>Designer & frontend developer from Melbourne, Australia</span>
+        </h2>
         <span>
             <Button
                 text="Read things about me "
@@ -26,6 +28,7 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
             </Button>
         </span>
     </section>
+
     <section class="work">
         <div class="work-header">
             <h2>Projects</h2>
@@ -45,12 +48,7 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
                         href={'/projects/' + project.slug}
                         title={project.data.title}
                         img={`/src/images/${project.slug}/feature.jpg`}
-                        colour={
-                            //TODO: Implement default colour in TS interface
-                            project.data.customColour
-                                ? project.data.customColour
-                                : '#eee'
-                        }
+                        customColour={project.data.customColour}
                         categories={project.data.categories}
                     />
                 ))
@@ -67,22 +65,29 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
     }
     .intro {
         position: relative;
-        grid-column: 1 / span 5;
-        color: oklch(26.4% 0.059 95);
-        padding: 2rem;
+        grid-column: 1 / all;
+        padding: calc(var(--gapSize) * 2) var(--gapSize);
+        & h2 {
+            font-weight: 200;
+            font-size: 1.75rem;
+            margin-bottom: 0.25em;
+        }
+        & span {
+            display: inline-block;
+        }
+        & :global(.button) {
+            padding-left: 0;
+            font-weight: 200;
+        }
+
+        @media (min-width: 666px) {
+            grid-column: 1 / span 4;
+            & h2 {
+                font-size: 2rem;
+            }
+        }
     }
-    .intro h2 {
-        font-weight: 200;
-        font-size: 1.25rem;
-        margin-bottom: 0.25em;
-    }
-    .intro span {
-        display: inline-block;
-    }
-    .intro :global(.button) {
-        padding-left: 0;
-        font-weight: 200;
-    }
+
     .work {
         display: flex;
         flex-direction: column;
@@ -96,12 +101,14 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
         border-bottom: 2px solid var(--surface-4);
         margin-bottom: var(--gapSize);
         padding-bottom: calc(var(--gapSize) / 2);
+        & h2 {
+            font-weight: var(--bodyWeight);
+            margin: 0;
+        }
     }
-    .work-header h2 {
-        margin: 0;
-        color: var(--accent);
-    }
+
     .project-card-grid {
+        position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         column-gap: 2rem;

@@ -5,7 +5,7 @@ const projectsCollection = defineCollection({
         title: z.string(),
         priority: z.number(),
         maxCols: z.number().optional(),
-        customColour: z.string().optional(),
+        customColour: z.string().optional().default('rgb(211, 235, 224)'),
         categories: z.array(z.string()),
         date: z.string(),
         liveUrl: z.string().optional(),

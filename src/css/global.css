@@ -1,11 +1,11 @@
 :root {
     /* Colours */
     --base: #111;
-    --accent: oklch(44.1% 0.125 165);
+    --accent: oklch(50.4% 0.139 168);
     --surface-1: oklch(97% 0.0088 165);
-    --surface-2: oklch(99% 0.003 85);
-    --surface-3: oklch(92% 0.045 85);
-    --surface-4: oklch(92% 0.03 165);
+    --surface-2: oklch(99% 0.015 85);
+    --surface-3: oklch(99% 0.01 85);
+    --surface-4: oklch(90% 0.03 165);
     --text-light: var(--surface-2);
 
     /* Fonts */
@@ -17,12 +17,13 @@
     /* Margin & Padding */
     --gapSize: 2rem;
     --negativeGapSize: calc(var(--gapSize) * -1);
+
+    /* Borders */
+    --border: 2px solid var(--surface-4);
     /* Animation timing functions */
     --defaultTiming: cubic-bezier(0.41, 0.1, 0.5, 0.51);
     --outQuadratic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --easeInBackwards: cubic-bezier(0.6, -0.28, 0.74, 0.05);
-
-    --diagnolLinesBG: url('/src/images/diagonal-lines.svg');
 }
 * {
     box-sizing: border-box;
@@ -40,7 +41,7 @@ body {
 }
 main,
 #footer {
-    /* max-width: 1111px; */
+    position: relative;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -71,7 +72,6 @@ em {
 a,
 a:visited {
     text-decoration: none;
-    /* border-bottom: 1px solid; */
     color: var(--accent);
     font-weight: normal;
 }

@@ -1,6 +1,6 @@
 ---
+import Layout from '@layouts/LayoutProject.astro'
 import Gallery from '@components/Gallery.astro'
-import Layout from '@layouts/Layout.astro'
 import Button from '@components/Button.astro'
 import { Icon } from 'astro-icon'
 import { getCollection } from 'astro:content'
@@ -40,15 +40,13 @@ const allImages: Array<string> = Object.keys(
 const filteredImages: Array<string> = allImages.filter(
     (image) => image.includes(pathToImages) && !image.includes('feature')
 )
-//Set custom accent colour
-const customColour: string = project.data.customColour
-    ? project.data.customColour
-    : 'oklch(46.6% 0.099 190)'
-
-const categories: Array<string> = project.data.categories
+//Get custom accent colour
+const customColour = project.data.customColour
+//Get project categories
+const categories = project.data.categories
 ---
 
-<Layout title={project.data.title}>
+<Layout title={project.data.title} customColour={customColour}>
     <section class="description">
         <div class="content">
             <h1>{project.data.title}</h1>
@@ -90,20 +88,43 @@ const categories: Array<string> = project.data.categories
     </div>
 </Layout>
 
-<style define:vars={{ customColour }}>
+<style>
     .description {
+        background: var(--surface-1);
         grid-column: 1 / span all;
         padding: var(--gapSize);
-        background-color: var(--surface-1);
+        @media (min-width: 1000px) {
+            grid-column: 6 / span 2;
+            order: 2;
+            padding: calc(var(--gapSize) * 2) var(--gapSize);
+        }
+
+        @media (min-width: 1300px) {
+            padding: calc(var(--gapSize) * 2);
+        }
+    }
+    :global(#main) {
+        grid-template-rows: 1fr auto;
     }
     .content {
         max-width: 36em;
         margin: 0 auto;
+
+        @media (min-width: 1000px) {
+            position: sticky;
+            top: calc(var(--gapSize) * 2);
+        }
     }
     h1 {
-        /* display: inline-block; */
-        border-bottom: 1px solid var(--customColour);
-        padding: 0 0 calc(var(--gapSize) / 2) 0;
+        color: var(--accent);
+        line-height: 1.5;
+        padding: 0 0 calc(var(--gapSize) / 4) 0;
+        margin-bottom: var(--gapSize);
+        border-bottom: var(--border);
+
+        @media (min-width: 1000px) {
+            font-size: 1.75rem;
+        }
     }
     .details {
         display: flex;
@@ -112,87 +133,69 @@ const categories: Array<string> = project.data.categories
         margin: calc(var(--gapSize) / 2) 0 0 0;
         padding-top: var(--gapSize);
         font-size: 0.75rem;
-    }
-    .details span {
-        border-left: 1px solid var(--customColour);
-        padding-left: 1em;
+        & span {
+            border-left: var(--border);
+            padding-left: 1em;
+        }
     }
     /* @media (min-width: 1000px) {
         .details {
             flex-direction: column;
         }
     } */
-    .details h5 {
-        font-size: 1em;
-        margin: 0 0 0.25em 0;
+    .details {
+        & h5 {
+            color: var(--accent);
+            font-size: 1em;
+            margin: 0 0 0.25em 0;
+        }
+        & ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        & li {
+            display: inline-block;
+            padding: 0;
+            margin: 0 0.25rem 0 0;
+        }
+        & li:not(:nth-last-child(1)):after {
+            content: ',';
+        }
+        & time {
+            display: block;
+        }
+        & a {
+            color: var(--base);
+        }
     }
-    .details ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-    .details li {
-        display: inline-block;
-        padding: 0;
-        margin: 0 0.25rem 0 0;
-    }
-    .details li:not(:nth-last-child(1)):after {
-        content: ',';
-    }
-    .details time {
-        display: block;
-    }
-    .details a {
-        color: var(--base);
-        /* border-bottom: 1px solid var(--customColour);
-        padding-bottom: 1px; */
-    }
-    /* .details a:hover,
-    .details a:focus-visible {
-        text-decoration: none;
-    } */
     .back-button-wrapper {
+        background: var(--surface-1);
         display: grid;
         grid-column: 1 / span all;
-        justify-content: flex-start;
+        justify-content: center;
         padding: var(--gapSize);
+
+        @media (min-width: 1000px) {
+            order: 3;
+            grid-column: 6 / span 2;
+        }
     }
     .back-button {
         bottom: var(--gapSize);
     }
     .gallery-wrapper {
+        background: var(--surface-3);
         display: grid;
         justify-content: center;
         grid-column: 1 / span all;
-        margin: var(--gapSize) 0;
-    }
-    @media (min-width: 1000px) {
-        .description {
-            grid-column: 6 / span 2;
-            order: 2;
-            padding: calc(var(--gapSize) * 2) var(--gapSize);
-        }
-        .content {
-            position: sticky;
-            top: calc(var(--gapSize) * 2);
-        }
-        .gallery-wrapper {
+        padding: var(--gapSize) 0;
+
+        @media (min-width: 1000px) {
             grid-column: 1 / span 5;
+            grid-row: 1 / span all;
             order: 1;
-            margin: calc(var(--gapSize) * 0.75) 0;
-        }
-        .back-button-wrapper {
-            background-color: var(--surface-1);
-            order: 3;
-            grid-column: 6 / span 2;
-        }
-    }
-    @media (min-width: 1300px) {
-        h1 {
-            font-size: 2rem;
-        }
-        .description {
-            padding: calc(var(--gapSize) * 2);
+            padding: calc(var(--gapSize) * 1.75) 0;
         }
     }
 </style>
