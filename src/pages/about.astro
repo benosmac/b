@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { ImportImage } from 'src/lib/importImages'
+import { Image } from 'astro:assets'
+const image = await ImportImage('about', 'bengamin')
+---
+
+<Layout title="Bengamin Osborn-Macpherson - Design & Development">
+    <div class="content">
+        <div class="header">
+            <h1>Bengamin Osborn-Macpherson</h1>
+        </div>
+        <div class="text">
+            <p>
+                I'm a frontend developer and designer based in Melbourne,
+                Australia. I started developing custom Wordpress themes for
+                freelance design clients over 10 years ago, before discovering
+                the joys of JS/Typescript. I'm get pretty excited about CSS and
+                sometimes write about it.
+            </p><p>
+                In 2010 I graduated from RMIT University, Bachelor of Design
+                (Communication Design).
+            </p><p>
+                When I'm not designing and/or building stuff, my time is spent
+                playing with my 4-year-old daughter, gardening, drumming and
+                napping (usually in that order).
+            </p><p>Thanks for looking at my web-thing.</p>
+        </div>
+    </div>
+    <div class="profile">
+        <Image src={image} alt="A pretty photo of Bengamin" width={500} />
+    </div>
+
+    <style>
+        :global(#main) {
+            /* gap: var(--gapSize); */
+        }
+
+        .content {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            grid-column: 1 / span all;
+        }
+        .header {
+            grid-row: 1;
+            max-width: 50ch;
+            padding: calc(var(--gapSize) * 2) var(--gapSize) 0 var(--gapSize);
+            & h1 {
+                border-bottom: var(--borderAccent);
+                padding-bottom: var(--borderGap);
+            }
+        }
+        .text {
+            grid-row: 2;
+            padding: var(--gapSize) var(--gapSize) calc(var(--gapSize) * 2)
+                var(--gapSize);
+            max-width: 50ch;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1 / span all;
+            background: var(--surface-4);
+            & img {
+                filter: grayscale(0);
+                clip-path: circle(at center);
+                width: 66.66%;
+                max-width: 180px;
+                height: auto;
+                margin: var(--gapSize);
+            }
+        }
+        @media (min-width: 666px) {
+            .content {
+                grid-column: 1 / span 4;
+            }
+            .profile {
+                grid-column: 5 / span 2;
+            }
+        }
+    </style>
+</Layout>
