@@ -1,0 +1,233 @@
+---
+date: '2023-05-26T05:47:00.000Z'
+image: css-dynamic-colour-palettes
+slug: css-dynamic-colour-palettes
+description: Use CSS color-mix() and OKLCH to generate entire relative colour palettes
+created_by: Bengamin Osborn-Macpherson
+tags:
+  - CSS
+  - Colour
+published: true
+last_edited_time: '2023-06-24T13:47:00.000Z'
+title: Dynamic colour palettes with CSS color-mix()
+---
+
+The new CSS color-mix() function gives us something I’ve wanted for a long time - the ability to generate tints, shades and even an entire colour palette from a single given colour in plain CSS. With all the [cool new CSS features](https://developer.chrome.com/blog/whats-new-css-ui-2023/) dropping lately, this one flew under the radar a bit, but it’s actually capable of a lot more than I first thought.
+
+
+### What about relative colour syntax?                                                                                                                                                                              
+
+
+The new CSS relative-color-syntax is going to give us even more flexibility for generating dynamic colours, but (as of writing) browser support is still lacking (only Safari 16.4+). There are a few polyfills, the best of which is probably [postcss-relative-color-syntax](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-relative-color-syntax), but (being a preprocessor) PostCSS plugins can’t fully support CSS custom properties within declarations.
+
+
+### color-mix() to the rescue
+
+
+Color-mix() can do exactly what the name suggests, but with cylindrical colour spaces (LCH, OKLCH, HSL & HWB) we can do some pretty cool things, like generating complimentary and analogous colour palettes from a single colour, and it now [has support in all major browsers](https://caniuse.com/mdn-css_types_color_color-mix) 🎉
+
+
+The CodePen below demonstrates some of what can be achieved - just change the —brandColour custom property to generate all sorts of relative colours!
+
+
+import CodepenEmbed from 'src/integrations/notion-content/components/CodepenEmbed.astro'
+
+<CodepenEmbed url="https://codepen.io/bengamino/pen/xxyeRVZ" />
+
+
+## How it works
+
+
+_**A quick note on colour spaces…**_
+
+
+_The colour space you choose can drastically change the result of color-mix(). For these examples I’m going to stick to OKLAB and OKLCH, as they seem to produce the best results (and they’re also_ [now supported in all major browsers too!](https://caniuse.com/mdn-css_types_color_oklch)_)_
+
+
+### The syntax
+
+
+For basic usage, we define the colour space that we want to output to, then the colours we want to mix.
+
+
+```css
+p{
+color: color-mix(in oklab, red, blue); // Makes purple
+}
+```
+
+
+This will make a new OKLAB colour by mixing 50% red and 50% blue.
+
+
+We can also control the percentages by which the colours should be mixed
+
+
+```css
+p{
+color: color-mix(in oklab, red, blue 25%); // Makes purpley-pink
+}
+```
+
+
+This will mix 75% red and 25% blue. By specifying one percentage value, the other will be inferred to make up 100%.
+
+
+### Generating tints and shades
+
+
+To make tints and shades of a given colour, we can mix white or black of varying percentages. The results are a lot more predictable than Sass lighten() and darken().
+
+
+```css
+:root{
+--brandColour: cornflowerblue;
+--tint: color-mix(in oklab, var(--brandColour), #fff 75%);
+--shade: color-mix(in oklab, var(--brandColour), #000 40%);
+}
+
+button{
+color: var(--shade);
+background-color: var(--tint);
+}
+```
+
+
+### Hue interpolation
+
+
+There is one more option we can define: the `hue` interpolation method. The possible values are `shorter`, `longer`, `increasing` and `decreasing`. This option is only valid for cylindrical colour spaces, and is a syntax error in the others.
+
+
+```css
+p{
+color: color-mix(in oklch shorter hue, red, blue 50%);
+}
+```
+
+
+This gives us a nice bright purple as you would expect.
+
+
+```css
+p{
+color: color-mix(in oklch longer hue, red, blue 50%);
+}
+```
+
+
+But this is where it gets fun. You might reasonably expect this to give you purple as well, but the output is green! Let’s figure out why…
+
+
+### How hue interpolation works
+
+
+All cylindrical colour spaces use a `hue` value specified in degrees (between 0 and 360). The hue interpolation method determines the path taken through the colour space when generating the new colour. 
+
+
+The default value is `shorter`, which takes the shortest path between the two colours within the colour space.
+
+
+If we use `longer`, color-mix() takes the longest path between the two colours.
+
+
+![shorter-vs-longer-hue.jpg](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b6806286-6dab-4379-b71e-8d3c910cb81a/shorter-vs-longer-hue.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230624%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230624T134747Z&X-Amz-Expires=3600&X-Amz-Signature=0c553fd8bc05552655b0ee9148e2b3b9436b72947b293dd9673b69983ebf6408&X-Amz-SignedHeaders=host&x-id=GetObject)
+
+
+This is how we ended up with green in the previous example, and this gives us a lot of flexibility to effectively create relative colours, without the relative colour syntax.
+
+
+`Increasing` will return and angle between 0 and 360deg, while `decreasing` will return and angle between 0 and -360deg. 
+
+
+In the end, the hue angle wraps around and is normalised to be between 0 and 360deg, so -120deg is equivalent to 240deg.
+
+
+### Complimentary colours
+
+
+The trick here is that by mixing a colour with itself, and specifying the `longer` hue interpolation method,  color-mix() will go all the way around the colour space and stop on the opposite side of the colour wheel (or at whatever percentage we specify).
+
+
+```css
+p{
+color: color-mix(in oklch longer hue, hotpink, hotpink);
+}
+```
+
+
+### Analogous colours
+
+
+We can specify percentage values to generate any relative colour we want. 
+
+
+```css
+:root{
+--brand: hotpink;
+}
+li:nth-child(1){
+background: color-mix(in oklch longer hue, var(--brand) 10%, var(--brand));
+}
+li:nth-child(2){
+background: color-mix(in oklch longer hue, var(--brand) 20%, var(--brand));
+}
+li:nth-child(3){
+background: color-mix(in oklch longer hue, var(--brand) 60%, var(--brand));
+}
+li:nth-child(3){
+background: color-mix(in oklch longer hue, var(--brand) 70%, var(--brand));
+}
+
+```
+
+
+Using this method, we can generate any relative colour palette we want - analogous, split-complementary, triad etc., including tints and shades of each!
+
+
+### Firefox fun…
+
+
+You’ll notice in the codepen demo above that I’m generating an extra colour like this
+
+
+```css
+:root{
+--brand: hotpink;
+--brandClone: color-mix(in oklch, var(--brand), white 0.0001%); /* too many 0's breaks it :/ */
+}
+```
+
+
+This is because, in Firefox 114, mixing a colour with itself always seems to result in the original colour being returned, regardless of the hue interpolation method. But by making a new colour that’s a teeny tiny bit lighter than the original, then mixing them…
+
+
+```css
+p{
+color: color-mix(in oklch longer hue, var(--brand), var(--brandClone));
+}
+```
+
+
+we get the desired outcome.
+
+
+I also found that the following doesn’t work in Firefox
+
+
+```css
+:root{
+--brand: hotpink;
+/* 
+Using OKLAB instead of OKLCH 
+*/
+--brandClone: color-mix(in oklab, var(--brand), white 0.0001%);
+}
+/*
+Trying to nest color-mix() function using a non-cylindrical colour space
+*/
+p{
+color: color-mix(in oklch longer hue, var(--brand), var(--brandClone));
+}
+```
+

@@ -1,0 +1,236 @@
+---
+date: '2023-06-13T13:16:00.000Z'
+image: decent-css-typography
+slug: decent-css-typography
+description: >-
+  Forget about baseline grids and have decent vertical rhythm without
+  pixel-pushing yourself into insanity
+created_by: Bengamin Osborn-Macpherson
+tags:
+  - CSS
+  - Typography
+published: true
+last_edited_time: '2023-06-21T15:00:00.000Z'
+title: Decent web typography
+---
+
+I’ve tried a few times to implement a perfect baseline grid in CSS, but each time I’ve ended up swearing a lot, then giving up. Responsive layouts with images of unknown dimensions, accounting for px-based borders, collapsing margins and the way `line-height` works make it an experience that I choose to avoid. 
+
+
+The reality is that baseline grids are convention of print design, but on the web we need to build flexibility into our design systems.
+
+
+This doesn’t mean that we should forget about the design principles behind baseline grids though; rhythm, proportion and repetition are all important.
+
+
+In this article I’m going to walk through the styles I use as a starting point for web typography, which are enough to satisfy my pedantry without pixel-pushing to the brink of insanity.
+
+
+If you want to jump straight to the code, here’s a demo to poke at:
+
+
+import CodepenEmbed from 'src/integrations/notion-content/components/CodepenEmbed.astro'
+
+<CodepenEmbed url="https://codepen.io/bengamino/pen/QWJNBWR" />
+
+
+## Sizing
+
+
+There are now more [CSS length units](https://developer.mozilla.org/en-US/docs/Web/CSS/length) than it’s reasonable to list, but the ones I still find most useful for typography are `em` , `rem` & `ch`. It’s pretty well established that [we should leave the default font-size alone and use relative units](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=144#resize-text) in our stylesheets, and `rem` is my go-to for this:
+
+
+```css
+p {
+	font-size: 1rem;
+	line-height: 1.5;
+}
+```
+
+
+`rem` is root em, so `1rem` equates to the default font-size set by the user agent.
+
+
+## Vertical rhythm: proportion & repetition FTW
+
+
+My approach is to aim for _decent_ vertical rhythm by **defining a spacing unit equivalent to the line-height of the body text.** This is the best length to use because it’s always the most common one on a page.
+
+
+CSS Values Level 4[ includes the ](https://www.w3.org/TR/css-values-4/#lh)[`lh`](https://www.w3.org/TR/css-values-4/#lh)[ (line-height) and ](https://www.w3.org/TR/css-values-4/#lh)[`rlh`](https://www.w3.org/TR/css-values-4/#lh)[ (root line-height) units](https://www.w3.org/TR/css-values-4/#lh), which are perfect for this, but[ browser support just isn’t there yet](https://caniuse.com/mdn-css_types_length_rlh) (as of writing, only Safari 16.4+ supports `rlh`).
+
+
+Fortunately with CSS custom properties and `calc()` we can provide a simple fallback:
+
+
+```css
+:root {
+	/* Set the default line height as a unitless multiplier */
+	--defaultLH: 1.5;
+	/* Modern CSS first */
+	--gap: 1rlh;
+	/* Fallback: Calculate the default spacing unit in rems */
+	--gap: calc(1rem * var(--defaultLH)); /* = 1.5rem */
+}
+
+p {
+	font-size: 1rem;
+	line-height: var(--defaultLH);
+	margin: 0 0 var(--gap) 0;
+}
+```
+
+
+Then we can extend this to other elements, like headings:
+
+
+```css
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 var(--gap) 0;
+}
+```
+
+
+But we never want all of our text to be the same size, and a larger `font-size` usually calls for a shorter `line-height`. Maintaining vertical rhythm with varying `line-height` and `font-size` just takes a little bit of simple math. 
+
+
+The goal is to make sure the computed `line-height` of any line of text is a **multiple** of the `line-height` of our body text.
+
+
+```css
+:root {
+	--defaultLH: 1.5;
+	/* Define the shorter line-height for large text */
+	--tightLH: 1.33333;
+	/* Calculate a multiplier we can use to figure out 
+		proportional font sizes later. */
+	--tightMultiplier: calc(var(--defaultLH) / var(--tightLH) * 1rem); /* = 1.125 */
+}
+
+h1 {
+	line-height: var(--tightLH);
+	/* Calculate font-size using our multiplier */
+	font-size: calc(var(--tightMultiplier) * 4); /* = 4.5rem * 1.333 = 6rem */
+}
+```
+
+
+Note that we aren’t explicitly declaring a `font-size`, instead we’re defining how many vertical spacing units we want the text to fill.
+
+
+This technique allows us to define all of our heading sizes proportionally, without worrying about the user’s browser settings or zoom level:
+
+
+```css
+h1, h2, h3, h4, h5, h6 {
+	line-height: var(--tightLH);
+	margin: 0 0 var(--gap) 0;
+}
+h1 {
+	font-size: calc(var(--tightMultiplier) * 4); /* = 4.5rem * 1.333 = 6rem */
+}
+h2 {
+	font-size: calc(var(--tightMultiplier) * 3); /* = 3.375rem * 1.333 = 4.5rem */
+}
+h3 {
+	font-size: calc(var(--tightMultiplier) * 2); /* = 2.25rem * 1.333 = 3rem */
+}
+/* I usually find 4 heading sizes are enough, 
+	so h4 - h6 are the same */
+h4, h5, h6 {
+	font-size: calc(var(--tightMultiplier) * 1); /* = 1.125rem * 1.333 = 1.5rem */
+}
+```
+
+
+You can introduce more `line-height` custom properties if needed
+
+
+```css
+:root {
+	--defaultLH: 1.5;
+	--tightLH: 1.33333;
+	--tightMultiplier: calc(var(--defaultLH) / var(--tightLH)); /* = 1.125 */
+	--squashedLH: 1.1;
+	--squashedMultiplier: calc(var(--defaultLH) / var(--squashedLH) * 1rem); /* = 1.3636 */
+}
+h1 {
+	line-height: var(--squashedLH);
+	font-size: calc(var(--squashedMultiplier) * 3); /* = 4.09rem * 1.1 = 4.5rem */
+}
+```
+
+
+### Leading ≠ line-height
+
+
+It’s worth noting that CSS `line-height` is not the same as leading in traditional typography, which refers to the distance between the baselines of two lines of text. With leading the space is added below each line, and descenders can hang out in there. 
+
+
+CSS `line-height` uses “half-leading”, where the space is halved and added to the top and bottom of each line. Web fonts also have some built-in line-height to allow for accents and descenders, onto which the half-leading is added. This why text with `line-height: 1;` still has some space around it, and this can make it difficult to evenly and consistently align text.
+
+
+### Workarounds & future CSS
+
+
+There are ways to make `line-height` behave like leading by using negative margins or tricky padding calculations, but these are always dependant on the `font-family,` which makes them fragile and hard to manage. 
+
+
+There is also [a proposal in CSS Inline Level 3 for ](https://www.w3.org/TR/css-inline-3/#leading-trim)[`text-box-trim`](https://www.w3.org/TR/css-inline-3/#leading-trim), which aims to eventually solve these problems (at the time of writing it’s only supported behind a flag in Safari).
+
+
+## Optimal line length
+
+
+The optimal[ line length](https://en.wikipedia.org/wiki/Line_length) for on-screen readability is around 65 characters (including spaces), but between 45 and 75 is generally fine. On small screens the line length is inherently shorter, as we don’t want our text to be too small. Fortunately mobile browsers do a good job of scaling, and we have the perfect CSS unit for setting line length - the `ch`, or character, unit is equivalent to the width of the ‘0’ glyph in the current font. This means, depending on the font, that we may end up with slightly more or fewer characters per line, but close enough!
+
+
+```css
+.content {
+	max-width: 65ch;
+}
+```
+
+
+## Borders
+
+
+Although not strictly a typographic element, borders often exist in the same layout context as typography - underlines, outlines, separators etc. It therefore makes sense to consider border styling in relation to the typefaces on the page. It is also sometimes necessary to account for `border-width` when aligning typographic elements.
+
+
+Building on previous examples, we can declare borders as custom properties and calculate an alternative spacing unit to offset the `border-width`:
+
+
+```css
+:root {
+	--borderWidth: 2px;
+	/* Calculate alternative spacing unit for boxes with --border applied */
+	--borderGap: calc(var(--gap) - var(--borderWidth));
+	/* Define default border style */
+	--border: var(--borderWidth) solid hotpink;
+}
+
+h1{
+	border-bottom: var(--border);
+	padding: 0 0 var(--borderGap) 0;
+}
+```
+
+
+### Collapsing margins
+
+
+Be careful of [collapsing margins](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing) if using `—borderGap` as a `margin` value, as it will get chomped by a margin value of `—gap` on adjacent elements. 
+
+
+This can be avoided by using `padding` instead of `margin` where possible, or ensuring that margins are only applied to either the top or bottom of elements, or using double spacing:
+
+
+```css
+ul{
+	border-bottom: var(--border);
+	margin-top: var(--gap);
+	margin-bottom: calc(var(--gap) + var(--borderGap));
+}
+```
+
