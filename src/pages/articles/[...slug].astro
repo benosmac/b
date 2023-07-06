@@ -1,0 +1,118 @@
+---
+import Layout from '@layouts/LayoutArticle.astro'
+import { getCollection } from 'astro:content'
+import { Icon } from 'astro-icon'
+import type { CollectionEntry } from 'astro:content'
+import ArticleDate from '@components/ArticleDate.astro'
+import ArticleTags from '@components/ArticleTags.astro'
+
+// Generate paths for entire collection
+export async function getStaticPaths() {
+    const articles = await getCollection('articles')
+    return articles.map((article) => ({
+        params: { slug: article.slug },
+        props: { article },
+    }))
+}
+
+interface Props {
+    article: CollectionEntry<'articles'>
+}
+
+// Get the project
+const { article } = Astro.props
+// Get the content
+const { Content } = await article.render()
+
+//Get project categories
+const categories = article.data.tags
+//Format date
+const dateNum = new Date(article.data.date)
+const date = dateNum.toLocaleString('en-AU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+})
+---
+
+<Layout
+    title={article.data.title}
+    date={article.data.date}
+    categories={categories}
+    created_by={article.data.created_by}
+>
+    <article>
+        <div class="content">
+            <h1>{article.data.title}</h1>
+            <span class="details">
+                <span class="author">{article.data.created_by}</span>
+                <ArticleDate date={date} />
+                <ArticleTags tags={categories} />
+            </span>
+
+            <Content />
+        </div>
+    </article>
+</Layout>
+
+<style>
+    .content {
+        max-width: 68ch;
+        margin: 0 auto;
+    }
+    article {
+        grid-column: 1 / span all;
+        padding: calc(var(--gapSize) * 2) var(--gapSize);
+        & h1 {
+            font-size: calc(var(--headingMultiplier) * 2);
+            color: var(--accent);
+            text-wrap: balanced;
+            margin-bottom: calc(var(--gapSize) / 2);
+        }
+        & :global(h2) {
+            font-size: calc(var(--headingMultiplier) * 1.5);
+            border-bottom: var(--border);
+            margin-bottom: var(--borderGap);
+            margin-top: calc(var(--gapSize) * 2);
+            padding-bottom: calc(var(--gapSize) / 4);
+        }
+        & :global(h3) {
+            font-size: calc(var(--headingMultiplier) * 1.125);
+        }
+        & :global(a, a:visited) {
+            font-weight: var(--headingWeight);
+        }
+        & :global(pre) {
+            padding: calc(var(--gapSize) / 2);
+            font-size: 1rem;
+        }
+        & :global(p > code) {
+            background-color: var(--surface-1);
+        }
+    }
+    .details {
+        font-size: 0.75rem;
+        line-height: var(--gapSize);
+        display: flex;
+        column-gap: calc(var(--gapSize) / 2);
+        row-gap: calc(var(--gapSize) / 4);
+        flex-wrap: wrap;
+        align-items: stretch;
+        margin-bottom: var(--gapSize);
+        padding: 0.5rem 0;
+        border-top: var(--border);
+        border-bottom: var(--border);
+        .date,
+        .tags {
+            flex-shrink: 0;
+        }
+        .author {
+            flex-basis: 100%;
+            flex-grow: 1;
+            font-style: italic;
+            @media (min-width: 500px) {
+                flex-basis: auto;
+            }
+        }
+    }
+</style>
