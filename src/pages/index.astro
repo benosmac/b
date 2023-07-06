@@ -5,11 +5,16 @@ import { Icon } from 'astro-icon'
 import ProjectCard from '@components/ProjectCard.astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
+import { ImportImage } from 'src/lib/importImages'
+import ArticleCard from '@components/ArticleCard.astro'
 
 const featuredProjects: Array<CollectionEntry<'projects'>> =
     await getCollection('projects', ({ data }) => {
         return data.isFeatured === true
     })
+const articles: Array<CollectionEntry<'articles'>> = await getCollection(
+    'articles'
+)
 ---
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
@@ -17,60 +22,97 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
         <h2>
             <span>Designer & frontend developer from Melbourne, Australia</span>
         </h2>
-        <span>
+        <!-- <span>
             <Button
                 text="Read things about me "
                 url="#about"
                 hasIcon={true}
                 iconPosition="right"
                 size="borderless"
-                ><Icon name="mdi:arrow-down" slot="icon" />
+            >
+                <Icon name="mdi:arrow-down" slot="icon" />
             </Button>
-        </span>
+        </span> -->
     </section>
 
-    <section class="work">
-        <div class="work-header">
-            <h2>Projects</h2>
+    <section class="section">
+        <div class="section-header">
+            <h3>Projects</h3>
             <Button
                 text="View all"
                 url="/projects"
                 hasIcon={true}
                 iconPosition="right"
                 size="borderless"
-                ><Icon name="mdi:arrow-right" slot="icon" />
+            >
+                <Icon name="mdi:arrow-right" slot="icon" />
             </Button>
         </div>
         <ul role="list" class="project-card-grid">
             {
-                featuredProjects.map((project) => (
-                    <ProjectCard
-                        href={'/projects/' + project.slug}
-                        title={project.data.title}
-                        img={`/src/images/${project.slug}/feature.jpg`}
-                        customColour={project.data.customColour}
-                        categories={project.data.categories}
-                    />
-                ))
+                featuredProjects.map(async (project) => {
+                    const img = await ImportImage(project.slug, 'feature')
+
+                    return (
+                        <ProjectCard
+                            href={'/projects/' + project.slug}
+                            title={project.data.title}
+                            img={img}
+                            loading="eager"
+                            customColour={project.data.customColour}
+                            categories={project.data.categories}
+                        />
+                    )
+                })
+            }
+        </ul>
+    </section>
+    <section class="section">
+        <div class="section-header">
+            <h3>Articles</h3>
+            <Button
+                text="View all"
+                url="/articles"
+                hasIcon={true}
+                iconPosition="right"
+                size="borderless"
+            >
+                <Icon name="mdi:arrow-right" slot="icon" />
+            </Button>
+        </div>
+        <ul role="list" class="article-card-grid">
+            {
+                articles.map(async (article) => {
+                    const img = await ImportImage(
+                        'articles',
+                        article.data.image
+                    )
+                    return (
+                        <ArticleCard
+                            href={'/articles/' + article.slug}
+                            title={article.data.title}
+                            img={img}
+                            tags={article.data.tags}
+                            date={article.data.date}
+                            description={article.data.description}
+                        />
+                    )
+                })
             }
         </ul>
     </section>
 </Layout>
 
 <style>
-    h1 {
-        font-size: 3rem;
-        font-weight: 800;
-        margin: 0;
-    }
     .intro {
         position: relative;
-        grid-column: 1 / all;
+        grid-column: 1 / span 6;
         padding: calc(var(--gapSize) * 2) var(--gapSize);
         & h2 {
             font-weight: 200;
-            font-size: 1.75rem;
-            margin-bottom: 0.25em;
+            font-size: calc(var(--headingMultiplier) * 1.5);
+            margin-bottom: calc(var(--gapSize) / 4);
+            text-wrap: balance;
         }
         & span {
             display: inline-block;
@@ -82,39 +124,47 @@ const featuredProjects: Array<CollectionEntry<'projects'>> =
 
         @media (min-width: 666px) {
             grid-column: 1 / span 4;
-            & h2 {
-                font-size: 2rem;
-            }
         }
     }
-
-    .work {
+    .section {
         display: flex;
         flex-direction: column;
-        grid-column: 1 / span all;
-        padding: 0 2rem 2rem 2rem;
+        grid-column: 1 / span 6;
+        padding: 0 var(--gapSize) var(--gapSize) var(--gapSize);
     }
-    .work-header {
+    .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid var(--surface-4);
+        border-bottom: var(--border);
         margin-bottom: var(--gapSize);
         padding-bottom: calc(var(--gapSize) / 2);
-        & h2 {
+        & h3 {
             font-weight: var(--bodyWeight);
             margin: 0;
         }
     }
-
-    .project-card-grid {
+    .article-card-grid {
         position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        column-gap: 2rem;
-        row-gap: 2rem;
+        column-gap: var(--gapSize);
+        row-gap: var(--gapSize);
         padding: 0;
-        margin-bottom: 2rem;
+        margin-bottom: var(--gapSize);
         margin-top: 0;
+    }
+    .project-card-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        column-gap: var(--gapSize);
+        row-gap: var(--gapSize);
+        padding: 0;
+        margin-bottom: var(--gapSize);
+        margin-top: 0;
+        /* @media (min-width: 1000px) {
+            grid-template-columns: repeat(3, minmax(300px, 1fr));
+        } */
     }
 </style>

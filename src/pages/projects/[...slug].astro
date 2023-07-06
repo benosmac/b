@@ -5,6 +5,7 @@ import Button from '@components/Button.astro'
 import { Icon } from 'astro-icon'
 import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
+import { ImportAllImages } from 'src/lib/importImages'
 
 // Generate paths for entire collection
 export async function getStaticPaths() {
@@ -24,22 +25,28 @@ const { project } = Astro.props
 // Get the content
 const { Content } = await project.render()
 
+const images = await ImportAllImages(project.slug, 'feature')
 // Get path to images folder for this project
-const pathToImages = `/images/${project.slug}`
+// const pathToImages = `/assets/images/${project.slug}`
 
 // Get all project images
 // This is required because Vite's import.meta.glob does not accept variables in the path
 // Returns: Array of image paths
-const allImages: Array<string> = Object.keys(
-    import.meta.glob('/src/images/**/*.jpg', {
-        as: 'url',
-    })
-)
+// const allImages: Array<string> = Object.keys(
+//     import.meta.glob('/src/assets/images/**/*.jpg', {
+//         as: 'url',
+//     })
+// )
+
 // Filter only images for current project
 // Exclude feature image
-const filteredImages: Array<string> = allImages.filter(
-    (image) => image.includes(pathToImages) && !image.includes('feature')
-)
+// const filteredImages: Array<string> = allImages.filter(
+//     (image) => image.includes(pathToImages) && !image.includes('feature')
+// )
+// const pathSegments: Array<string> = filteredImages.map((imagePath) =>
+//     imagePath.replace('.jpg', '').replace('/src/assets/images/', '')
+// )
+
 //Get custom accent colour
 const customColour = project.data.customColour
 //Get project categories
@@ -78,23 +85,40 @@ const categories = project.data.categories
         </div>
     </section>
     <div class="gallery-wrapper">
-        <Gallery images={filteredImages} maxCols={project.data.maxCols} />
+        <Gallery images={images} maxCols={project.data.maxCols} />
     </div>
     <div class="back-button-wrapper">
-        <!-- <a href="/projects" class="button back-button">Back to projects</a> -->
-        <Button url="/projects" text="Back to projects" hasIcon={true}
-            ><Icon name="mdi:arrow-left" slot="icon" />
+        <Button url="/projects" text="Back to projects" hasIcon={true}>
+            <Icon name="mdi:arrow-left" slot="icon" />
         </Button>
     </div>
 </Layout>
 
 <style>
+    /* NOTE: Custom properties for colours are re-defined in layouts/LayoutProject.astro, as they are applied to the entire page(header, footer etc) */
+    :global(#main) {
+        grid-template-rows: 1fr auto;
+    }
+    .gallery-wrapper {
+        background: var(--surface-3);
+        display: grid;
+        justify-content: center;
+        grid-column: 1 / span all;
+        padding: var(--gapSize) 0;
+
+        @media (min-width: 1000px) {
+            grid-column: 1 / span 4;
+            grid-row: 1 / span all;
+            order: 1;
+            padding: calc(var(--gapSize) * 1.75) 0;
+        }
+    }
     .description {
-        background: var(--surface-1);
+        background: var(--surface-2);
         grid-column: 1 / span all;
         padding: var(--gapSize);
         @media (min-width: 1000px) {
-            grid-column: 6 / span 2;
+            grid-column: 5 / span 2;
             order: 2;
             padding: calc(var(--gapSize) * 2) var(--gapSize);
         }
@@ -102,9 +126,6 @@ const categories = project.data.categories
         @media (min-width: 1300px) {
             padding: calc(var(--gapSize) * 2);
         }
-    }
-    :global(#main) {
-        grid-template-rows: 1fr auto;
     }
     .content {
         max-width: 36em;
@@ -114,16 +135,18 @@ const categories = project.data.categories
             position: sticky;
             top: calc(var(--gapSize) * 2);
         }
-    }
-    h1 {
-        color: var(--accent);
-        line-height: 1.5;
-        padding: 0 0 calc(var(--gapSize) / 4) 0;
-        margin-bottom: var(--gapSize);
-        border-bottom: var(--border);
 
-        @media (min-width: 1000px) {
-            font-size: 1.75rem;
+        & h1 {
+            color: var(--accent);
+            padding: 0 0 calc(var(--borderGap) / 4) 0;
+            margin: var(--gapSize) 0;
+            border-bottom: var(--border);
+            text-wrap: balance;
+
+            @media (min-width: 1000px) {
+                margin: 0 0 var(--gapSize) 0;
+                /* font-size: 1.75rem; */
+            }
         }
     }
     .details {
@@ -138,11 +161,6 @@ const categories = project.data.categories
             padding-left: 1em;
         }
     }
-    /* @media (min-width: 1000px) {
-        .details {
-            flex-direction: column;
-        }
-    } */
     .details {
         & h5 {
             color: var(--accent);
@@ -170,32 +188,21 @@ const categories = project.data.categories
         }
     }
     .back-button-wrapper {
-        background: var(--surface-1);
+        background: var(--surface-2);
         display: grid;
         grid-column: 1 / span all;
-        justify-content: center;
+        justify-content: left;
         padding: var(--gapSize);
 
         @media (min-width: 1000px) {
             order: 3;
-            grid-column: 6 / span 2;
+            grid-column: 5 / span 2;
+        }
+        @media (min-width: 1300px) {
+            padding: calc(var(--gapSize) * 2);
         }
     }
     .back-button {
         bottom: var(--gapSize);
-    }
-    .gallery-wrapper {
-        background: var(--surface-3);
-        display: grid;
-        justify-content: center;
-        grid-column: 1 / span all;
-        padding: var(--gapSize) 0;
-
-        @media (min-width: 1000px) {
-            grid-column: 1 / span 5;
-            grid-row: 1 / span all;
-            order: 1;
-            padding: calc(var(--gapSize) * 1.75) 0;
-        }
     }
 </style>
