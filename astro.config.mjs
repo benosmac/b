@@ -1,17 +1,19 @@
+// https://astro.build/config
 import { defineConfig } from 'astro/config'
+import notionContentImporter from './src/integrations/notion-content'
 
-// https://astro.build/config
-import image from '@astrojs/image'
-
-// https://astro.build/config
 import mdx from '@astrojs/mdx'
 
-// https://astro.build/config
 export default defineConfig({
-    integrations: [
-        image({
-            serviceEntryPoint: '@astrojs/image/sharp',
-        }),
-        mdx(),
-    ],
+    integrations: [mdx(), notionContentImporter()],
+    experimental: {
+        assets: true,
+    },
+    scopedStyleStrategy: 'class',
+    markdown: {
+        shikiConfig: {
+            theme: 'dracula-soft',
+            wrap: true,
+        },
+    },
 })
