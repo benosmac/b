@@ -1,0 +1,53 @@
+---
+import Layout from '@layouts/Layout.astro'
+import ArticleCard from '@components/ArticleCard.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import { ImportImage } from 'src/lib/importImages'
+
+const articles: Array<CollectionEntry<'articles'>> = await getCollection(
+    'articles'
+)
+---
+
+<Layout title="Articles">
+    <ul role="list" class="articles-list">
+        {
+            articles.map(async (article) => {
+                const img = await ImportImage('articles', article.data.image)
+                return (
+                    <ArticleCard
+                        href={'/articles/' + article.slug}
+                        title={article.data.title}
+                        img={img}
+                        tags={article.data.tags}
+                        date={article.data.date}
+                        description={article.data.description}
+                    />
+                )
+            })
+        }
+    </ul>
+</Layout>
+
+<style>
+    h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0;
+    }
+    .articles-list {
+        display: grid;
+        grid-column: 1 / span all;
+        /* grid-template-columns: 1fr minmax(auto, 70ch) 1fr; */
+        /* column-gap: 2rem; */
+        padding: var(--gapSize);
+        row-gap: var(--gapSize);
+        @media (min-width: 1000px) {
+            grid-column: 2 / span 4;
+        }
+    }
+    & :global(.article-card) {
+        /* grid-column-start: 2; */
+    }
+</style>

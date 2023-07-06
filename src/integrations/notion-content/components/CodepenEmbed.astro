@@ -1,0 +1,36 @@
+---
+export interface Props {
+    url: string
+}
+const { url } = Astro.props
+const urlChunks = url.split('/')
+const user = urlChunks.slice(-3, -2)
+const hash = urlChunks.slice(-1)
+---
+
+<div class="codepen">
+    <p
+        class="codepen"
+        data-height="500"
+        data-theme-id="dark"
+        data-default-tab="result, css"
+        data-user={user}
+        data-slug-hash={hash}
+        style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+        data-pen-title=""
+    >
+        <span
+            >See the Pen <a href={`https://codepen.io/${user}/pen/${hash}`}>
+            </a> by
+            {user}(<a href={`https://codepen.io/${user}`}>@{user}</a>) on <a
+                href="https://codepen.io">CodePen</a
+            >.</span
+        >
+    </p>
+</div>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<style>
+    .codepen {
+        margin-bottom: 2rem;
+    }
+</style>
