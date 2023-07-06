@@ -43,7 +43,7 @@
         fill: var(--accent);
         overflow: visible;
         transform: rotate(0deg);
-        transition: all 0.25s ease;
+        transition: all 0.25s var(--defaultTiming);
     }
     @media (min-width: 666px) {
         #logo {
@@ -69,7 +69,7 @@
     #logo:focus-visible .dot {
         /* fill: var(--surface-2); */
         animation-name: tumblyDot;
-        animation-duration: 2s;
+        animation-duration: 2.3s;
         animation-timing-function: var(--outQuadratic);
         animation-fill-mode: forwards;
         animation-delay: 0.1s;

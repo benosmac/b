@@ -1,22 +1,100 @@
 ---
 import Button from '@components/Button.astro'
-import Icon from 'astro-icon'
 ---
 
-<nav>
-    <Button
-        text="Projects "
-        url="/projects"
-        iconPosition="right"
-        size="borderless"
-    />
-    <Button text="About " url="/about" iconPosition="right" size="borderless" />
-</nav>
+<a
+    href="#nav-open"
+    id="nav-toggle-open"
+    title="Open Menu"
+    aria-label="Open Menu"
+    class="nav-toggle">Open Menu</a
+>
+<span id="nav-open">
+    <a
+        href="#"
+        id="nav-toggle-close"
+        title="Close Menu"
+        aria-label="Close Menu"
+        class="nav-toggle"
+        onclick="history.go(-1)"></a>
+    <nav>
+        <Button text="Projects " url="/projects" size="borderless" />
+        <Button text="Articles " url="/articles" size="borderless" />
+        <Button text="About " url="/about" size="borderless" />
+    </nav>
+</span>
+<script>
+    const navClose =
+        document.querySelector<HTMLLinkElement>('#nav-toggle-close')
+    const navOpenButton =
+        document.querySelector<HTMLLinkElement>('#nav-toggle-open')
+    const navContainer = document.querySelector<HTMLElement>('#nav-open')
+    const notNav = document.querySelectorAll(
+        '#main, #footer, #nav-toggle-open, .logo'
+    )
+    console.log(notNav)
+
+    function handleNavToggle() {
+        console.log(notNav)
+        const isNavOpen = document.location.hash === '#nav-open'
+        if (isNavOpen) {
+            navClose?.focus()
+            notNav?.forEach((el) => el.setAttribute('inert', ''))
+        } else {
+            navOpenButton?.focus()
+            notNav?.forEach((el) => el.removeAttribute('inert'))
+        }
+    }
+    navContainer?.addEventListener('keyup', (event) => {
+        if (event.code === 'Escape') document.location.hash = ''
+    })
+    navContainer?.addEventListener('transitionend', handleNavToggle)
+</script>
 <style>
     nav {
-        align-self: center;
+        display: flex;
+        gap: var(--quarterGap);
+        justify-content: flex-end;
     }
-    nav :global(.button) {
-        display: inline-flex;
+    #nav-toggle-close,
+    #nav-toggle-open {
+        display: none;
+    }
+    @media (max-width: 555px) {
+        #nav-toggle-close,
+        #nav-toggle-open {
+            display: flex;
+        }
+        #nav-open {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: fixed;
+            width: 100%;
+            min-height: 100vh;
+            inset-block-start: 0;
+            inset-inline-end: 0;
+            transform: translateX(100vw);
+            transition: transform 0.33s var(--defaultTiming),
+                visibility 0s linear 0.33s;
+            will-change: transform;
+            visibility: hidden;
+            &:target {
+                transform: translateX(0);
+                transition: transform 0.33s var(--defaultTiming);
+                visibility: visible;
+            }
+            & nav {
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: flex-start;
+                gap: calc(var(--gapSize) / 2);
+                padding: var(--doubleGap) var(--gapSize);
+                background-color: var(--surface-4);
+                font-size: 1.5rem;
+            }
+        }
+        :global([inert]) {
+            filter: grayscale(0.75);
+        }
     }
 </style>

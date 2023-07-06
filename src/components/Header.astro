@@ -7,16 +7,19 @@ import Logo from '@components/SiteLogo.astro'
     <a class="logo" href="/"><Logo /></a>
     <Nav />
 </header>
+
 <style>
     header {
-        position: relative;
-        border-bottom: var(--border);
         display: flex;
+        position: relative;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
+        align-items: center;
         padding: 0 var(--gapSize);
         line-height: normal;
+        border-bottom: var(--border);
+        z-index: 1;
     }
     .logo {
         padding: calc(var(--gapSize) / 4) 0 0 0;
