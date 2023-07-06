@@ -1,6 +1,7 @@
 ---
 import '../css/global.css'
 import '../css/animations.css'
+import '../css/page-transition.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 export interface Props {
@@ -18,13 +19,6 @@ const { title, customColour } = Astro.props
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,700;1,300;1,700&display=swap"
-            rel="stylesheet"
-        />
-
         <title>{title}</title>
     </head>
     <body id="body" class="transition">
@@ -34,30 +28,10 @@ const { title, customColour } = Astro.props
         </main>
         <Footer />
     </body>
+    <script src="../lib/pageTransition.js"></script>
 </html>
-<script>
-    // Handle Page in/out transitions
-    const links = document.querySelectorAll('a')
-    const bodyEl = document.getElementById('body')
-    const hostName = window.location.host
-    console.log(hostName)
-    links.forEach((link) => {
-        if ((link.hostname = hostName)) {
-            link.addEventListener('click', (event) => {
-                event.preventDefault()
-                bodyEl?.classList.add('transition')
-                setTimeout(() => {
-                    window.location.href = link.href
-                }, 333)
-            })
-        }
-    })
-    document.addEventListener('DOMContentLoaded', (event) => {
-        bodyEl?.classList.remove('transition')
-    })
-</script>
 
-<style is:global define:vars={{ customColour }}>
+<style define:vars={{ customColour }}>
     /* Redefine colour custom properties inside the layout to
 theme the whole page with the customColour prop */
     :root {
@@ -70,26 +44,14 @@ theme the whole page with the customColour prop */
             var(--accent),
             var(--accent)
         );
-        /* Replacing surface custom properties with tints of new colours. 
-        Using OKLAB here as it's the most predictable for mixing in rectangular colour spaces*/
-        --surface-1: color-mix(in oklab, var(--accent) 8%, #fff);
-        --surface-2: color-mix(in oklab, var(--secondary) 4%, #fff);
+        /* Replacing surface custom properties with tints of new colours. */
+        --surface-1: color-mix(in oklab, var(--accent) 6%, #fff);
+        --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
         --surface-3: color-mix(in oklab, var(--secondary) 2%, #fff);
-        --surface-4: color-mix(in oklab, var(--accent) 25%, #fff);
+        --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
+        --border: var(--borderWidth) solid var(--surface-4);
     }
-    #main,
-    #footer {
-        transform: translateY(0);
-        opacity: 1;
-        filter: blur(0);
-        transition: all 0.333s ease;
-    }
-    .transition {
-        #main,
-        #footer {
-            transform: translateY(2vh);
-            opacity: 0;
-            filter: blur(10px);
-        }
+    html {
+        background-color: var(--surface-1);
     }
 </style>
