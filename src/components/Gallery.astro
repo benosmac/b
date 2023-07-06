@@ -1,36 +1,39 @@
 ---
-import { Image } from '@astrojs/image/components'
-export interface props {
-    images: Array<string>
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+export interface Props {
+    images: Array<ImageMetadata>
     maxCols: number
 }
 
 const { images, maxCols } = Astro.props
+
 let columnWidth = `${100 / maxCols}%`
-const defaultImageWidth = '1111'
+const defaultImageWidth = 1111
 ---
 
 <!-- 
   A simple gallery component that outputs a grid of images from an array of source urls
-  Uses @Astro's Image component
+  Uses @Astro's 'astro:assets' <Image> component
   Defaults to 2-column
   Images with filenames ending in -wide.jpg will span both columns
 -->
 <div class="gallery">
     {
-        images.map((imgSrc: string) => (
+        images.map((image) => (
             <Image
-                src={import(imgSrc /* @vite-ignore */)}
+                src={image}
+                format={image.format}
                 alt=""
-                width={defaultImageWidth}
                 format="webp"
-                class={imgSrc.endsWith('-wide.jpg') ? 'wide' : ''}
+                width={defaultImageWidth}
+                class={image.src.includes('-wide') ? 'wide' : ''}
             />
         ))
     }
 </div>
 <script>
-    const images = document.querySelectorAll('.gallery > img')
+    const galleryImages = document.querySelectorAll('.gallery > img')
 
     function focusImage(image: any) {
         image.classList.add('full-width')
@@ -45,7 +48,7 @@ const defaultImageWidth = '1111'
         )
     }
 
-    images.forEach((image) => {
+    galleryImages.forEach((image) => {
         image.addEventListener('click', () => {
             focusImage(image)
         })

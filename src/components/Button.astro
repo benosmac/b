@@ -1,91 +1,110 @@
 ---
-//  Button component with style and icon options
-//  It is designed to be used with @astro-icon by passing an Icon component
-//  into the named slot
-//  For @astro-icon usage see https://github.com/natemoo-re/astro-icon#readme
+/*
+Button component with style and icon options
+It is designed to be used with @astro-icon by passing an Icon component into the named slot
+For @astro-icon usage see https://github.com/natemoo-re/astro-icon#readme
 
-//  Example usage with icon:
+Example usage with icon:
 
-// <Button
-//  text="Cats"
-//  url="/cats"
-//  hasIcon={true}
-//  iconPosition="right"
-//  size="big"
-//  ><Icon name="mdi:cat" slot="icon" />
-// </Button>
-
+ <Button
+  text="Cats"
+  url="/cats"
+  hasIcon={true}
+  iconPosition="right"
+  size="big"
+  ><Icon name="mdi:cat" slot="icon" />
+ </Button>
+*/
 interface Props {
     url: string
     text: string
     hasIcon?: boolean
     iconPosition?: 'left' | 'right'
     size?: 'little' | 'borderless' | 'big'
+    buttonId?: string
 }
-const { url, text, hasIcon = false, iconPosition = 'left', size } = Astro.props
+const {
+    url,
+    text,
+    hasIcon = false,
+    iconPosition = 'left',
+    size,
+    buttonId,
+} = Astro.props
 let classes = ['button']
 if (hasIcon) classes.push('icon', `icon-${iconPosition}`)
 if (size) classes.push(size)
 ---
 
-<a href={url} class:list={classes}>
+<a href={url} class:list={classes} id={buttonId}>
     <slot name="icon" />
     <span>{text}</span>
 </a>
 
 <style>
+    :root {
+        --buttonTransition: transform 0.25s var(--outQuadratic);
+        @media (max-width: 555px) {
+            --buttonTransition: none;
+        }
+    }
     .button {
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
         position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: calc(var(--gapSize) / 2);
         background-color: var(--surface-2);
-        border: 2px solid var(--surface-4);
+        border: var(--borderAccent);
         border-radius: 0.2em;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: var(--headingWeight);
         line-height: 1;
         color: var(--accent);
         padding: calc(var(--gapSize) / 2);
         z-index: 1;
-    }
-    .button::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        inset: 0;
-        background-color: var(--surface-4);
-        border-radius: 0.2em;
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.25s var(--outQuadratic);
-        z-index: -1;
-    }
-    :is(.button:hover, .button:focus-visible) {
-        text-decoration: none;
-    }
-    :is(.button:hover, .button:focus-visible)::after {
-        transform: scaleX(1);
-        transform-origin: left;
-    }
-    :is(.button:hover, .button:focus-visible) :global([astro-icon]) {
-        transform: scale(1.2);
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--surface-4);
+            border-radius: 0.2em;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: var(--buttonTransition);
+            z-index: -1;
+        }
+        &:hover,
+        &:focus-visible {
+            text-decoration: none;
+            &::after {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+            & :global([astro-icon]) {
+                transform: scale(1.2);
+            }
+        }
+        & :global([astro-icon]) {
+            transition: var(--buttonTransition);
+        }
     }
     .button.little {
         padding: calc(var(--gapSize) / 4);
+        border-radius: 0.1em;
+        &::after {
+            border-radius: 0.1em;
+        }
     }
     .button.borderless {
         border: none;
         background-color: transparent;
         padding: calc(var(--gapSize) / 4);
+        border-radius: 0.1em;
+        &::after {
+            border-radius: 0.1em;
+        }
     }
     .button.icon-right :global([astro-icon]) {
         order: 2;
-    }
-    .button :global([astro-icon]) {
-        transition: transform 0.25s var(--outQuadratic);
     }
 </style>

@@ -3,17 +3,28 @@
 
 <footer id="footer">
     <div class="contact">
-        <h3>Ahoy-hoy</h3>
-        <ul>
-            <li><a href="mailto:bengamin@bengam.in">bengamin@bengam.in</a></li>
-            <li><a href="#LinkToLinkdin">LinkdIn</a></li>
-        </ul>
+        <span>
+            <h4>Hello</h4>
+            <ul>
+                <li>
+                    <a href="mailto:ahoy@bengam.in">ahoy@bengam.in</a>
+                </li>
+                <li><a href="#LinkToLinkdin">LinkdIn</a></li>
+            </ul>
+        </span>
     </div>
     <div class="name">
-        <h4>What's a Bengamin?</h4>
         <p>
-            It's just my name. It was meant to be Benjamin, but someone typed it
-            wrongly on my birth certificate. Ben is fine though.
+            I'm a frontend developer with a background in design. My name was
+            mispelled on my birth certificate, but I mostly go by Ben.
+        </p>
+    </div>
+    <div class="site">
+        <p>
+            This site is built with <a href="https://astro.build/">Astro</a>.
+            The typeface is <a href="https://fonts.google.com/specimen/DM+Sans"
+                >DM Sans</a
+            >.
         </p>
     </div>
 </footer>
@@ -21,41 +32,59 @@
     footer {
         border-top: var(--border);
     }
-    .contact {
+    .contact,
+    .name,
+    .site {
+        display: flex;
+        align-items: center;
         grid-column: 1 / span all;
-        padding: 2rem;
-        border-bottom: var(--border);
+        padding: var(--gapSize);
     }
+    .contact,
     .name {
-        grid-column: 1 / span all;
-        font-size: 0.75rem;
-        padding: 2rem;
+        border-bottom: var(--border);
     }
     @media (min-width: 666px) {
         /* footer {
             flex-wrap: nowrap;
         } */
         .contact {
-            grid-column: 1 / span 4;
+            grid-column: 1 / span 2;
             border-bottom: none;
             /* flex-basis: 50%; */
         }
         .name {
-            grid-column: 5 / span 3;
+            grid-column: 3 / span 4;
             border-left: var(--border);
+            border-bottom: none;
             /* flex-basis: 50%; */
+        }
+        .site {
+            grid-column: 1 / span 6;
+            border-top: var(--border);
         }
     }
 
-    @media (min-width: 1000px) {
+    @media (min-width: 888px) {
         .contact {
-            grid-column: 1 / span 5;
+            grid-column: 1 / span 2;
             /* flex-basis: 75%; */
         }
         .name {
-            grid-column: 6 / span 2;
+            grid-column: 3 / span 2;
             /* flex-basis: 25%; */
         }
+        .site {
+            grid-column: 5 / span 2;
+            border-top: none;
+            border-left: var(--border);
+        }
+    }
+    h4 {
+        margin-bottom: calc(var(--gapSize) / 4);
+    }
+    p {
+        margin: 0;
     }
     a {
         color: var(--accent);
@@ -63,5 +92,6 @@
     ul {
         list-style: none;
         padding: 0;
+        margin: 0;
     }
 </style>
