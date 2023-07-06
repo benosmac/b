@@ -90,11 +90,11 @@
     0% {
         transform: translateX(0px) translateY(0px);
     }
-    10% {
+    12% {
         transform: translateX(15px) translateY(3px);
     }
     20% {
-        transform: translateX(20px) translateY(27px);
+        transform: translateX(21px) translateY(27px);
     }
     25% {
         transform: translateX(23px) translateY(20px);

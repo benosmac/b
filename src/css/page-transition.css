@@ -1,0 +1,15 @@
+#main,
+#footer {
+    /* transform: scale(1); */
+    opacity: 1;
+    /* filter: blur(0); */
+    transition: all 0.25s var(--defaultTiming);
+}
+.transition {
+    #main,
+    #footer {
+        /* transform: scale(0.9); */
+        opacity: 0;
+        filter: blur(15px);
+    }
+}

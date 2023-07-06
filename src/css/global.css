@@ -1,50 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;500&family=DM+Sans:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@300;700&family=Lato:wght@300;700&display=swap');
 :root {
     /* Colours */
-    --base: #111;
+    --base: oklch(20% 0.015 85);
     --accent: oklch(50.4% 0.139 168);
-    --surface-1: oklch(97% 0.0088 165);
+    --secondary: oklch(40% 0.1 85);
+    --surface-1: oklch(90% 0.015 85);
     --surface-2: oklch(99% 0.015 85);
-    --surface-3: oklch(99% 0.01 85);
+    --surface-3: oklch(99.9% 0.015 85);
     --surface-4: oklch(90% 0.03 165);
     --text-light: var(--surface-2);
 
     /* Fonts */
-    --heading: 'Nunito', sans-serif;
+    --heading: 'DM Sans', sans-serif;
     --headingWeight: 700;
-    --body: 'Nunito', sans-serif;
+    --bodyFont: 'DM Sans', sans-serif;
     --bodyWeight: 300;
 
-    /* Margin & Padding */
-    --gapSize: 2rem;
-    --negativeGapSize: calc(var(--gapSize) * -1);
+    /* Line-heights */
+    --bodyLH: 1.6;
+    --headingLH: 1.2;
+
+    /* Font sizing */
+    --headingMultiplier: calc(var(--bodyLH) / var(--headingLH) * 1rem);
 
     /* Borders */
-    --border: 2px solid var(--surface-4);
+    --borderWidth: 2px;
+    --border: var(--borderWidth) solid var(--surface-1);
+    --borderAccent: var(--borderWidth) solid var(--surface-4);
+
+    /* Margin & Padding */
+    --gapSize: calc(var(--bodyLH) * 1rem);
+    --doubleGap: calc(var(--gapSize) * 2);
+    --halfGap: calc(var(--gapSize) / 2);
+    --quarterGap: calc(var(--gapSize) / 4);
+    --borderGap: calc(var(--gapSize) - var(--borderWidth));
+    --negativeGapSize: calc(var(--gapSize) * -1);
+
     /* Animation timing functions */
     --defaultTiming: cubic-bezier(0.41, 0.1, 0.5, 0.51);
     --outQuadratic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --easeInBackwards: cubic-bezier(0.6, -0.28, 0.74, 0.05);
 }
+
 * {
     box-sizing: border-box;
 }
 html {
-    font-family: var(--heading);
+    background-color: var(--surface-1);
+    font-family: var(--bodyFont);
     font-weight: var(--bodyWeight);
-    background-color: var(--surface-2);
-    line-height: 1.75;
-    color: var(--base);
+    line-height: var(--bodyLH);
 }
 body {
-    margin: 0;
-    font-size: 0.875rem;
+    max-width: 1337px;
+    background-color: var(--surface-2);
+    color: var(--base);
+    margin: 0 auto;
 }
 main,
 #footer {
     position: relative;
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+}
+
+@media (min-width: 555px) {
+    /* body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    } */
 }
 code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
@@ -58,9 +82,24 @@ h5,
 h6 {
     font-family: var(--heading);
     font-weight: var(--headingWeight);
-    line-height: 1.3;
-    margin-block-start: 0;
-    margin-block-end: calc(var(--gapSize) / 2);
+    line-height: var(--headingLH);
+    margin-top: 0;
+    margin-bottom: calc(var(--gapSize) / 2);
+    /* word-spacing: -0.3ch; */
+}
+h1 {
+    font-size: calc(var(--headingMultiplier) * 2);
+}
+h2 {
+    font-size: calc(var(--headingMultiplier) * 1.5);
+}
+h3 {
+    font-size: calc(var(--headingMultiplier) * 1.25);
+}
+h4,
+h5,
+h6 {
+    font-size: calc(var(--headingMultiplier) * 1);
 }
 p {
     margin: 0 0 var(--gapSize) 0;
@@ -81,7 +120,9 @@ a:visited:hover,
 a:visited:focus-visible {
     text-decoration: underline;
 }
-
+:focus-visible {
+    outline: var(--accent) auto 1px;
+}
 [astro-icon] {
     width: 1em;
     height: 1em;

@@ -2,7 +2,8 @@
 .home {
     /* Vertical */
     #main,
-    .project-card {
+    .project-card,
+    .article-card {
         &::before,
         &::after {
             content: '';
@@ -11,6 +12,7 @@
             width: 1px;
             background: var(--accent);
             z-index: 1;
+            will-change: transform;
         }
     }
     #main {
@@ -34,12 +36,24 @@
             bottom: var(--negativeGapSize);
         }
     }
+    .article-card {
+        position: relative;
+        &::after {
+            right: -1px;
+            bottom: var(--negativeGapSize);
+        }
+        &::before {
+            left: -1px;
+            bottom: var(--negativeGapSize);
+        }
+    }
 
     /* Horizontal */
 }
 
 .intro,
 .project-card-grid,
+.article-card-grid,
 .project-card .grid-line {
     &::before,
     &::after {
@@ -48,6 +62,7 @@
         background: var(--accent);
         position: absolute;
         z-index: 1;
+        will-change: transform;
     }
 }
 .intro {
@@ -63,7 +78,8 @@
         bottom: calc(var(--gapSize) / 2);
     }
 }
-.project-card-grid {
+.project-card-grid,
+.article-card-grid {
     &::before,
     &::after {
         width: 100vw;
@@ -76,6 +92,7 @@
         bottom: var(--negativeGapSize);
     }
 }
+.article-card-grid,
 .project-card .grid-line {
     &::before,
     &::after {
@@ -95,7 +112,8 @@
 /* Vertical */
 .home-is-loading {
     #main,
-    .project-card {
+    .project-card,
+    .article-card {
         &::before,
         &::after {
             animation-name: scaleInFromTop;
@@ -106,7 +124,8 @@
 }
 .home-is-loaded {
     #main,
-    .project-card {
+    .project-card,
+    .article-card {
         &::before,
         &::after {
             animation-name: scaleOutToBottom;
@@ -122,6 +141,7 @@
 .home-is-loading {
     .intro,
     .project-card-grid,
+    .article-card-grid,
     .project-card .grid-line {
         &::before,
         &::after {
@@ -134,6 +154,7 @@
 .home-is-loaded {
     .intro,
     .project-card-grid,
+    .article-card-grid,
     .project-card .grid-line {
         &::before,
         &::after {
@@ -148,12 +169,15 @@
 
 /* Animate content blocks */
 /* First hide the content within the blocks */
+/* TODO: Track down weird bug where lines don't animate in when header opacity is initially 0. Setting 0.01 fixes it :/ */
 header,
 .intro > *,
-.work-header,
+.section-header,
 .project-card img,
-.project-card .title-wrapper {
-    opacity: 0;
+.project-card .title-wrapper,
+.article-card .content {
+    opacity: 0.001;
+    will-change: opacity;
 }
 
 /* Animate image block fills */
@@ -167,10 +191,11 @@ header,
 /* Show the content within blocks */
 .home-is-loaded {
     & header,
-    .work-header,
+    .section-header,
     .intro > *,
     .project-card img,
-    .project-card .title-wrapper {
+    .project-card .title-wrapper,
+    .article-card .content {
         animation: fadeIn;
         animation-duration: 0.5s;
         animation-timing-function: var(--defaultTiming);
