@@ -10,7 +10,9 @@ const { date } = Astro.props
 ---
 
 <time datetime={date} class="date"
-    ><Icon name="mdi:calendar-blank-outline" slot="icon" />{date}</time
+    ><Icon name="mdi:calendar-blank-outline" slot="icon" aria-label="Date" />{
+        date
+    }</time
 >
 
 <style>

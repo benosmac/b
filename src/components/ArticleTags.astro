@@ -10,7 +10,7 @@ const { tags } = Astro.props
 ---
 
 <ul class="tags">
-    <Icon name="mdi:tag-outline" slot="icon" />
+    <Icon name="mdi:tag-outline" slot="icon" aria-label="Tags" />
     {
         tags.map((tag) => {
             return <li>{tag}</li>
