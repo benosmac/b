@@ -9,6 +9,7 @@
     --surface-3: oklch(99.9% 0.015 85);
     --surface-4: oklch(90% 0.03 165);
     --text-light: var(--surface-2);
+    --pageBackdropColour: oklch(95% 0.015 85);
 
     /* Fonts */
     --heading: 'DM Sans', sans-serif;
@@ -46,7 +47,7 @@
     box-sizing: border-box;
 }
 html {
-    background-color: var(--surface-1);
+    background-color: var(--pageBackdropColour);
     font-family: var(--bodyFont);
     font-weight: var(--bodyWeight);
     line-height: var(--bodyLH);
@@ -56,6 +57,9 @@ body {
     background-color: var(--surface-2);
     color: var(--base);
     margin: 0 auto;
+}
+main {
+    min-height: 85vh;
 }
 main,
 #footer {
