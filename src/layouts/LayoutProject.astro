@@ -3,6 +3,7 @@ import '../css/global.css'
 import '../css/animations.css'
 import '../css/page-transition.css'
 import Header from '../components/Header.astro'
+import MetaTags from '@components/MetaTags.astro'
 import Footer from '../components/Footer.astro'
 export interface Props {
     title: string
@@ -15,10 +16,7 @@ const { title, customColour } = Astro.props
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="generator" content={Astro.generator} />
+        <MetaTags />
         <title>{title}</title>
     </head>
     <body id="body" class="transition">
@@ -27,31 +25,34 @@ const { title, customColour } = Astro.props
             <slot />
         </main>
         <Footer />
-    </body>
-    <script src="../lib/pageTransition.js"></script>
-</html>
-
-<style define:vars={{ customColour }}>
-    /* Redefine colour custom properties inside the layout to
+        <script src="../lib/pageTransition.js"></script>
+        <style define:vars={{ customColour }}>
+            /* Redefine colour custom properties inside the layout to
 theme the whole page with the customColour prop */
-    :root {
-        /* Replacing the accent colour custom property */
-        --accent: var(--customColour);
-        /* Defining a relative complimentary colour using color-mix in cylindrical colour space  with longer hue option. 
+            :root {
+                /* Replacing the accent colour custom property */
+                --accent: var(--customColour);
+                --accentClone: color-mix(in oklch, var(--accent), white 0.001%);
+                /* Defining a relative complimentary colour using color-mix in cylindrical colour space  with longer hue option. 
         */
-        --secondary: color-mix(
-            in oklch longer hue,
-            var(--accent),
-            var(--accent)
-        );
-        /* Replacing surface custom properties with tints of new colours. */
-        --surface-1: color-mix(in oklab, var(--accent) 6%, #fff);
-        --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
-        --surface-3: color-mix(in oklab, var(--secondary) 2%, #fff);
-        --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
-        --border: var(--borderWidth) solid var(--surface-4);
-    }
-    html {
-        background-color: var(--surface-1);
-    }
-</style>
+                --secondary: color-mix(
+                    in oklch longer hue,
+                    var(--accent),
+                    var(--accentClone)
+                );
+                /* Replacing surface custom properties with tints of new colours. */
+                --surface-1: color-mix(in oklab, var(--accent) 6%, #fff);
+                --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
+                --surface-3: color-mix(in oklab, var(--secondary) 2%, #fff);
+                --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
+                --border: var(--borderWidth) solid var(--surface-4);
+                --base: color-mix(in oklab, var(--secondary), black 66%);
+                --pageBackdropColour: color-mix(
+                    in oklab,
+                    var(--secondary) 15%,
+                    #fff
+                );
+            }
+        </style>
+    </body>
+</html>
