@@ -8,7 +8,7 @@ tags:
   - CSS
   - Colour
 published: true
-last_edited_time: '2023-06-24T13:47:00.000Z'
+last_edited_time: '2023-07-01T04:32:00.000Z'
 title: Dynamic colour palettes with CSS color-mix()
 ---
 
@@ -18,7 +18,7 @@ The new CSS color-mix() function gives us something I’ve wanted for a long tim
 ### What about relative colour syntax?                                                                                                                                                                              
 
 
-The new CSS relative-color-syntax is going to give us even more flexibility for generating dynamic colours, but (as of writing) browser support is still lacking (only Safari 16.4+). There are a few polyfills, the best of which is probably [postcss-relative-color-syntax](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-relative-color-syntax), but (being a preprocessor) PostCSS plugins can’t fully support CSS custom properties within declarations.
+The new CSS relative-color-syntax is going to give us even more flexibility for generating dynamic colours, but (as of writing) browser support is still lacking (only Safari 16.4+). There are a few polyfills, the best of which is probably [postcss-relative-color-syntax](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-relative-color-syntax), but (being a preprocessor) PostCSS plugins can’t fully support CSS custom properties within declarations, which severely limits what you can achieve. 
 
 
 ### color-mix() to the rescue
@@ -27,7 +27,7 @@ The new CSS relative-color-syntax is going to give us even more flexibility for 
 Color-mix() can do exactly what the name suggests, but with cylindrical colour spaces (LCH, OKLCH, HSL & HWB) we can do some pretty cool things, like generating complimentary and analogous colour palettes from a single colour, and it now [has support in all major browsers](https://caniuse.com/mdn-css_types_color_color-mix) 🎉
 
 
-The CodePen below demonstrates some of what can be achieved - just change the —brandColour custom property to generate all sorts of relative colours!
+The CodePen below demonstrates some of what can be done - just change the —brandColour custom property to generate all sorts of relative colours!
 
 
 import CodepenEmbed from 'src/integrations/notion-content/components/CodepenEmbed.astro'
@@ -131,7 +131,7 @@ The default value is `shorter`, which takes the shortest path between the two co
 If we use `longer`, color-mix() takes the longest path between the two colours.
 
 
-![shorter-vs-longer-hue.jpg](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b6806286-6dab-4379-b71e-8d3c910cb81a/shorter-vs-longer-hue.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230624%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230624T134747Z&X-Amz-Expires=3600&X-Amz-Signature=0c553fd8bc05552655b0ee9148e2b3b9436b72947b293dd9673b69983ebf6408&X-Amz-SignedHeaders=host&x-id=GetObject)
+![shorter-vs-longer-hue.jpg](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b6806286-6dab-4379-b71e-8d3c910cb81a/shorter-vs-longer-hue.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230706%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230706T120256Z&X-Amz-Expires=3600&X-Amz-Signature=428402679ace376720440ba6c2e0de62eebd28ae77c77af8f8c91c3c496a3f00&X-Amz-SignedHeaders=host&x-id=GetObject)
 
 
 This is how we ended up with green in the previous example, and this gives us a lot of flexibility to effectively create relative colours, without the relative colour syntax.
@@ -185,7 +185,13 @@ background: color-mix(in oklch longer hue, var(--brand) 70%, var(--brand));
 Using this method, we can generate any relative colour palette we want - analogous, split-complementary, triad etc., including tints and shades of each!
 
 
-### Firefox fun…
+### Limitations
+
+
+The main drawback of this method is that we can't individually adjust values such as lightness, chroma and hue like relative-color-syntax will allow. As such, it works best with vibrant colours around 50% lightness. You also need to be careful with contrast when using user defined colours. 
+
+
+### Firefox behaviour
 
 
 You’ll notice in the codepen demo above that I’m generating an extra colour like this
@@ -212,7 +218,7 @@ color: color-mix(in oklch longer hue, var(--brand), var(--brandClone));
 we get the desired outcome.
 
 
-I also found that the following doesn’t work in Firefox
+I also found that the following does not work in Firefox
 
 
 ```css
@@ -230,4 +236,7 @@ p{
 color: color-mix(in oklch longer hue, var(--brand), var(--brandClone));
 }
 ```
+
+
+So if you're nesting color-mix() functions like this, you'll need to use a consistent colour space. 
 
