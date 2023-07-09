@@ -35,7 +35,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
         </span> -->
     </section>
 
-    <section class="section">
+    <section class="section projects">
         <div class="section-header">
             <h3>Projects</h3>
             <Button
@@ -45,7 +45,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
                 iconPosition="right"
                 size="borderless"
             >
-                <Icon name="mdi:arrow-right" slot="icon" />
+                <Icon name="mdi:arrow-right" slot="icon" aria-hidden="true" />
             </Button>
         </div>
         <ul role="list" class="project-card-grid">
@@ -67,7 +67,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
             }
         </ul>
     </section>
-    <section class="section">
+    <section class="section articles">
         <div class="section-header">
             <h3>Articles</h3>
             <Button
@@ -77,7 +77,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
                 iconPosition="right"
                 size="borderless"
             >
-                <Icon name="mdi:arrow-right" slot="icon" />
+                <Icon name="mdi:arrow-right" slot="icon" aria-hidden="true" />
             </Button>
         </div>
         <ul role="list" class="article-card-grid">
@@ -113,6 +113,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
             font-size: calc(var(--headingMultiplier) * 1.5);
             margin-bottom: calc(var(--gapSize) / 4);
             text-wrap: balance;
+            max-width: 24ch;
         }
         & span {
             display: inline-block;
@@ -121,16 +122,28 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
             padding-left: 0;
             font-weight: 200;
         }
-
-        @media (min-width: 666px) {
-            grid-column: 1 / span 4;
-        }
     }
     .section {
         display: flex;
         flex-direction: column;
         grid-column: 1 / span 6;
         padding: 0 var(--gapSize) var(--gapSize) var(--gapSize);
+    }
+    .projects {
+        @media (min-width: 777px) {
+            grid-column: 1 / span 3;
+        }
+        @media (min-width: 999px) {
+            grid-column: 1 / span 4;
+        }
+    }
+    .articles {
+        @media (min-width: 777px) {
+            grid-column: 4 / span 3;
+        }
+        @media (min-width: 999px) {
+            grid-column: 5 / span 2;
+        }
     }
     .section-header {
         display: flex;
@@ -147,7 +160,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
     .article-card-grid {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         column-gap: var(--gapSize);
         row-gap: var(--gapSize);
         padding: 0;
@@ -157,7 +170,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
     .project-card-grid {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         column-gap: var(--gapSize);
         row-gap: var(--gapSize);
         padding: 0;
@@ -166,5 +179,8 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
         /* @media (min-width: 1000px) {
             grid-template-columns: repeat(3, minmax(300px, 1fr));
         } */
+        @media (min-width: 777px) {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
     }
 </style>

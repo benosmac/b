@@ -25,26 +25,18 @@
             right: var(--gapSize);
         }
     }
-    .project-card {
-        position: relative;
-        &::after {
-            right: 0;
-            bottom: var(--negativeGapSize);
-        }
-        &::before {
-            left: 0;
-            bottom: var(--negativeGapSize);
-        }
-    }
+    .project-card,
     .article-card {
         position: relative;
         &::after {
-            right: -1px;
-            bottom: var(--negativeGapSize);
+            right: 0;
+            /* bottom: var(--negativeGapSize); */
+            bottom: 0;
         }
         &::before {
-            left: -1px;
-            bottom: var(--negativeGapSize);
+            left: 0;
+            /* bottom: var(--negativeGapSize); */
+            bottom: 0;
         }
     }
 
@@ -53,7 +45,7 @@
 
 .intro,
 .project-card-grid,
-.article-card-grid,
+.article-card .grid-line,
 .project-card .grid-line {
     &::before,
     &::after {
@@ -75,11 +67,10 @@
         top: 0;
     }
     &::after {
-        bottom: calc(var(--gapSize) / 2);
+        bottom: var(--halfGap);
     }
 }
-.project-card-grid,
-.article-card-grid {
+.project-card-grid {
     &::before,
     &::after {
         width: 100vw;
@@ -92,12 +83,15 @@
         bottom: var(--negativeGapSize);
     }
 }
-.article-card-grid,
-.project-card .grid-line {
+
+.project-card .grid-line,
+.article-card .grid-line {
     &::before,
     &::after {
-        left: var(--negativeGapSize);
-        right: var(--negativeGapSize);
+        /* left: var(--negativeGapSize); */
+        /* right: var(--negativeGapSize); */
+        left: 0;
+        right: 0;
     }
     &::before {
         top: 0;
@@ -131,7 +125,7 @@
             animation-name: scaleOutToBottom;
             animation-timing-function: var(--defaultTiming);
             animation-duration: 0.5s;
-            animation-delay: 0.5s;
+            animation-delay: 0.25s;
             animation-fill-mode: forwards;
         }
     }
@@ -141,8 +135,8 @@
 .home-is-loading {
     .intro,
     .project-card-grid,
-    .article-card-grid,
-    .project-card .grid-line {
+    .project-card .grid-line,
+    .article-card .grid-line {
         &::before,
         &::after {
             animation-name: scaleInFromLeft;
@@ -154,14 +148,14 @@
 .home-is-loaded {
     .intro,
     .project-card-grid,
-    .article-card-grid,
-    .project-card .grid-line {
+    .project-card .grid-line,
+    .article-card .grid-line {
         &::before,
         &::after {
             animation-name: scaleOutToRight;
             animation-timing-function: var(--defaultTiming);
             animation-duration: 0.5s;
-            animation-delay: 0.5s;
+            animation-delay: 0.25s;
             animation-fill-mode: forwards;
         }
     }
@@ -170,36 +164,34 @@
 /* Animate content blocks */
 /* First hide the content within the blocks */
 /* TODO: Track down weird bug where lines don't animate in when header opacity is initially 0. Setting 0.01 fixes it :/ */
+
 header,
 .intro > *,
 .section-header,
-.project-card img,
-.project-card .title-wrapper,
+.project-card a,
 .article-card .content {
     opacity: 0.001;
-    will-change: opacity;
 }
 
 /* Animate image block fills */
-.project-card a {
+/* .project-card a {
     animation-name: scaleFromTopWithDelay;
     animation-timing-function: var(--defaultTiming);
     animation-duration: 1s;
     animation-fill-mode: forwards;
-}
+} */
 
 /* Show the content within blocks */
 .home-is-loaded {
     & header,
     .section-header,
     .intro > *,
-    .project-card img,
-    .project-card .title-wrapper,
+    .project-card a,
     .article-card .content {
         animation: fadeIn;
         animation-duration: 0.5s;
         animation-timing-function: var(--defaultTiming);
         animation-fill-mode: forwards;
-        animation-delay: 0.25s;
+        /* animation-delay: 0.25s; */
     }
 }
