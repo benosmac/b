@@ -1,5 +1,6 @@
 ---
 import Button from '@components/Button.astro'
+import { Icon } from 'astro-icon'
 ---
 
 <a
@@ -7,8 +8,10 @@ import Button from '@components/Button.astro'
     id="nav-toggle-open"
     title="Open Menu"
     aria-label="Open Menu"
-    class="nav-toggle">Open Menu</a
+    class="nav-toggle"
 >
+    <Icon name="mdi:menu" />
+</a>
 <span id="nav-open">
     <a
         href="#"
@@ -16,7 +19,9 @@ import Button from '@components/Button.astro'
         title="Close Menu"
         aria-label="Close Menu"
         class="nav-toggle"
-        onclick="history.go(-1)"></a>
+        onclick="history.go(-1)"
+    >
+    </a>
     <nav>
         <Button text="Projects " url="/projects" size="borderless" />
         <Button text="Articles " url="/articles" size="borderless" />
@@ -48,7 +53,10 @@ import Button from '@components/Button.astro'
     navContainer?.addEventListener('keyup', (event) => {
         if (event.code === 'Escape') document.location.hash = ''
     })
-    navContainer?.addEventListener('transitionend', handleNavToggle)
+    navContainer?.addEventListener('transitionend', (event) => {
+        // Only fire on transform property transitions ()
+        if (!event.pseudoElement) handleNavToggle()
+    })
 </script>
 <style>
     nav {
@@ -65,6 +73,10 @@ import Button from '@components/Button.astro'
         #nav-toggle-open {
             display: flex;
         }
+        #nav-toggle-open {
+            font-size: 2rem;
+            line-height: 1;
+        }
         #nav-open {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -74,27 +86,51 @@ import Button from '@components/Button.astro'
             inset-block-start: 0;
             inset-inline-end: 0;
             transform: translateX(100vw);
-            transition: transform 0.33s var(--defaultTiming),
+            transition: transform 0.33s var(--outQuadratic),
                 visibility 0s linear 0.33s;
             will-change: transform;
             visibility: hidden;
             &:target {
                 transform: translateX(0);
-                transition: transform 0.33s var(--defaultTiming);
+                transition: transform 0.33s var(--outQuadratic);
                 visibility: visible;
+                /* & nav {
+                    & > :global(a) {
+                        opacity: 1;
+                        transform: translateX(0);
+                        transition: all 0.5s var(--outQuadratic);
+                        &:nth-child(1) {
+                            transition-delay: 0.33s;
+                        }
+                        &:nth-child(2) {
+                            transition-delay: 0.43s;
+                        }
+                        &:nth-child(3) {
+                            transition-delay: 0.53s;
+                        }
+                        &:nth-child(4) {
+                            transition-delay: 0.63s;
+                        }
+                    }
+                } */
             }
             & nav {
                 flex-direction: column;
                 align-items: flex-end;
                 justify-content: flex-start;
-                gap: calc(var(--gapSize) / 2);
+                gap: var(--gapSize);
                 padding: var(--doubleGap) var(--gapSize);
-                background-color: var(--surface-4);
+                background-color: var(--surface-5);
                 font-size: 1.5rem;
+                /* & > :global(a) {
+                    opacity: 0;
+                } */
             }
         }
         :global([inert]) {
-            filter: grayscale(0.75);
+            filter: grayscale(1);
+            opacity: 0.5;
+            transition: all 0.1s var(--defaultTiming) 0s;
         }
     }
 </style>

@@ -7,9 +7,10 @@
     --surface-1: oklch(90% 0.015 85);
     --surface-2: oklch(99% 0.015 85);
     --surface-3: oklch(99.9% 0.015 85);
-    --surface-4: oklch(90% 0.03 165);
+    --surface-4: oklch(90% 0.03 168);
+    --surface-5: oklch(95% 0.015 85);
     --text-light: var(--surface-2);
-    --pageBackdropColour: oklch(95% 0.015 85);
+    --pageBackdropColour: var(--surface-5);
 
     /* Fonts */
     --heading: 'DM Sans', sans-serif;
@@ -88,7 +89,7 @@ h6 {
     font-weight: var(--headingWeight);
     line-height: var(--headingLH);
     margin-top: 0;
-    margin-bottom: calc(var(--gapSize) / 2);
+    margin-bottom: var(--halfGap);
     /* word-spacing: -0.3ch; */
 }
 h1 {

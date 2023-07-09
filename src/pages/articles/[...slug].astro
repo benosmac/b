@@ -62,19 +62,19 @@ const date = dateNum.toLocaleString('en-AU', {
     }
     article {
         grid-column: 1 / span all;
-        padding: calc(var(--gapSize) * 2) var(--gapSize);
+        padding: var(--doubleGap) var(--gapSize);
         & h1 {
             font-size: calc(var(--headingMultiplier) * 2);
             color: var(--accent);
             text-wrap: balanced;
-            margin-bottom: calc(var(--gapSize) / 2);
+            margin-bottom: var(--halfGap);
         }
         & :global(h2) {
             font-size: calc(var(--headingMultiplier) * 1.5);
             border-bottom: var(--border);
             margin-bottom: var(--borderGap);
-            margin-top: calc(var(--gapSize) * 2);
-            padding-bottom: calc(var(--gapSize) / 4);
+            margin-top: var(--doubleGap);
+            padding-bottom: var(--quarterGap);
         }
         & :global(h3) {
             font-size: calc(var(--headingMultiplier) * 1.125);
@@ -83,7 +83,7 @@ const date = dateNum.toLocaleString('en-AU', {
             font-weight: var(--headingWeight);
         }
         & :global(pre) {
-            padding: calc(var(--gapSize) / 2);
+            padding: var(--halfGap);
             font-size: 1rem;
         }
         & :global(p > code) {
@@ -94,8 +94,8 @@ const date = dateNum.toLocaleString('en-AU', {
         font-size: 0.75rem;
         line-height: var(--gapSize);
         display: flex;
-        column-gap: calc(var(--gapSize) / 2);
-        row-gap: calc(var(--gapSize) / 4);
+        column-gap: var(--halfGap);
+        row-gap: var(--quarterGap);
         flex-wrap: wrap;
         align-items: stretch;
         margin-bottom: var(--gapSize);
