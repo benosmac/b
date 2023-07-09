@@ -85,7 +85,7 @@ const categories = project.data.categories
         </div>
     </section>
     <div class="gallery-wrapper">
-        <Gallery images={images} maxCols={project.data.maxCols} />
+        <Gallery images={images} />
     </div>
     <div class="back-button-wrapper">
         <Button url="/projects" text="Back to projects" hasIcon={true}>
@@ -110,7 +110,7 @@ const categories = project.data.categories
             grid-column: 1 / span 4;
             grid-row: 1 / span all;
             order: 1;
-            padding: calc(var(--gapSize) * 1.75) 0;
+            padding: var(--doubleGap) 0;
         }
     }
     .description {
