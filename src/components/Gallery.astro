@@ -13,7 +13,6 @@ const defaultImageWidth = 1111
 <!-- 
   A simple gallery component that outputs a grid of images from an array of source urls
   Uses @Astro's 'astro:assets' <Image> component
-  Defaults to 2-column
   Images with filenames ending in -wide.jpg will span both columns
 -->
 <div class="gallery">
@@ -58,7 +57,7 @@ const defaultImageWidth = 1111
         flex-flow: row wrap;
         align-items: flex-start;
         gap: var(--halfGap);
-        padding: 0 1rem;
+        padding: var(--halfGap);
         max-width: calc(var(--defaultImageWidth) * 1px);
     }
     img {
@@ -67,31 +66,21 @@ const defaultImageWidth = 1111
         max-width: 100%;
         flex-basis: 100%;
         height: auto;
-        /* margin: var(--halfGap) 0; */
     }
     @media (min-width: 666px) {
         .gallery {
-            padding: 0 1.5rem;
+            padding: var(--gapSize);
         }
         img {
-            max-width: calc(50% - var(--halfGap));
+            max-width: calc(50% - var(--quarterGap));
             flex: 1 1 50%;
-            /* margin: var(--quarterGap); */
         }
         .wide {
-            max-width: calc(100% - var(--halfGap));
+            max-width: 100%;
         }
         .full-width {
-            max-width: calc(100% - var(--halfGap));
+            max-width: 100%;
             transition: all 0.2s ease;
-        }
-    }
-    @media (min-width: 1000px) {
-        img {
-            max-width: calc(50% - var(--halfGap));
-        }
-        img.wide {
-            max-width: calc(100% - var(--halfGap));
         }
     }
 </style>
