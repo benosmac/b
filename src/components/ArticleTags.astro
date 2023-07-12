@@ -9,26 +9,31 @@ interface Props {
 const { tags } = Astro.props
 ---
 
-<ul class="tags">
+<span class="tags">
     <Icon name="mdi:tag-outline" slot="icon" aria-label="Tags" />
-    {
-        tags.map((tag) => {
-            return <li>{tag}</li>
-        })
-    }
-</ul>
+    <ul>
+        {
+            tags.map((tag) => {
+                return <li>{tag}</li>
+            })
+        }
+    </ul>
+</span>
 
 <style>
     .tags {
         display: inline-flex;
         align-items: center;
-        list-style: none;
         line-height: 1;
-        margin: 0;
-        padding: 0;
+
+        & ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
         & li {
             display: inline-flex;
-            margin: 0 0.5em 0 0;
+            margin: 0 0.25em 0 0;
             &:not(:last-child)::after {
                 content: ',';
             }

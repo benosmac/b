@@ -9,12 +9,11 @@ interface Props {
 const { date } = Astro.props
 ---
 
-<time datetime={date} class="date"
-    ><Icon name="mdi:calendar-blank-outline" slot="icon" aria-label="Date" />{
-        date
-    }</time
->
+<span class="date">
+    <Icon name="mdi:calendar-blank-outline" slot="icon" aria-label="Date" />
 
+    <time datetime={date}>{date}</time>
+</span>
 <style>
     .date {
         display: inline-flex;
