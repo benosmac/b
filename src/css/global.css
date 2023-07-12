@@ -58,9 +58,7 @@ body {
     background-color: var(--surface-2);
     color: var(--base);
     margin: 0 auto;
-}
-main {
-    min-height: 85vh;
+    min-height: 100dvh;
 }
 main,
 #footer {
