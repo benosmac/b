@@ -18,12 +18,10 @@
     }
     #main {
         &::before {
-            position: fixed;
             height: 100dvh;
             left: var(--gapSize);
         }
         &::after {
-            position: fixed;
             height: 100dvh;
             right: var(--gapSize);
         }
