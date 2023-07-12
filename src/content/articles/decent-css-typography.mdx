@@ -10,17 +10,17 @@ tags:
   - CSS
   - Typography
 published: true
-last_edited_time: '2023-06-21T15:00:00.000Z'
+last_edited_time: '2023-07-11T14:21:00.000Z'
 title: Decent web typography
 ---
 
 I’ve tried a few times to implement a perfect baseline grid in CSS, but each time I’ve ended up swearing a lot, then giving up. Responsive layouts with images of unknown dimensions, accounting for px-based borders, collapsing margins and the way `line-height` works make it an experience that I choose to avoid. 
 
 
-The reality is that baseline grids are convention of print design, but on the web we need to build flexibility into our design systems.
+The reality is that baseline grids are a convention of print design that doesn't transfer well to the web. We need to build more flexibility into our design systems. 
 
 
-This doesn’t mean that we should forget about the design principles behind baseline grids though; rhythm, proportion and repetition are all important.
+This doesn’t mean that we should forget about the design principles behind baseline grids though; rhythm, proportion and repetition are all just as important.
 
 
 In this article I’m going to walk through the styles I use as a starting point for web typography, which are enough to satisfy my pedantry without pixel-pushing to the brink of insanity.
@@ -67,10 +67,10 @@ Fortunately with CSS custom properties and `calc()` we can provide a simple fall
 :root {
 	/* Set the default line height as a unitless multiplier */
 	--defaultLH: 1.5;
-	/* Modern CSS first */
-	--gap: 1rlh;
 	/* Fallback: Calculate the default spacing unit in rems */
-	--gap: calc(1rem * var(--defaultLH)); /* = 1.5rem */
+	--gap: calc(1rem * var(--defaultLH)); /* 1.5rem */
+	--gap: 1rlh;
+
 }
 
 p {
@@ -182,7 +182,7 @@ There is also [a proposal in CSS Inline Level 3 for ](https://www.w3.org/TR/css-
 ## Optimal line length
 
 
-The optimal[ line length](https://en.wikipedia.org/wiki/Line_length) for on-screen readability is around 65 characters (including spaces), but between 45 and 75 is generally fine. On small screens the line length is inherently shorter, as we don’t want our text to be too small. Fortunately mobile browsers do a good job of scaling, and we have the perfect CSS unit for setting line length - the `ch`, or character, unit is equivalent to the width of the ‘0’ glyph in the current font. This means, depending on the font, that we may end up with slightly more or fewer characters per line, but close enough!
+The optimal[ line length](https://en.wikipedia.org/wiki/Line_length) for on-screen readability is around 65 characters (including spaces), but between 45 and 75 is generally fine. On small screens the line length is inherently shorter, as we don’t want our text to be too small. Fortunately mobile browsers do a good job of scaling, and we have the perfect CSS unit for setting line length - the `ch` (character) unit is equivalent to the width of the ‘0’ glyph in the current font. This means, depending on the font, that we may end up with slightly more or fewer characters per line, but close enough!
 
 
 ```css
