@@ -34,9 +34,7 @@ import { Icon } from 'astro-icon'
     const navOpenButton =
         document.querySelector<HTMLLinkElement>('#nav-toggle-open')
     const navContainer = document.querySelector<HTMLElement>('#nav-open')
-    const notNav = document.querySelectorAll(
-        '#main, #footer, #nav-toggle-open, .logo'
-    )
+    const notNav = document.querySelectorAll('#main, #footer, #nav-toggle-open')
     console.log(notNav)
 
     function handleNavToggle() {
