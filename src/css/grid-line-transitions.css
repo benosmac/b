@@ -9,6 +9,7 @@
             content: '';
             position: absolute;
             top: 0;
+            bottom: 0;
             width: 1px;
             background: var(--accent);
             z-index: 1;
@@ -17,11 +18,13 @@
     }
     #main {
         &::before {
-            bottom: 0;
+            position: fixed;
+            height: 100dvh;
             left: var(--gapSize);
         }
         &::after {
-            bottom: 0;
+            position: fixed;
+            height: 100dvh;
             right: var(--gapSize);
         }
     }
@@ -30,13 +33,9 @@
         position: relative;
         &::after {
             right: 0;
-            /* bottom: var(--negativeGapSize); */
-            bottom: 0;
         }
         &::before {
             left: 0;
-            /* bottom: var(--negativeGapSize); */
-            bottom: 0;
         }
     }
 
@@ -71,16 +70,10 @@
     }
 }
 .project-card-grid {
-    &::before,
-    &::after {
-        width: 100vw;
-        left: var(--negativeGapSize);
-    }
     &::before {
+        width: 100vw;
         top: var(--negativeGapSize);
-    }
-    &::after {
-        bottom: var(--negativeGapSize);
+        left: var(--negativeGapSize);
     }
 }
 
@@ -88,8 +81,6 @@
 .article-card .grid-line {
     &::before,
     &::after {
-        /* left: var(--negativeGapSize); */
-        /* right: var(--negativeGapSize); */
         left: 0;
         right: 0;
     }
@@ -163,7 +154,7 @@
 
 /* Animate content blocks */
 /* First hide the content within the blocks */
-/* TODO: Track down weird bug where lines don't animate in when header opacity is initially 0. Setting 0.01 fixes it :/ */
+/* TODO: Track down weird bug where lines don't animate in when header opacity is initially 0. Setting 0.001 fixes it :/ */
 
 header,
 .intro > *,
@@ -172,14 +163,6 @@ header,
 .article-card .content {
     opacity: 0.001;
 }
-
-/* Animate image block fills */
-/* .project-card a {
-    animation-name: scaleFromTopWithDelay;
-    animation-timing-function: var(--defaultTiming);
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-} */
 
 /* Show the content within blocks */
 .home-is-loaded {
@@ -192,6 +175,5 @@ header,
         animation-duration: 0.5s;
         animation-timing-function: var(--defaultTiming);
         animation-fill-mode: forwards;
-        /* animation-delay: 0.25s; */
     }
 }
