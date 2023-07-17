@@ -40,17 +40,3 @@ export default function (): AstroIntegration {
         },
     }
 }
-
-// FIX THIS SHIT
-// pages.map((page) => {
-//     if (isFullPage(page)) {
-//         const srcDir = new URL(
-//             page.properties.slug.toString(),
-//             './src/content/articles/'
-//         )
-//         if (!fs.existsSync(srcDir)) {
-//             fs.mkdirSync(srcDir)
-//         }
-//         fs.execSync(`cp -n -r public/notion/* ${srcDir} || true`)
-//     }
-// })
