@@ -54,6 +54,8 @@ html {
     line-height: var(--bodyLH);
 }
 body {
+    display: grid;
+    grid-auto-rows: auto 1fr auto;
     max-width: 1337px;
     background-color: var(--surface-2);
     color: var(--base);
