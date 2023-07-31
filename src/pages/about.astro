@@ -14,9 +14,9 @@ const image = await ImportImage('about', 'bengamin')
             <p>
                 I'm a frontend developer and designer based in Melbourne,
                 Australia. I started developing custom Wordpress themes for
-                freelance design clients over 10 years ago, before discovering
-                the joys of JS/Typescript. I'm get pretty excited about CSS and
-                sometimes write about it.
+                freelance design clients over 10 years ago. Recently I've been
+                more focused on Javascript/Typescript development. I really like
+                CSS, and sometimes write about it.
             </p><p>
                 In 2010 I graduated from RMIT University, Bachelor of Design
                 (Communication Design).
@@ -28,7 +28,11 @@ const image = await ImportImage('about', 'bengamin')
         </div>
     </div>
     <div class="profile">
-        <Image src={image} alt="A pretty photo of Bengamin" width={500} />
+        <Image
+            src={image}
+            alt="A photo of Bengamin with a monkey in the background"
+            width={500}
+        />
     </div>
 
     <style>
