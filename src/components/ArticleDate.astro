@@ -4,15 +4,21 @@
 import { Icon } from 'astro-icon'
 
 interface Props {
-    date: string
+    date: Date
 }
 const { date } = Astro.props
+const datePretty = date.toLocaleString('en-AU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+})
+const dateStrISO = date.toISOString()
 ---
 
 <span class="date">
     <Icon name="mdi:calendar-blank-outline" slot="icon" aria-label="Date" />
 
-    <time datetime={date}>{date}</time>
+    <time datetime={dateStrISO}>{datePretty}</time>
 </span>
 <style>
     .date {

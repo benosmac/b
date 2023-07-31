@@ -27,11 +27,6 @@ const { Content } = await article.render()
 const categories = article.data.tags
 //Format date
 const dateNum = new Date(article.data.date)
-const date = dateNum.toLocaleString('en-AU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-})
 ---
 
 <Layout
@@ -45,7 +40,7 @@ const date = dateNum.toLocaleString('en-AU', {
             <h1>{article.data.title}</h1>
             <span class="details">
                 <span class="author">{article.data.created_by}</span>
-                <ArticleDate date={date} />
+                <ArticleDate date={dateNum} />
                 <ArticleTags tags={categories} />
             </span>
 
@@ -68,6 +63,7 @@ const date = dateNum.toLocaleString('en-AU', {
             text-wrap: balanced;
             margin-bottom: var(--halfGap);
         }
+
         & :global(h2) {
             font-size: calc(var(--headingMultiplier) * 1.5);
             border-bottom: var(--border);

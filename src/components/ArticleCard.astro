@@ -28,11 +28,6 @@ const {
 
 //Format date
 const dateNum = new Date(date)
-const dateString = dateNum.toLocaleString('en-AU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-})
 ---
 
 <li class="article-card">
@@ -55,7 +50,7 @@ const dateString = dateNum.toLocaleString('en-AU', {
                     </a>
                 </h2>
                 <span class="details">
-                    <ArticleDate date={dateString} />
+                    <ArticleDate date={dateNum} />
                     <ArticleTags tags={tags} />
                 </span>
                 <p class="description">{description}</p>

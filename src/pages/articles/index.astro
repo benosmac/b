@@ -6,14 +6,28 @@ import { getCollection } from 'astro:content'
 import { ImportImage } from 'src/lib/importImages'
 
 const articles: Array<CollectionEntry<'articles'>> = await getCollection(
-    'articles'
+    'articles',
+    ({ data }) => {
+        return data.published === true
+    }
 )
+const sortedArticles = articles.sort((a, b) => {
+    const aDate = Date.parse(a.data.date)
+    const bDate = Date.parse(b.data.date)
+    if (aDate < bDate) {
+        return 1
+    }
+    if (aDate > bDate) {
+        return -1
+    }
+    return 0
+})
 ---
 
 <Layout title="Articles">
     <ul role="list" class="articles-list">
         {
-            articles.map(async (article) => {
+            sortedArticles.map(async (article) => {
                 const img = await ImportImage('articles', article.data.image)
                 return (
                     <ArticleCard

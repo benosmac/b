@@ -24,8 +24,24 @@ const sortedProjects = featuredProjects.sort((a, b) => {
     return 0
 })
 const articles: Array<CollectionEntry<'articles'>> = await getCollection(
-    'articles'
+    'articles',
+    ({ data }) => {
+        return data.published === true
+    }
 )
+const sortedArticles = articles
+    .sort((a, b) => {
+        const aDate = Date.parse(a.data.date)
+        const bDate = Date.parse(b.data.date)
+        if (aDate < bDate) {
+            return 1
+        }
+        if (aDate > bDate) {
+            return -1
+        }
+        return 0
+    })
+    .slice(-2)
 ---
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
@@ -33,17 +49,6 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
         <h2>
             <span>Designer & frontend developer from Melbourne, Australia</span>
         </h2>
-        <!-- <span>
-            <Button
-                text="Read things about me "
-                url="#about"
-                hasIcon={true}
-                iconPosition="right"
-                size="borderless"
-            >
-                <Icon name="mdi:arrow-down" slot="icon" />
-            </Button>
-        </span> -->
     </section>
 
     <section class="section projects">
@@ -93,7 +98,7 @@ const articles: Array<CollectionEntry<'articles'>> = await getCollection(
         </div>
         <ul role="list" class="article-card-grid">
             {
-                articles.map(async (article) => {
+                sortedArticles.map(async (article) => {
                     const img = await ImportImage(
                         'articles',
                         article.data.image
