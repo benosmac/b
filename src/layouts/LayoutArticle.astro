@@ -10,9 +10,10 @@ export interface Props {
     date: string
     categories: Array<string>
     created_by: string
+    description: string
 }
 
-const { title, date, categories, created_by } = Astro.props
+const { title, date, categories, created_by, description } = Astro.props
 const authorUrl = import.meta.env.SITE
 
 const schema = JSON.stringify({
@@ -31,7 +32,7 @@ const schema = JSON.stringify({
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <MetaTags />
+        <MetaTags description={description} />
         <title>{title}</title>
         <script type="application/ld+json" set:html={schema} />
     </head>

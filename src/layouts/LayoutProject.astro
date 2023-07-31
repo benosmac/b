@@ -8,15 +8,28 @@ import Footer from '../components/Footer.astro'
 export interface Props {
     title: string
     customColour: string
+    categories: Array<string>
 }
 
-const { title, customColour } = Astro.props
+const { title, customColour, categories } = Astro.props
+
+// Build a nicely formatted string of project categories
+let categoriesString = ''
+categories.forEach((category, index) => {
+    if (index === 0)
+        categoriesString = categoriesString + category.toLowerCase()
+    else if (index === categories.length - 1)
+        categoriesString = categoriesString + ' and ' + category.toLowerCase()
+    else categoriesString = categoriesString + ', ' + category.toLowerCase()
+})
+// Build the meta description
+const metaDescription = `A ${categoriesString} project for ${title}`
 ---
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <MetaTags />
+        <MetaTags description={metaDescription} />
         <title>{title}</title>
     </head>
     <body id="body" class="transition">
@@ -49,7 +62,7 @@ theme the whole page with the customColour prop */
                 --base: color-mix(in oklab, var(--secondary), black 66%);
                 --pageBackdropColour: color-mix(
                     in oklab,
-                    var(--secondary) 15%,
+                    var(--secondary) 12%,
                     #fff
                 );
             }

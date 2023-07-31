@@ -24,28 +24,8 @@ interface Props {
 const { project } = Astro.props
 // Get the content
 const { Content } = await project.render()
-
+// Imports all images from given subdirectory in ./assets
 const images = await ImportAllImages(project.slug, 'feature')
-// Get path to images folder for this project
-// const pathToImages = `/assets/images/${project.slug}`
-
-// Get all project images
-// This is required because Vite's import.meta.glob does not accept variables in the path
-// Returns: Array of image paths
-// const allImages: Array<string> = Object.keys(
-//     import.meta.glob('/src/assets/images/**/*.jpg', {
-//         as: 'url',
-//     })
-// )
-
-// Filter only images for current project
-// Exclude feature image
-// const filteredImages: Array<string> = allImages.filter(
-//     (image) => image.includes(pathToImages) && !image.includes('feature')
-// )
-// const pathSegments: Array<string> = filteredImages.map((imagePath) =>
-//     imagePath.replace('.jpg', '').replace('/src/assets/images/', '')
-// )
 
 //Get custom accent colour
 const customColour: string = project.data.customColour
@@ -53,7 +33,11 @@ const customColour: string = project.data.customColour
 const categories: Array<string> = project.data.categories
 ---
 
-<Layout title={project.data.title} customColour={customColour}>
+<Layout
+    title={project.data.title}
+    customColour={customColour}
+    categories={categories}
+>
     <section class="description">
         <div class="content">
             <h1>{project.data.title}</h1>
