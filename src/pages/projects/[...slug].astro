@@ -48,9 +48,9 @@ const images = await ImportAllImages(project.slug, 'feature')
 // )
 
 //Get custom accent colour
-const customColour = project.data.customColour
+const customColour: string = project.data.customColour
 //Get project categories
-const categories = project.data.categories
+const categories: Array<string> = project.data.categories
 ---
 
 <Layout title={project.data.title} customColour={customColour}>
