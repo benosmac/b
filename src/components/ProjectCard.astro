@@ -96,6 +96,7 @@ const {
         }
         & img {
             object-fit: cover;
+            object-position: 0 -3rem;
             height: auto;
             max-width: 100%;
         }
@@ -148,6 +149,9 @@ const {
                 &:nth-child(4) {
                     transition-delay: 0.8s;
                 }
+            }
+            & img {
+                object-position: center;
             }
             &:hover,
             &:focus-within {
