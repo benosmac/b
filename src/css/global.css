@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;500&family=DM+Sans:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@300;700&family=Lato:wght@300;700&display=swap');
-:root {
+:root,
+body {
     /* Colours */
     --base: oklch(20% 0.015 85);
     --accent: oklch(50.4% 0.139 168);
@@ -8,7 +9,7 @@
     --surface-2: oklch(99% 0.015 85);
     --surface-3: oklch(99.9% 0.015 85);
     --surface-4: oklch(90% 0.03 168);
-    --surface-5: oklch(95% 0.015 85);
+    --surface-5: oklch(92% 0.01 85);
     --text-light: var(--surface-2);
     --pageBackdropColour: var(--surface-5);
 

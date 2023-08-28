@@ -30,8 +30,21 @@ const defaultImageWidth = 1111
     }
 </div>
 <script>
-    const galleryImages = document.querySelectorAll('.gallery > img')
-
+    if (!document.startViewTransition) {
+        setupClickHandlers()
+    } else {
+        document.addEventListener('astro:load', (event) => {
+            setupClickHandlers()
+        })
+    }
+    function setupClickHandlers() {
+        const galleryImages = document.querySelectorAll('.gallery > img')
+        galleryImages.forEach((image) => {
+            image.addEventListener('click', () => {
+                focusImage(image)
+            })
+        })
+    }
     function focusImage(image: any) {
         image.classList.add('full-width')
         setTimeout(
@@ -44,12 +57,6 @@ const defaultImageWidth = 1111
             300
         )
     }
-
-    galleryImages.forEach((image) => {
-        image.addEventListener('click', () => {
-            focusImage(image)
-        })
-    })
 </script>
 <style define:vars={{ defaultImageWidth }}>
     .gallery {

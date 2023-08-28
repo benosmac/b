@@ -37,7 +37,7 @@ const dateNum = new Date(article.data.date)
     description={article.data.description}
 >
     <article>
-        <div class="content">
+        <div class="content" transition:name=`article-${article.slug}`>
             <h1>{article.data.title}</h1>
             <span class="details">
                 <span class="author">{article.data.created_by}</span>

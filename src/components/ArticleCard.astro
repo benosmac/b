@@ -14,6 +14,7 @@ export interface Props {
     tags: Array<string>
     date: string
     description: string
+    slug: string
 }
 
 const {
@@ -24,13 +25,14 @@ const {
     tags,
     date,
     description,
+    slug,
 } = Astro.props
 
 //Format date
 const dateNum = new Date(date)
 ---
 
-<li class="article-card">
+<li class="article-card" transition:name=`article-${slug}`>
     <div class="content">
         <a href={href} class="image">
             <Image

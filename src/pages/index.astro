@@ -77,6 +77,7 @@ const sortedArticles = articles
                             loading="eager"
                             customColour={project.data.customColour}
                             categories={project.data.categories}
+                            slug={project.slug}
                         />
                     )
                 })
@@ -111,6 +112,7 @@ const sortedArticles = articles
                             tags={article.data.tags}
                             date={article.data.date}
                             description={article.data.description}
+                            slug={article.slug}
                         />
                     )
                 })

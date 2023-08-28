@@ -31,6 +31,27 @@ const images = await ImportAllImages(project.slug, 'feature')
 const customColour: string = project.data.customColour
 //Get project categories
 const categories: Array<string> = project.data.categories
+
+const vtAnimation = {
+    old: {
+        name: 'fadeOut',
+        duration: '.25s',
+        easing: 'cubic-bezier(0.41, 0.1, 0.5, 0.51)',
+        fillMode: 'forwards',
+    },
+    new: {
+        name: 'fadeIn',
+        duration: '.25s',
+        delay: '.25s',
+        easing: 'cubic-bezier(0.41, 0.1, 0.5, 0.51)',
+        fillMode: 'backwards',
+    },
+}
+
+const customFade = {
+    forwards: vtAnimation,
+    backwards: vtAnimation,
+}
 ---
 
 <Layout
@@ -38,7 +59,7 @@ const categories: Array<string> = project.data.categories
     customColour={customColour}
     categories={categories}
 >
-    <section class="description">
+    <section class="description" transition:animate={customFade}>
         <div class="content">
             <h1>{project.data.title}</h1>
             <Content />
@@ -68,7 +89,10 @@ const categories: Array<string> = project.data.categories
             </footer>
         </div>
     </section>
-    <div class="gallery-wrapper">
+    <div
+        class="gallery-wrapper"
+        transition:name=`project-image-${project.slug}`
+    >
         <Gallery images={images} />
     </div>
     <div class="back-button-wrapper">

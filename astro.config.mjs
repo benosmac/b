@@ -7,9 +7,10 @@ import sitemap from '@astrojs/sitemap'
 // https://astro.build/config
 export default defineConfig({
     site: 'https://bengam.in',
-    integrations: [mdx(), notionContentImporter(), sitemap()],
+    integrations: [notionContentImporter(), sitemap(), mdx()],
     experimental: {
         assets: true,
+        viewTransitions: true,
     },
     scopedStyleStrategy: 'class',
     markdown: {

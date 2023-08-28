@@ -1,15 +1,26 @@
 #main,
 #footer {
-    /* transform: scale(1); */
     opacity: 1;
-    /* filter: blur(0); */
-    transition: all 0.25s var(--defaultTiming);
+    filter: blur(0);
 }
-.transition {
+:not(.vt) {
     #main,
     #footer {
-        /* transform: scale(0.9); */
-        opacity: 0;
-        filter: blur(15px);
+        transition: all 0.25s var(--defaultTiming);
     }
+    .transition {
+        #main,
+        #footer {
+            opacity: 0;
+            filter: blur(15px);
+            transition: all 0.25s var(--defaultTiming);
+        }
+    }
+}
+
+::view-transition-new(*),
+::view-transition-old(*) {
+    mix-blend-mode: normal;
+    animation-duration: 0.25s;
+    animation-timing-function: var(--defaultTiming);
 }

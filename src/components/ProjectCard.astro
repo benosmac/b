@@ -8,6 +8,7 @@ export interface Props {
     loading?: 'lazy' | 'eager'
     customColour: string
     categories: Array<string>
+    slug: string
 }
 
 const {
@@ -17,12 +18,20 @@ const {
     loading = 'lazy',
     customColour,
     categories,
+    slug,
 } = Astro.props
 ---
 
 <li class="project-card">
     <a href={href}>
-        <Image src={img} format="webp" alt={title} width="800" height="800" />
+        <Image
+            src={img}
+            format="webp"
+            alt={title}
+            width="800"
+            height="800"
+            transition:name=`project-image-${slug}`
+        />
         <div class="title-wrapper">
             <div class="content">
                 <h2>
@@ -92,7 +101,6 @@ const {
             padding: 0;
             color: #000;
             overflow: hidden;
-            background-color: var(--surface-4);
         }
         & img {
             object-fit: cover;

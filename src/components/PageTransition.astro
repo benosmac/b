@@ -1,0 +1,50 @@
+---
+import { ViewTransitions } from 'astro:transitions'
+import '../css/page-transition.css'
+---
+
+<ViewTransitions fallback="none" />
+<script>
+    // Handle page transitions
+
+    //View Transitions not supported
+    if (!document.startViewTransition) {
+        document.addEventListener('DOMContentLoaded', (event) => {
+            transitionPage()
+            fullPageLoad(false)
+        })
+    } else {
+        //View Transitions supported
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log(event)
+            fullPageLoad(true)
+        })
+
+        document.addEventListener('astro:load', (event) => {
+            transitionPage()
+        })
+    }
+
+    function timeout(ms = 1000) {
+        return new Promise((resolve) => setTimeout(resolve, ms))
+    }
+    function transitionPage() {
+        const bodyEl = document.getElementById('body')
+        bodyEl?.classList.remove('transition')
+    }
+
+    async function fullPageLoad(vt = true) {
+        const rootEl = document.documentElement
+        if (document.location.pathname === '/') {
+            await timeout(1000)
+            rootEl?.classList.remove('home-is-loading')
+            rootEl?.classList.add('home-is-loaded')
+        } else {
+            rootEl?.classList.add('home-is-loaded')
+        }
+        if (vt) {
+            await timeout(1000)
+            rootEl.classList.add('vt')
+        }
+    }
+</script>

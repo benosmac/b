@@ -1,4 +1,12 @@
 /* Draw vertical and horizontal grid lines using pseudo elements */
+:root {
+    --duration: 0.5s;
+    --delay: 0.25s;
+}
+.vt:root {
+    --duration: 0s;
+    --delay: 0s;
+}
 .home {
     /* Vertical */
     #main,
@@ -38,58 +46,57 @@
     }
 
     /* Horizontal */
-}
 
-.intro,
-.project-card-grid,
-.article-card .grid-line,
-.project-card .grid-line {
-    &::before,
-    &::after {
-        content: '';
-        height: 1px;
-        background: var(--accent);
-        position: absolute;
-        z-index: 1;
-        will-change: transform;
+    .intro,
+    .project-card-grid,
+    .article-card .grid-line,
+    .project-card .grid-line {
+        &::before,
+        &::after {
+            content: '';
+            height: 1px;
+            background: var(--accent);
+            position: absolute;
+            z-index: 1;
+            will-change: transform;
+        }
     }
-}
-.intro {
-    &::before,
-    &::after {
-        width: 100vw;
-        left: 0;
+    .intro {
+        &::before,
+        &::after {
+            width: 100vw;
+            left: 0;
+        }
+        &::before {
+            top: 0;
+        }
+        &::after {
+            bottom: var(--halfGap);
+        }
     }
-    &::before {
-        top: 0;
+    .project-card-grid {
+        &::before {
+            width: 100vw;
+            top: var(--negativeGapSize);
+            left: var(--negativeGapSize);
+        }
     }
-    &::after {
-        bottom: var(--halfGap);
-    }
-}
-.project-card-grid {
-    &::before {
-        width: 100vw;
-        top: var(--negativeGapSize);
-        left: var(--negativeGapSize);
-    }
-}
 
-.project-card .grid-line,
-.article-card .grid-line {
-    &::before,
-    &::after {
-        left: 0;
-        right: 0;
-    }
-    &::before {
-        top: 0;
-    }
-    &::after {
-        bottom: 0;
+    .project-card .grid-line,
+    .article-card .grid-line {
+        &::before,
+        &::after {
+            left: 0;
+            right: 0;
+        }
+        &::before {
+            top: 0;
+        }
+        &::after {
+            bottom: 0;
+        }
     }
 }
-
 /* Animate grid lines */
 
 /* Vertical */
@@ -101,7 +108,7 @@
         &::after {
             animation-name: scaleInFromTop;
             animation-timing-function: var(--defaultTiming);
-            animation-duration: 0.5s;
+            animation-duration: var(--duration);
         }
     }
 }
@@ -113,8 +120,8 @@
         &::after {
             animation-name: scaleOutToBottom;
             animation-timing-function: var(--defaultTiming);
-            animation-duration: 0.5s;
-            animation-delay: 0.25s;
+            animation-duration: var(--duration);
+            animation-delay: var(--delay);
             animation-fill-mode: forwards;
         }
     }
@@ -130,7 +137,7 @@
         &::after {
             animation-name: scaleInFromLeft;
             animation-timing-function: var(--defaultTiming);
-            animation-duration: 0.5s;
+            animation-duration: var(--duration);
         }
     }
 }
@@ -143,8 +150,8 @@
         &::after {
             animation-name: scaleOutToRight;
             animation-timing-function: var(--defaultTiming);
-            animation-duration: 0.5s;
-            animation-delay: 0.25s;
+            animation-duration: var(--duration);
+            animation-delay: var(--delay);
             animation-fill-mode: forwards;
         }
     }
@@ -170,7 +177,7 @@ header,
     .project-card a,
     .article-card .content {
         animation: fadeIn;
-        animation-duration: 0.5s;
+        animation-duration: var(--duration);
         animation-timing-function: var(--defaultTiming);
         animation-fill-mode: forwards;
     }

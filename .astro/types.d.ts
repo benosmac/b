@@ -7,6 +7,7 @@ declare module 'astro:content' {
 		}>;
 	}
 }
+
 declare module 'astro:content' {
 	interface Render {
 		'.md': Promise<{
@@ -19,7 +20,9 @@ declare module 'astro:content' {
 
 declare module 'astro:content' {
 	export { z } from 'astro/zod';
-	export type CollectionEntry<C extends keyof AnyEntryMap> = AnyEntryMap[C][keyof AnyEntryMap[C]];
+
+	type Flatten<T> = T extends { [K: string]: infer U } ? U : never;
+	export type CollectionEntry<C extends keyof AnyEntryMap> = Flatten<AnyEntryMap[C]>;
 
 	// TODO: Remove this when having this fallback is no longer relevant. 2.3? 3.0? - erika, 2023-04-04
 	/**
@@ -221,9 +224,23 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
+"barefoothealth.mdx": {
+	id: "barefoothealth.mdx";
+  slug: "barefoothealth";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 "ggf.mdx": {
 	id: "ggf.mdx";
   slug: "ggf";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
+"leaderly.mdx": {
+	id: "leaderly.mdx";
+  slug: "leaderly";
   body: string;
   collection: "projects";
   data: InferEntrySchema<"projects">

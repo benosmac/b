@@ -1,10 +1,10 @@
 ---
 import '../css/global.css'
 import '../css/animations.css'
-import '../css/page-transition.css'
 import Header from '../components/Header.astro'
 import MetaTags from '@components/MetaTags.astro'
 import Footer from '../components/Footer.astro'
+import PageTransition from '@components/PageTransition.astro'
 export interface Props {
     title: string
     customColour: string
@@ -29,6 +29,7 @@ const metaDescription = `A ${categoriesString} project for ${title}`
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <PageTransition />
         <MetaTags description={metaDescription} />
         <title>{title}</title>
     </head>
@@ -38,16 +39,16 @@ const metaDescription = `A ${categoriesString} project for ${title}`
             <slot />
         </main>
         <Footer />
-        <script src="../lib/pageTransition.js"></script>
         <style define:vars={{ customColour }}>
             /* Redefine colour custom properties inside the layout to
 theme the whole page with the customColour prop */
-            :root {
+            :root,
+            body {
                 /* Replacing the accent colour custom property */
                 --accent: var(--customColour);
                 --accentClone: color-mix(in oklch, var(--accent), white 0.001%);
                 /* Defining a relative complimentary colour using color-mix in cylindrical colour space  with longer hue option. 
-        */
+*/
                 --secondary: color-mix(
                     in oklch longer hue,
                     var(--accent),
@@ -60,11 +61,6 @@ theme the whole page with the customColour prop */
                 --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
                 --border: var(--borderWidth) solid var(--surface-4);
                 --base: color-mix(in oklab, var(--secondary), black 66%);
-                --pageBackdropColour: color-mix(
-                    in oklab,
-                    var(--secondary) 12%,
-                    #fff
-                );
             }
         </style>
     </body>
