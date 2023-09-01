@@ -12,7 +12,7 @@ export default defineConfig({
         assets: true,
         viewTransitions: true,
     },
-    scopedStyleStrategy: 'class',
+    // scopedStyleStrategy: 'class',
     markdown: {
         shikiConfig: {
             theme: 'dracula-soft',

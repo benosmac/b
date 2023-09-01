@@ -31,7 +31,7 @@ const images = await ImportAllImages(project.slug, 'feature')
 const customColour: string = project.data.customColour
 //Get project categories
 const categories: Array<string> = project.data.categories
-
+const transitionName = 'project-image-' + project.slug
 const vtAnimation = {
     old: {
         name: 'fadeOut',
@@ -91,7 +91,8 @@ const customFade = {
     </section>
     <div
         class="gallery-wrapper"
-        transition:name=`project-image-${project.slug}`
+        transition:animate="morph"
+        transition:name={transitionName}
     >
         <Gallery images={images} />
     </div>

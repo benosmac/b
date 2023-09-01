@@ -20,18 +20,16 @@ const {
     categories,
     slug,
 } = Astro.props
+const transitionName = 'project-image-' + slug
 ---
 
-<li class="project-card">
+<li
+    class="project-card"
+    transition:animate="morph"
+    transition:name={transitionName}
+>
     <a href={href}>
-        <Image
-            src={img}
-            format="webp"
-            alt={title}
-            width="800"
-            height="800"
-            transition:name=`project-image-${slug}`
-        />
+        <Image src={img} format="webp" alt={title} width="800" height="800" />
         <div class="title-wrapper">
             <div class="content">
                 <h2>
