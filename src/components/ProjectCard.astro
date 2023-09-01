@@ -26,7 +26,7 @@ const transitionName = 'project-image-' + slug
 <li
     class="project-card"
     transition:animate="morph"
-    transition:name={transitionName}
+    style=`view-transition-name: ${transitionName}`
 >
     <a href={href}>
         <Image src={img} format="webp" alt={title} width="800" height="800" />
