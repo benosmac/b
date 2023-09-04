@@ -21,6 +21,6 @@
 ::view-transition-new(*),
 ::view-transition-old(*) {
     mix-blend-mode: normal;
-    animation-duration: 0.25s;
+    animation-duration: 0.16s;
     animation-timing-function: var(--defaultTiming);
 }
