@@ -6,7 +6,12 @@ import '../css/page-transition.css'
 <ViewTransitions fallback="none" />
 <script>
     // Handle page transitions
-
+    document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('DCL');
+        })
+            document.addEventListener('astro:page-load', (event) => {
+            console.log('AL');
+        })
     //View Transitions not supported
     if (!document.startViewTransition) {
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -17,8 +22,8 @@ import '../css/page-transition.css'
         document.addEventListener('DOMContentLoaded', (event) => {
             initialLoad(true)
         })
-        document.addEventListener('astro:beforeload', setRootClasses)
-        document.addEventListener('astro:load', endTransition)
+        document.addEventListener('astro:after-swap', setRootClasses)
+        document.addEventListener('astro:page-load', endTransition)
     }
     function setRootClasses() {
         if (sessionStorage.getItem('vtSupported') === 'true') {
