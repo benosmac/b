@@ -33,7 +33,7 @@ const defaultImageWidth = 1111
     if (!document.startViewTransition) {
         setupClickHandlers()
     } else {
-        document.addEventListener('astro:load', (event) => {
+        document.addEventListener('astro:page-load', (event) => {
             setupClickHandlers()
         })
     }
