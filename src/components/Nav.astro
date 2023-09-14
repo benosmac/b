@@ -13,13 +13,13 @@ import { Icon } from 'astro-icon'
     <Icon name="mdi:menu" />
 </a>
 <span id="nav-open">
+    <!-- history.go triggering astro router reload -->
     <a
         href="#"
         id="nav-toggle-close"
         title="Close Menu"
         aria-label="Close Menu"
         class="nav-toggle"
-        onclick="history.go(-1)"
     >
     </a>
     <nav>
@@ -33,10 +33,11 @@ import { Icon } from 'astro-icon'
         document.querySelector<HTMLLinkElement>('#nav-toggle-close')
     const navOpenButton =
         document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-    const navContainer = document.querySelector<HTMLElement>('#nav-open')
     const notNav = document.querySelectorAll('#main, #footer, #nav-toggle-open')
     console.log(notNav)
-
+    document.addEventListener('astro:page-load', (event) => {
+        setupNavEventHandlers()
+    })
     function handleNavToggle() {
         console.log(notNav)
         const isNavOpen = document.location.hash === '#nav-open'
@@ -48,13 +49,16 @@ import { Icon } from 'astro-icon'
             notNav?.forEach((el) => el.removeAttribute('inert'))
         }
     }
-    navContainer?.addEventListener('keyup', (event) => {
-        if (event.code === 'Escape') document.location.hash = ''
-    })
-    navContainer?.addEventListener('transitionend', (event) => {
-        // Don't fire on link background animation
-        if (!event.pseudoElement) handleNavToggle()
-    })
+    function setupNavEventHandlers() {
+        const navContainer = document.querySelector<HTMLElement>('#nav-open')
+        navContainer?.addEventListener('keyup', (event) => {
+            if (event.code === 'Escape') document.location.hash = ''
+        })
+        navContainer?.addEventListener('transitionend', (event) => {
+            // Don't fire on link background animation
+            if (!event.pseudoElement) handleNavToggle()
+        })
+    }
 </script>
 <style>
     nav {
@@ -84,7 +88,8 @@ import { Icon } from 'astro-icon'
             inset-block-start: 0;
             inset-inline-end: 0;
             transform: translateX(100vw);
-            transition: transform 0.33s var(--outQuadratic),
+            transition:
+                transform 0.33s var(--outQuadratic),
                 visibility 0s linear 0.33s;
             will-change: transform;
             visibility: hidden;
