@@ -59,7 +59,7 @@ const customFade = {
     customColour={customColour}
     categories={categories}
 >
-    <section class="description" transition:animate={customFade}>
+    <section class="description" transition:animate="slide">
         <div class="content">
             <h1>{project.data.title}</h1>
             <Content />
@@ -91,13 +91,12 @@ const customFade = {
     </section>
     <div
         class="gallery-wrapper"
-        transition:animate="morph"
         style=`view-transition-name: ${transitionName}`
     >
         <Gallery images={images} />
     </div>
     <div class="back-button-wrapper">
-        <Button url="/projects" text="Back to projects" hasIcon={true}>
+        <Button url="/projects" text="Back to projects" hasIcon={true} size="borderless" >
             <Icon name="mdi:arrow-left" slot="icon" />
         </Button>
     </div>
@@ -109,7 +108,6 @@ const customFade = {
         grid-template-rows: 1fr auto;
     }
     .gallery-wrapper {
-        background: var(--surface-3);
         display: grid;
         justify-content: center;
         grid-column: 1 / span all;
@@ -122,10 +120,11 @@ const customFade = {
         }
     }
     .description {
-        background: var(--surface-2);
+        background: var(--surface-3);
         grid-column: 1 / span all;
         padding: var(--gapSize);
         @media (min-width: 1000px) {
+            border-left: var(--border);
             grid-column: 5 / span 2;
             order: 2;
             padding: calc(var(--gapSize) * 2) var(--gapSize);
@@ -146,8 +145,8 @@ const customFade = {
 
         & h1 {
             color: var(--accent);
-            padding: 0 0 calc(var(--borderGap) / 4) 0;
-            margin: var(--gapSize) 0;
+            padding: 0 0 calc(var(--gapSize) / 2) 0;
+            margin: var(--gapSize) 0 var(--borderGap) 0;
             border-bottom: var(--border);
             text-wrap: balance;
 
@@ -168,8 +167,6 @@ const customFade = {
             border-left: var(--border);
             padding-left: 1em;
         }
-    }
-    .details {
         & h5 {
             color: var(--accent);
             font-size: 1em;
@@ -196,18 +193,22 @@ const customFade = {
         }
     }
     .back-button-wrapper {
-        background: var(--surface-2);
+        background: var(--surface-3);
         display: grid;
         grid-column: 1 / span all;
         justify-content: left;
         padding: var(--gapSize);
+        border-top: var(--border);
 
         @media (min-width: 1000px) {
+            
+            border-left: var(--border);
+            /* justify-content:center; */
             order: 3;
             grid-column: 5 / span 2;
         }
         @media (min-width: 1300px) {
-            padding: calc(var(--gapSize) * 2);
+            /* padding: var(--gapSize) calc(var(--gapSize) * 2); */
         }
     }
     .back-button {

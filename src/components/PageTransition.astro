@@ -7,10 +7,13 @@ import '../css/page-transition.css'
 <script>
     // Handle page transitions
     document.addEventListener('DOMContentLoaded', (event) => {
-            console.log('DCL');
+        console.log('Event: DOMContentLoaded');
         })
             document.addEventListener('astro:page-load', (event) => {
-            console.log('AL');
+            console.log('Event: astro:page-load');
+        })
+        document.addEventListener('astro:after-swap', (event) => {
+            console.log('Event: astro:after-swap');
         })
     //View Transitions not supported
     if (!document.startViewTransition) {
@@ -28,6 +31,7 @@ import '../css/page-transition.css'
     function setRootClasses() {
         if (sessionStorage.getItem('vtSupported') === 'true') {
             const rootEl = document.documentElement
+            console.log('Set root classes');
             rootEl.classList.add('vt')
             rootEl?.classList.add('home-is-loaded')
             rootEl?.classList.remove('home-is-loading')
@@ -36,6 +40,7 @@ import '../css/page-transition.css'
     function endTransition() {
         const bodyEl = document.getElementById('body')
         bodyEl?.classList.remove('transition')
+        console.log('End transition');
     }
     function timeout(ms = 1000) {
         return new Promise((resolve) => setTimeout(resolve, ms))

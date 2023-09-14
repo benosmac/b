@@ -51,15 +51,23 @@ theme the whole page with the customColour prop */
 */
                 --secondary: color-mix(
                     in oklch longer hue,
-                    var(--accent),
+                    var(--accent) 85%,
+                    var(--accentClone)
+                );
+                --tertiary: color-mix(
+                    in oklch longer hue,
+                    var(--accent) 50%,
                     var(--accentClone)
                 );
                 /* Replacing surface custom properties with tints of new colours. */
                 --surface-1: color-mix(in oklab, var(--accent) 6%, #fff);
                 --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
-                --surface-3: color-mix(in oklab, var(--secondary) 2%, #fff);
+                --surface-3: color-mix(in oklab, var(--secondary) 10%, #fff);
                 --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
-                --border: var(--borderWidth) solid var(--surface-4);
+                --tertiaryTint: color-mix(in oklab, var(--tertiary) 15%, #fff);
+                --borderColour: color-mix(in oklab, var(--secondary) 25%, #fff);
+                --borderAccentColour: var(--borderColour);
+                --linkColour: var(--tertiary);
                 --base: color-mix(in oklab, var(--secondary), black 66%);
             }
         </style>

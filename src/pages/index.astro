@@ -147,22 +147,24 @@ const sortedArticles = articles
         grid-column: 1 / span 6;
         padding: 0 var(--gapSize) var(--gapSize) var(--gapSize);
     }
-    .projects {
-        @media (min-width: 777px) {
+    @media (min-width: 777px) {
+        .projects {
             grid-column: 1 / span 3;
         }
-        @media (min-width: 999px) {
-            grid-column: 1 / span 4;
-        }
-    }
-    .articles {
-        @media (min-width: 777px) {
+        .articles {
             grid-column: 4 / span 3;
         }
-        @media (min-width: 999px) {
-            grid-column: 5 / span 2;
-        }
     }
+
+        @media (min-width: 999px) {
+            .projects {
+            grid-column: 1 / span 4;
+            }
+            .articles {
+                grid-column: 5 / span 2;
+            }
+        }
+    
     .section-header {
         display: flex;
         justify-content: space-between;
@@ -197,7 +199,9 @@ const sortedArticles = articles
         /* @media (min-width: 1000px) {
             grid-template-columns: repeat(3, minmax(300px, 1fr));
         } */
-        @media (min-width: 777px) {
+    }
+    @media (min-width: 777px) {
+        .project-card-grid {
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         }
     }

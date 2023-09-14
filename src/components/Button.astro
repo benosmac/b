@@ -53,13 +53,12 @@ if (size) classes.push(size)
         display: inline-flex;
         align-items: center;
         gap: var(--halfGap);
-        background-color: var(--surface-2);
         border: var(--borderAccent);
         border-radius: 0.2em;
         text-decoration: none;
         font-weight: var(--headingWeight);
         line-height: 1;
-        color: var(--accent);
+        color: var(--linkColour);
         padding: var(--halfGap);
         z-index: 1;
         &::after {
@@ -97,7 +96,6 @@ if (size) classes.push(size)
     }
     .button.borderless {
         border: none;
-        background-color: transparent;
         padding: var(--quarterGap);
         border-radius: 0.1em;
         &::after {

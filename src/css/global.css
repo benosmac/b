@@ -12,7 +12,9 @@ body {
     --surface-5: oklch(92% 0.01 85);
     --text-light: var(--surface-2);
     --pageBackdropColour: var(--surface-5);
-
+    --borderColour: var(--surface-1);
+    --borderAccentColour: var(--surface-4);
+    --linkColour: var(--accent);
     /* Fonts */
     --heading: 'DM Sans', sans-serif;
     --headingWeight: 700;
@@ -28,8 +30,8 @@ body {
 
     /* Borders */
     --borderWidth: 2px;
-    --border: var(--borderWidth) solid var(--surface-1);
-    --borderAccent: var(--borderWidth) solid var(--surface-4);
+    --border: var(--borderWidth) solid var(--borderColour);
+    --borderAccent: var(--borderWidth) solid var(--borderAccentColour);
 
     /* Margin & Padding */
     --gapSize: calc(var(--bodyLH) * 1rem);
@@ -117,7 +119,7 @@ em {
 a,
 a:visited {
     text-decoration: none;
-    color: var(--accent);
+    color: var(--linkColour);
     font-weight: normal;
 }
 a:hover,
