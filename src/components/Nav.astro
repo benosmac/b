@@ -32,17 +32,18 @@ import { Icon } from 'astro-icon'
     </nav>
 </span>
 <script>
-    const navClose =
-        document.querySelector<HTMLLinkElement>('#nav-toggle-close')
-    const navOpenButton =
-        document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-    const notNav = document.querySelectorAll('#main, #footer, #nav-toggle-open')
-    console.log(notNav)
     document.addEventListener('astro:page-load', (event) => {
         setupNavEventHandlers()
+        handleNavToggle()
     })
     function handleNavToggle() {
-        console.log(notNav)
+        const notNav = document.querySelectorAll(
+            '#main, #footer, #nav-toggle-open'
+        )
+        const navClose =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-close')
+        const navOpenButton =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-open')
         const isNavOpen = document.location.hash === '#nav-open'
         if (isNavOpen) {
             navClose?.focus()
