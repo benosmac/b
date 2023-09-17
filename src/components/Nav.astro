@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon'
 ---
 
 <a
-    href="#nav-open"
+    href="#"
     id="nav-toggle-open"
     title="Open Menu"
     aria-label="Open Menu"
@@ -20,12 +20,9 @@ import { Icon } from 'astro-icon'
         title="Close Menu"
         aria-label="Close Menu"
         class="nav-toggle"
-        onclick="
-        document.location.hash = ''
-        "
     >
     </a>
-    <nav>
+    <nav id="nav">
         <Button text="Projects " url="/projects" size="borderless" />
         <Button text="Articles " url="/articles" size="borderless" />
         <Button text="About " url="/about" size="borderless" />
@@ -34,33 +31,47 @@ import { Icon } from 'astro-icon'
 <script>
     document.addEventListener('astro:page-load', (event) => {
         setupNavEventHandlers()
-        handleNavToggle()
+        // handleNavToggle()
     })
     function handleNavToggle() {
+        const nav = document.querySelector('#nav')
         const notNav = document.querySelectorAll(
             '#main, #footer, #nav-toggle-open'
         )
+        const navContainer = document.querySelector<HTMLElement>('#nav-open')
         const navClose =
             document.querySelector<HTMLLinkElement>('#nav-toggle-close')
         const navOpenButton =
             document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-        const isNavOpen = document.location.hash === '#nav-open'
-        if (isNavOpen) {
+        const isNavOpen = navContainer?.classList.contains('nav-expanded')
+        if (!isNavOpen) {
+            navContainer?.classList.add('nav-expanded')
             navClose?.focus()
             notNav?.forEach((el) => el.setAttribute('inert', ''))
+            nav?.setAttribute('aria-expanded', 'true')
+            console.log(isNavOpen)
         } else {
+            navContainer?.classList.remove('nav-expanded')
             navOpenButton?.focus()
             notNav?.forEach((el) => el.removeAttribute('inert'))
+            nav?.setAttribute('aria-expanded', 'false')
+            console.log(isNavOpen)
         }
     }
     function setupNavEventHandlers() {
         const navContainer = document.querySelector<HTMLElement>('#nav-open')
+        const navOpenButton =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-open')
+        const navClose =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-close')
         navContainer?.addEventListener('keyup', (event) => {
             if (event.code === 'Escape') document.location.hash = ''
         })
-        navContainer?.addEventListener('transitionend', (event) => {
-            // Don't fire on link background animation
-            if (!event.pseudoElement) handleNavToggle()
+        navOpenButton?.addEventListener('click', (event) => {
+            handleNavToggle()
+        })
+        navClose?.addEventListener('click', (event) => {
+            handleNavToggle()
         })
     }
 </script>
@@ -97,11 +108,11 @@ import { Icon } from 'astro-icon'
                 visibility 0s linear 0.33s;
             will-change: transform;
             visibility: hidden;
-            &:target {
+            /* &:target {
                 transform: translateX(0);
                 transition: transform 0.33s var(--outQuadratic);
                 visibility: visible;
-            }
+            } */
             & nav {
                 flex-direction: column;
                 align-items: flex-end;
@@ -111,6 +122,12 @@ import { Icon } from 'astro-icon'
                 background-color: var(--surface-5);
                 font-size: 1.5rem;
             }
+        }
+
+        #nav-open.nav-expanded {
+            transform: translateX(0);
+            transition: transform 0.33s var(--outQuadratic);
+            visibility: visible;
         }
         :global([inert]) {
             filter: grayscale(1);

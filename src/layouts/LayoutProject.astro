@@ -26,7 +26,7 @@ categories.forEach((category, index) => {
 const metaDescription = `A ${categoriesString} project for ${title}`
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <PageTransition />
@@ -64,10 +64,11 @@ theme the whole page with the customColour prop */
                 --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
                 --surface-3: color-mix(in oklab, var(--secondary) 10%, #fff);
                 --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
+                --surface-5: var(--surface-4);
                 --tertiaryTint: color-mix(in oklab, var(--tertiary) 15%, #fff);
                 --borderColour: color-mix(in oklab, var(--secondary) 25%, #fff);
                 --borderAccentColour: var(--borderColour);
-                --linkColour: var(--tertiary);
+                --linkColour: color-mix(in oklab, var(--tertiary) 90%, #fff);
                 --base: color-mix(in oklab, var(--secondary), black 66%);
             }
         </style>
