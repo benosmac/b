@@ -29,10 +29,14 @@ import { Icon } from 'astro-icon'
     </nav>
 </span>
 <script>
-    document.addEventListener('astro:page-load', (event) => {
+    if (!document.startViewTransition) {
         setupNavEventHandlers()
-        // handleNavToggle()
-    })
+    } else {
+        document.addEventListener('astro:page-load', (event) => {
+            setupNavEventHandlers()
+            // handleNavToggle()
+        })
+    }
     function handleNavToggle() {
         const nav = document.querySelector('#nav')
         const notNav = document.querySelectorAll(
@@ -68,9 +72,11 @@ import { Icon } from 'astro-icon'
             if (event.code === 'Escape') document.location.hash = ''
         })
         navOpenButton?.addEventListener('click', (event) => {
+            event.preventDefault
             handleNavToggle()
         })
         navClose?.addEventListener('click', (event) => {
+            event.preventDefault
             handleNavToggle()
         })
     }
