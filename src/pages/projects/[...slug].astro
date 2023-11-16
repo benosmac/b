@@ -4,6 +4,7 @@ import Gallery from '@components/Gallery.astro'
 import Button from '@components/Button.astro'
 import { Icon } from 'astro-icon'
 import { getCollection } from 'astro:content'
+import { fade } from 'astro:transitions'
 import type { CollectionEntry } from 'astro:content'
 import { ImportAllImages } from 'src/lib/importImages'
 
@@ -39,7 +40,10 @@ const transitionName = 'project-image-' + project.slug
     customColour={customColour}
     categories={categories}
 >
-    <section class="description" transition:animate="slide">
+    <section
+        class="description"
+        transition:animate={fade({ duration: '.25s' })}
+    >
         <div class="content">
             <h1>{project.data.title}</h1>
             <Content />
