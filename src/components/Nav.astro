@@ -64,17 +64,17 @@ import { Icon } from 'astro-icon'
     }
     function setupNavEventHandlers() {
         const navContainer = document.querySelector<HTMLElement>('#nav-open')
-        const navOpenButton =
-            document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-        const navClose =
-            document.querySelector<HTMLLinkElement>('#nav-toggle-close')
         navContainer?.addEventListener('keyup', (event) => {
             if (event.code === 'Escape') document.location.hash = ''
         })
+        const navOpenButton =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-open')
         navOpenButton?.addEventListener('click', (event) => {
             event.preventDefault
             handleNavToggle()
         })
+        const navClose =
+            document.querySelector<HTMLLinkElement>('#nav-toggle-close')
         navClose?.addEventListener('click', (event) => {
             event.preventDefault
             handleNavToggle()
