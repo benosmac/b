@@ -189,14 +189,14 @@ declare module 'astro:content' {
   slug: "css-dynamic-colour-palettes";
   body: string;
   collection: "articles";
-  data: InferEntrySchema<"articles">
+  data: any
 } & { render(): Render[".mdx"] };
 "decent-css-typography.mdx": {
 	id: "decent-css-typography.mdx";
   slug: "decent-css-typography";
   body: string;
   collection: "articles";
-  data: InferEntrySchema<"articles">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 "projects": {
@@ -205,70 +205,63 @@ declare module 'astro:content' {
   slug: "atwork";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "barefoothealth.mdx": {
 	id: "barefoothealth.mdx";
   slug: "barefoothealth";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "ggf.mdx": {
 	id: "ggf.mdx";
   slug: "ggf";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "leaderly.mdx": {
 	id: "leaderly.mdx";
   slug: "leaderly";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "oktoberfestgeelong.mdx": {
 	id: "oktoberfestgeelong.mdx";
   slug: "oktoberfestgeelong";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "pruewatson.mdx": {
 	id: "pruewatson.mdx";
   slug: "pruewatson";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".mdx"] };
-"smhs.mdx": {
-	id: "smhs.mdx";
-  slug: "smhs";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "testgrid.mdx": {
 	id: "testgrid.mdx";
   slug: "testgrid";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "thepotager.mdx": {
 	id: "thepotager.mdx";
   slug: "thepotager";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 "verve360.mdx": {
 	id: "verve360.mdx";
   slug: "verve360";
   body: string;
   collection: "projects";
-  data: InferEntrySchema<"projects">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 
@@ -280,5 +273,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = typeof import("../src/content/config");
+	type ContentConfig = never;
 }
