@@ -23,5 +23,5 @@
     mix-blend-mode: normal;
     animation-duration: 0.25s;
     animation-timing-function: var(--defaultTiming);
-    height: 100%;
+    /* height: 100%; */
 }
