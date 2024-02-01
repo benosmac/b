@@ -1,9 +1,4 @@
-#main,
-#footer {
-    opacity: 1;
-    filter: blur(0);
-}
-:not(.vt) {
+html:not(.vt) {
     #main,
     #footer {
         transition: all 0.25s var(--defaultTiming);

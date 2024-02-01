@@ -23,10 +23,7 @@ const {
 const transitionName = 'project-image-' + slug
 ---
 
-<li
-    class="project-card"
-    style=`view-transition-name: ${transitionName}`
->
+<li class="project-card" style=`view-transition-name: ${transitionName}`>
     <a href={href}>
         <Image src={img} format="webp" alt={title} width="800" height="800" />
         <div class="title-wrapper">
