@@ -13,7 +13,7 @@ import { Icon } from 'astro-icon'
 >
     <Icon name="mdi:menu" />
 </a>
-<span id="nav-open">
+<span id="nav-container">
     <!-- history.go triggering astro router reload -->
     <a
         href="#"
@@ -39,48 +39,59 @@ import { Icon } from 'astro-icon'
             // handleNavToggle()
         })
     }
-    function handleNavToggle() {
+
+    function setupNavEventHandlers() {
         const nav = document.querySelector('#nav')
         const notNav = document.querySelectorAll(
             '#main, #footer, #nav-toggle-open'
         )
-        const navContainer = document.querySelector<HTMLElement>('#nav-open')
-        const navClose =
-            document.querySelector<HTMLLinkElement>('#nav-toggle-close')
-        const navOpenButton =
-            document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-        const isNavOpen = navContainer?.classList.contains('nav-expanded')
-        if (!isNavOpen) {
-            navContainer?.classList.add('nav-expanded')
-            navClose?.focus()
-            notNav?.forEach((el) => el.setAttribute('inert', ''))
-            nav?.setAttribute('aria-expanded', 'true')
-            console.log(isNavOpen)
-        } else {
-            navContainer?.classList.remove('nav-expanded')
-            navOpenButton?.focus()
-            notNav?.forEach((el) => el.removeAttribute('inert'))
-            nav?.setAttribute('aria-expanded', 'false')
-            console.log(isNavOpen)
-        }
-    }
-    function setupNavEventHandlers() {
-        const navContainer = document.querySelector<HTMLElement>('#nav-open')
+        const navContainer =
+            document.querySelector<HTMLElement>('#nav-container')
+
         navContainer?.addEventListener('keyup', (event) => {
-            if (event.code === 'Escape') document.location.hash = ''
+            if (event.code === 'Escape') {
+                document.location.hash = ''
+                toggleNav(event)
+            }
         })
-        const navOpenButton =
+        const navOpen =
             document.querySelector<HTMLLinkElement>('#nav-toggle-open')
-        navOpenButton?.addEventListener('click', (event) => {
-            event.preventDefault
-            handleNavToggle()
+        navOpen?.addEventListener('click', (event) => {
+            toggleNav(event)
         })
         const navClose =
             document.querySelector<HTMLLinkElement>('#nav-toggle-close')
         navClose?.addEventListener('click', (event) => {
-            event.preventDefault
-            handleNavToggle()
+            toggleNav(event)
         })
+
+        // function handleNavToggle(event: Event) {
+        //     event.preventDefault
+        //     if (!document.startViewTransition) {
+        //         toggleNav()
+        //     } else {
+        //         document.startViewTransition(toggleNav)
+        //     }
+        // }
+
+        function toggleNav(event: Event) {
+            event.preventDefault
+            const isNavOpen = navContainer?.classList.contains('nav-expanded')
+
+            if (!isNavOpen) {
+                // Open the nav
+                navContainer?.classList.add('nav-expanded')
+                navClose?.focus()
+                notNav?.forEach((el) => el.setAttribute('inert', ''))
+                nav?.setAttribute('aria-expanded', 'true')
+            } else {
+                // Close the nav
+                navContainer?.classList.remove('nav-expanded')
+                notNav?.forEach((el) => el.removeAttribute('inert'))
+                navOpen?.focus()
+                nav?.setAttribute('aria-expanded', 'false')
+            }
+        }
     }
 </script>
 <style>
@@ -102,9 +113,10 @@ import { Icon } from 'astro-icon'
             font-size: 2rem;
             line-height: 1;
         }
-        #nav-open {
+        #nav-container {
+            view-transition-name: nav;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 2fr;
             position: fixed;
             width: 100%;
             min-height: 100vh;
@@ -114,7 +126,7 @@ import { Icon } from 'astro-icon'
             transition:
                 transform 0.33s var(--outQuadratic),
                 visibility 0s linear 0.33s;
-            will-change: transform;
+            /* will-change: transform; */
             visibility: hidden;
             /* &:target {
                 transform: translateX(0);
@@ -127,19 +139,21 @@ import { Icon } from 'astro-icon'
                 justify-content: flex-start;
                 gap: var(--gapSize);
                 padding: var(--doubleGap) var(--gapSize);
-                background-color: var(--surface-5);
+                background-color: var(--surface-2);
+                border-left: var(--border);
                 font-size: 1.5rem;
             }
         }
 
-        #nav-open.nav-expanded {
+        #nav-container.nav-expanded {
             transform: translateX(0);
             transition: transform 0.33s var(--outQuadratic);
             visibility: visible;
         }
         :global([inert]) {
             filter: grayscale(1);
-            transition: filter 0.1s var(--defaultTiming) 0s;
+            opacity: 0.5;
+            transition: all 0.1s var(--defaultTiming) 0s;
         }
     }
 </style>
