@@ -10,7 +10,7 @@ tags:
   - CSS
   - Typography
 published: true
-last_edited_time: '2023-07-31T11:42:00.000Z'
+last_edited_time: '2024-02-01T03:30:00.000Z'
 title: Decent web typography
 ---
 
@@ -57,10 +57,10 @@ p {
 My approach is to aim for _decent_ vertical rhythm by **defining a spacing unit equivalent to the line-height of the body text.** This is the best length to use because it’s always the most common one on a page.
 
 
-CSS Values Level 4[ includes the lh (line-height) and rlh (root line-height) units](https://www.w3.org/TR/css-values-4/#lh), which are perfect for this, but[ browser support just isn’t there yet](https://caniuse.com/mdn-css_types_length_rlh) (as of writing, only Safari 16.4+ supports `rlh`).
+CSS Values Level 4[ includes the lh (line-height) and rlh (root line-height) units](https://www.w3.org/TR/css-values-4/#lh), which are perfect for this ~~but~~[ ](https://caniuse.com/mdn-css_types_length_rlh)~~browser support just isn’t there yet~~ and [browser support is now pretty good](https://caniuse.com/mdn-css_types_length_rlh)!
 
 
-Fortunately with CSS custom properties and `calc()` we can provide a simple fallback:
+It’s still a good idea to provide a fallback for older browsers, and CSS custom properties with `calc()` make it simple:
 
 
 ```css

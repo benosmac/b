@@ -47,7 +47,8 @@ const sortedArticles = articles
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
     <section class="intro">
         <h2>
-            <span>Designer & frontend developer from Melbourne, Australia</span>
+            <span>Designer & front-end developer from Melbourne, Australia</span
+            >
         </h2>
     </section>
 
@@ -156,15 +157,15 @@ const sortedArticles = articles
         }
     }
 
-        @media (min-width: 999px) {
-            .projects {
+    @media (min-width: 999px) {
+        .projects {
             grid-column: 1 / span 4;
-            }
-            .articles {
-                grid-column: 5 / span 2;
-            }
         }
-    
+        .articles {
+            grid-column: 5 / span 2;
+        }
+    }
+
     .section-header {
         display: flex;
         justify-content: space-between;
