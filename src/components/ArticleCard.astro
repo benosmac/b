@@ -34,7 +34,7 @@ const dateNum = new Date(date)
 
 <li class="article-card" style=`view-transition-name: article-${slug}`>
     <div class="content">
-        <a href={href} class="image">
+        <a href={href} class="image" tabindex="-1">
             <Image
                 src={img}
                 format="webp"
@@ -47,7 +47,7 @@ const dateNum = new Date(date)
         <div class="text">
             <span>
                 <h2>
-                    <a href={href}>
+                    <a href={href} tabindex="-1">
                         {title}
                     </a>
                 </h2>
