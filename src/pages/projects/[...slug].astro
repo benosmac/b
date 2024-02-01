@@ -40,10 +40,7 @@ const transitionName = 'project-image-' + project.slug
     customColour={customColour}
     categories={categories}
 >
-    <section
-        class="description"
-        transition:animate={fade({ duration: '.25s' })}
-    >
+    <section class="description">
         <div class="content">
             <h1>{project.data.title}</h1>
             <Content />

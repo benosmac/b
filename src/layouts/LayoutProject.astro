@@ -46,12 +46,12 @@ theme the whole page with the customColour prop */
             body {
                 /* Replacing the accent colour custom property */
                 --accent: var(--customColour);
-                --accentClone: color-mix(in oklch, var(--accent), white 0.001%);
+                --accentClone: color-mix(in lab, var(--accent), white 0.001%);
                 /* Defining a relative complimentary colour using color-mix in cylindrical colour space  with longer hue option. 
 */
                 --secondary: color-mix(
                     in oklch longer hue,
-                    var(--accent) 85%,
+                    var(--accent) 7%,
                     var(--accentClone)
                 );
                 --tertiary: color-mix(
@@ -64,9 +64,9 @@ theme the whole page with the customColour prop */
                 --surface-2: color-mix(in oklab, var(--secondary) 6%, #fff);
                 --surface-3: color-mix(in oklab, var(--secondary) 10%, #fff);
                 --surface-4: color-mix(in oklab, var(--secondary) 25%, #fff);
-                --surface-5: var(--surface-4);
+                --surface-5: color-mix(in oklab, var(--surface-4) 30%, #ccc);
                 --tertiaryTint: color-mix(in oklab, var(--tertiary) 15%, #fff);
-                --borderColour: color-mix(in oklab, var(--secondary) 25%, #fff);
+                --borderColour: var(--surface-4);
                 --borderAccentColour: var(--borderColour);
                 --linkColour: color-mix(in oklab, var(--tertiary) 90%, #fff);
                 --base: color-mix(in oklab, var(--secondary), black 66%);
