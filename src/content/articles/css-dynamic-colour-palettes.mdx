@@ -8,7 +8,7 @@ tags:
   - CSS
   - Colour
 published: true
-last_edited_time: '2023-07-19T14:17:00.000Z'
+last_edited_time: '2024-02-01T23:47:00.000Z'
 title: Dynamic colour palettes with CSS color-mix()
 ---
 
@@ -200,12 +200,12 @@ You’ll notice in the codepen demo above that I’m generating an extra colour 
 ```css
 :root{
 --brand: hotpink;
---brandClone: color-mix(in oklch, var(--brand), white 0.0001%); /* too many 0's breaks it :/ */
+--brandClone: color-mix(in oklch, var(--brand), white 0.1%);
 }
 ```
 
 
-This is because, in Firefox 114, mixing a colour with itself always seems to result in the original colour being returned, regardless of the hue interpolation method. But by making a new colour that’s a teeny tiny bit lighter than the original, then mixing them…
+This is because, in Firefox 114, mixing a colour with itself always seems to result in the original colour being returned, regardless of the hue interpolation method. But by making a new colour that’s a tiny bit lighter than the original, then mixing them…
 
 
 ```css
@@ -227,7 +227,7 @@ I also found that the following does not work in Firefox
 /* 
 Using OKLAB instead of OKLCH 
 */
---brandClone: color-mix(in oklab, var(--brand), white 0.0001%);
+--brandClone: color-mix(in oklab, var(--brand), white 0.1%);
 }
 /*
 Trying to nest color-mix() function using a non-cylindrical colour space
