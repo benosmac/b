@@ -28,9 +28,9 @@ const transitionName = 'project-image-' + slug
         <Image src={img} format="webp" alt={title} width="800" height="800" />
         <div class="title-wrapper">
             <div class="content">
-                <h2>
+                <h3>
                     {title}
-                </h2>
+                </h3>
                 <ul>
                     {categories.map((category) => <li>{category}</li>)}
                 </ul>
@@ -64,7 +64,7 @@ const transitionName = 'project-image-' + slug
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
-        & h2 {
+        & h3 {
             color: var(--accent);
             font-size: 1rem;
             line-height: 1;
@@ -129,7 +129,7 @@ const transitionName = 'project-image-' + slug
             transition: all 0.25s var(--outQuadratic);
         }
         .project-card {
-            & h2 {
+            & h3 {
                 font-size: 1.125rem;
                 opacity: 0;
                 transform: translateY(10px);
@@ -154,10 +154,17 @@ const transitionName = 'project-image-' + slug
             }
             & img {
                 object-position: center;
+                transition:
+                    filter 0.25s var(--defaultTiming),
+                    transform 0.25s var(--defaultTiming);
             }
             &:hover,
             &:focus-within {
-                & h2,
+                & img {
+                    filter: saturate(1.25);
+                    transform: scale(1.05);
+                }
+                & h3,
                 & li {
                     opacity: 1;
                     transform: translateY(0);

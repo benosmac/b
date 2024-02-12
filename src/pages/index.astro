@@ -46,15 +46,15 @@ const sortedArticles = articles
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
     <section class="intro">
-        <h2>
+        <h1>
             <span>Designer & front-end developer from Melbourne, Australia</span
             >
-        </h2>
+        </h1>
     </section>
 
     <section class="section projects">
         <div class="section-header">
-            <h3>Projects</h3>
+            <h2>Projects</h2>
             <Button
                 text="View all"
                 url="/projects"
@@ -87,7 +87,7 @@ const sortedArticles = articles
     </section>
     <section class="section articles">
         <div class="section-header">
-            <h3>Articles</h3>
+            <h2>Articles</h2>
             <Button
                 text="View all"
                 url="/articles"
@@ -127,7 +127,7 @@ const sortedArticles = articles
         position: relative;
         grid-column: 1 / span 6;
         padding: calc(var(--gapSize) * 2) var(--gapSize);
-        & h2 {
+        & h1 {
             font-weight: 200;
             font-size: calc(var(--headingMultiplier) * 1.5);
             margin-bottom: calc(var(--gapSize) / 4);
@@ -173,7 +173,8 @@ const sortedArticles = articles
         border-bottom: var(--border);
         margin-bottom: var(--gapSize);
         padding-bottom: calc(var(--gapSize) / 2);
-        & h3 {
+        & h2 {
+            font-size: calc(var(--headingMultiplier) * 1.25);
             font-weight: var(--bodyWeight);
             margin: 0;
         }
