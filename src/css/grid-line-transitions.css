@@ -2,10 +2,18 @@
 :root {
     --duration: 0.5s;
     --delay: 0.25s;
+    --gridLineColour: var(--accent);
 }
 .vt:root {
     --duration: 0s;
     --delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --duration: 0s;
+        --delay: 0s;
+        --gridLineColour: transparent;
+    }
 }
 .home {
     /* Vertical */
@@ -19,7 +27,7 @@
             top: 0;
             bottom: 0;
             width: 1px;
-            background: var(--accent);
+            background: var(--gridLineColour);
             z-index: 1;
             will-change: transform;
         }
@@ -55,7 +63,7 @@
         &::after {
             content: '';
             height: 1px;
-            background: var(--accent);
+            background: var(--gridLineColour);
             position: absolute;
             z-index: 1;
             will-change: transform;
