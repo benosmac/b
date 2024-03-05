@@ -17,7 +17,7 @@ const defaultImageWidth = 1111
 -->
 <div class="gallery">
     {
-        images.map((image) => (
+        images.map((image, index) => (
             <Image
                 src={image}
                 format={image.format}
@@ -25,6 +25,7 @@ const defaultImageWidth = 1111
                 format="webp"
                 width={defaultImageWidth}
                 class={image.src.includes('-wide') ? 'wide' : ''}
+                loading={index <= 1 ? 'eager' : 'lazy'}
             />
         ))
     }
