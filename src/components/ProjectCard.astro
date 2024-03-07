@@ -128,9 +128,12 @@ const transitionName = 'project-image-' + slug
             transform: translateY(101%);
             transition: all 0.25s var(--outQuadratic);
         }
+        /* Reduce opacity of other project-cards when one has focus or hover */
         :global(ul:has(> li.project-card):has(li > a:hover, li > a:focus)) {
             & > li > a:not(:hover, :focus) {
-                filter: saturate(0);
+                & img {
+                opacity: .85;
+                }
             }
         }
         .project-card {
@@ -145,21 +148,22 @@ const transitionName = 'project-image-' + slug
                 transform: translateY(10px);
                 transition: all 0.5s var(--outQuadratic);
                 &:nth-child(1) {
-                    transition-delay: 0.5s;
+                    transition-delay: 0.35s;
                 }
                 &:nth-child(2) {
-                    transition-delay: 0.6s;
+                    transition-delay: 0.45s;
                 }
                 &:nth-child(3) {
-                    transition-delay: 0.7s;
+                    transition-delay: 0.55s;
                 }
                 &:nth-child(4) {
-                    transition-delay: 0.8s;
+                    transition-delay: 0.65s;
                 }
             }
             & img {
                 object-position: center;
-                transition: transform 0.25s var(--defaultTiming);
+                transition: opacity .5s var(--outQuadratic) .25s;
+                opacity: 1;
             }
             & a {
                 transition: all 0.5s var(--outQuadratic);
