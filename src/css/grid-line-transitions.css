@@ -14,7 +14,7 @@
     :root {
         --duration: 0s;
         --delay: 0s;
-        --gridLineColour: transparent;
+        /* --gridLineColour: transparent; */
     }
 }
 .home {
