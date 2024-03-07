@@ -2,7 +2,9 @@
 :root {
     --duration: 0.5s;
     --delay: 0.25s;
-    --gridLineColour: var(--accent);
+    --gridLineColour: color-mix(in oklab, var(--accent) 25%, white);
+    /* --gridLineColour: var(--surface-1); */
+    --gridLineWidth: 2px;
 }
 .vt:root {
     --duration: 0s;
@@ -26,7 +28,7 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 1px;
+            width: var(--gridLineWidth);
             background: var(--gridLineColour);
             z-index: 1;
             will-change: transform;
@@ -34,11 +36,11 @@
     }
     #main {
         &::before {
-            height: 100dvh;
+            height: 100vh;
             left: var(--gapSize);
         }
         &::after {
-            height: 100dvh;
+            height: 100vh;
             right: var(--gapSize);
         }
     }
@@ -62,7 +64,7 @@
         &::before,
         &::after {
             content: '';
-            height: 1px;
+            height: var(--gridLineWidth);
             background: var(--gridLineColour);
             position: absolute;
             z-index: 1;
