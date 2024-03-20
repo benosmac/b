@@ -31,7 +31,7 @@ import '../css/page-transition.css'
     function setRootClasses() {
         if (sessionStorage.getItem('vtSupported') === 'true') {
             const rootEl = document.documentElement
-            console.log('Set root classes')
+            // console.log('Set root classes')
             rootEl.classList.add('vt')
             rootEl?.classList.add('home-is-loaded')
             rootEl?.classList.remove('home-is-loading')
