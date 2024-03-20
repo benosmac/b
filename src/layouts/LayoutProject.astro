@@ -9,9 +9,9 @@ export interface Props {
     title: string
     customColour: string
     categories: Array<string>
+    transitionName: string
 }
-
-const { title, customColour, categories } = Astro.props
+const { title, customColour, categories, transitionName } = Astro.props
 
 // Build a nicely formatted string of project categories
 let categoriesString = ''
@@ -24,6 +24,7 @@ categories.forEach((category, index) => {
 })
 // Build the meta description
 const metaDescription = `A ${categoriesString} project for ${title}`
+
 ---
 
 <!doctype html>
@@ -35,7 +36,7 @@ const metaDescription = `A ${categoriesString} project for ${title}`
     </head>
     <body id="body" class="transition">
         <Header />
-        <main id="main">
+        <main id="main" style=`view-transition-name: ${transitionName}`>
             <slot />
         </main>
         <Footer />

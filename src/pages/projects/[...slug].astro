@@ -32,6 +32,7 @@ const images = await ImportAllImages(project.slug, 'feature')
 const customColour: string = project.data.customColour
 //Get project categories
 const categories: Array<string> = project.data.categories
+// Generate the view-transition name
 const transitionName = 'project-image-' + project.slug
 ---
 
@@ -39,6 +40,8 @@ const transitionName = 'project-image-' + project.slug
     title={project.data.title}
     customColour={customColour}
     categories={categories}
+    transitionName={transitionName}
+    
 >
     <section class="description">
         <div class="content">
@@ -72,7 +75,6 @@ const transitionName = 'project-image-' + project.slug
     </section>
     <div
         class="gallery-wrapper"
-        style=`view-transition-name: ${transitionName}`
     >
         <Gallery images={images} />
     </div>

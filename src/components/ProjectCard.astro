@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
+
 export interface Props {
     title: string
     href: string
@@ -40,6 +41,38 @@ const transitionName = 'project-image-' + slug
     <!-- Filthy boy needed to draw horizontal lines in homepage grid animation. -->
     <span class="grid-line"></span>
 </li>
+<script>
+    import { navigate } from 'astro:transitions/client';
+    function timeout(ms = 1000) {
+        return new Promise((resolve) => setTimeout(resolve, ms))
+    }
+
+    function setupProjectCardClickHandlers() {
+        const projectCards = document.querySelectorAll('.project-card > a');
+        projectCards.forEach((card) => {
+            card.addEventListener('click', async (event) => {
+                event.preventDefault();
+                let href = card.getAttribute('href');
+                let wrapper = card.querySelector('.title-wrapper');
+                if (wrapper instanceof HTMLElement){
+                // wrapper?.style.setProperty('min-height', '100%');
+                wrapper?.setAttribute('clicked', 'true')
+                await timeout(250);
+                }
+                navigate(href ? href : '');
+            });
+        });
+    }
+    if (document.startViewTransition) {
+        document.addEventListener('astro:page-load', (event) => {
+            setupProjectCardClickHandlers()
+        })
+    } 
+
+            
+
+    // });
+</script>
 <style define:vars={{ customColour }}>
     /* Redefine colour custom properties inside the component to theme it with the customColour prop. Scoped to .title-wrapper so it doesn't affect grid lines and placeholder background colours */
     .title-wrapper {
@@ -64,6 +97,7 @@ const transitionName = 'project-image-' + slug
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
+        /* background: var(--surface-1); */
         & h3 {
             color: var(--accent);
             font-size: 1rem;
@@ -115,6 +149,13 @@ const transitionName = 'project-image-' + slug
         margin: 0;
         padding: var(--gapSize);
         font-size: 1rem;
+    }
+    .title-wrapper[clicked="true"] {
+        min-height: 100%;
+        & .content{
+            opacity: 0;
+            transition: opacity 0.1s var(--outQuadratic);
+        }
     }
     .content {
         display: flex;
