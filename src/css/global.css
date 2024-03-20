@@ -2,7 +2,7 @@
 :root,
 body {
     /* Colours */
-    --base: oklch(20% 0.015 85);
+    --base: oklch(20.24% 0.0467 92.39);
     --accent: oklch(50.4% 0.139 168);
     --secondary: oklch(40% 0.1 85);
     --surface-1: oklch(90% 0.015 85);
@@ -23,10 +23,12 @@ body {
 
     /* Line-heights */
     --bodyLH: 1.6;
+    --midLH: 1.4;
     --headingLH: 1.2;
 
     /* Font sizing */
     --headingMultiplier: calc(var(--bodyLH) / var(--headingLH) * 1rem);
+    --midMultiplier: calc(var(--bodyLH) / var(--midLH) * 1rem);
 
     /* Borders */
     --borderWidth: 2px;
@@ -55,6 +57,13 @@ html {
     font-family: var(--bodyFont);
     font-weight: var(--bodyWeight);
     line-height: var(--bodyLH);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01s;
+        transition-duration: 0.01s;
+    }
 }
 body {
     display: grid;
