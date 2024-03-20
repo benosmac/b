@@ -47,9 +47,10 @@ const sortedArticles = articles
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
     <section class="intro">
         <h1>
-            <span>Designer & front-end developer from Melbourne, Australia</span
+            <span>Designer & front-end developer <wbr>from Melbourne, Australia</span
             >
         </h1>
+        <p>I help businesses grow by leveraging design and technology to build brands, products and experiences that they are proud of.</p>
     </section>
 
     <section class="section projects">
@@ -128,11 +129,16 @@ const sortedArticles = articles
         grid-column: 1 / span 6;
         padding: calc(var(--gapSize) * 2) var(--gapSize);
         & h1 {
-            font-weight: 200;
+            font-weight: 700;
             font-size: calc(var(--headingMultiplier) * 1.5);
-            margin-bottom: calc(var(--gapSize) / 4);
+            /* margin-bottom: calc(var(--gapSize) / 4); */
             text-wrap: balance;
             max-width: 24ch;
+        }
+        & p{
+            font-size: calc(var(--midMultiplier) * 1);
+            max-width: 66ch;
+            text-wrap: balance;
         }
         & span {
             display: inline-block;
