@@ -16,7 +16,7 @@ html:not(.vt) {
 ::view-transition-new(*),
 ::view-transition-old(*) {
     mix-blend-mode: normal;
-    animation-duration: 0.25s;
+    animation-duration: 0.38s;
     animation-timing-function: var(--defaultTiming);
     /* height: 100%; */
 }

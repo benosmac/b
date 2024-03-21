@@ -151,7 +151,9 @@ const transitionName = 'project-image-' + slug
         font-size: 1rem;
     }
     .title-wrapper[clicked="true"] {
-        min-height: 100%;
+        /* min-height: 100%; */
+        transform: scaleY(9);
+        transition: transform 0.25s var(--outQuadratic) 0.1s;
         & .content{
             opacity: 0;
             transition: opacity 0.1s var(--outQuadratic);
@@ -215,7 +217,7 @@ const transitionName = 'project-image-' + slug
                         opacity: 1;
                         transform: translateY(0);
                     }
-                    .title-wrapper {
+                    .title-wrapper:not([clicked="true"]) {
                         transform: translateY(0);
                     }
                 }

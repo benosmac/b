@@ -1,10 +1,10 @@
 ---
+import '../../css/animations.css'
 import Layout from '@layouts/LayoutProject.astro'
 import Gallery from '@components/Gallery.astro'
 import Button from '@components/Button.astro'
 import { Icon } from 'astro-icon'
 import { getCollection } from 'astro:content'
-import { fade } from 'astro:transitions'
 import type { CollectionEntry } from 'astro:content'
 import { ImportAllImages } from 'src/lib/importImages'
 
@@ -96,10 +96,13 @@ const transitionName = 'project-image-' + project.slug
         grid-template-rows: 1fr auto;
     }
     .gallery-wrapper {
+        background-color: var(--surface-1);
         display: grid;
         justify-content: center;
         grid-column: 1 / span all;
         padding: var(--gapSize) 0;
+        animation: fadeIn .25s var(--defaultTiming) .38s;
+        animation-fill-mode: backwards;
 
         @media (min-width: 1000px) {
             grid-column: 1 / span 4;
@@ -111,6 +114,8 @@ const transitionName = 'project-image-' + project.slug
         background: var(--surface-3);
         grid-column: 1 / span all;
         padding: var(--gapSize);
+        animation: fadeIn .25s var(--defaultTiming) .38s;
+        animation-fill-mode: backwards;
         @media (min-width: 1000px) {
             border-left: var(--border);
             grid-column: 5 / span 2;
