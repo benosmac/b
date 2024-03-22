@@ -18,5 +18,7 @@ html:not(.vt) {
     mix-blend-mode: normal;
     animation-duration: 0.38s;
     animation-timing-function: var(--defaultTiming);
+    object-fit: cover;
+    object-position: 0 0;
     height: 100%;
 }

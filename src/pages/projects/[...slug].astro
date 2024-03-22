@@ -89,7 +89,39 @@ const transitionName = 'project-image-' + project.slug
         </Button>
     </div>
 </Layout>
+<script>
+    function timeout(ms = 0) {
+        return new Promise((resolve) => setTimeout(resolve, ms))
+    }
+    document.addEventListener('astro:before-preparation', (ev: any) => {
+    if (ev.loader){
+        const originalLoader = ev.loader;
+        ev.loader = async function() {
 
+        const gallery = document.querySelectorAll('.gallery-wrapper')[0];
+        const desc = document.querySelectorAll('.description')[0];
+        if (gallery instanceof HTMLElement && desc instanceof HTMLElement){
+                gallery.style.setProperty('opacity', '0');
+                desc.style.setProperty('opacity', '0');
+                await timeout(250);
+        }
+        await originalLoader();
+        };
+    }
+  });
+
+//   document.addEventListener('astro:before-preparation', () => {
+//     const gallery = document.querySelectorAll('.gallery-wrapper')[0];
+//     const desc = document.querySelectorAll('.description')[0];
+//     if (gallery instanceof HTMLElement && desc instanceof HTMLElement){
+//         gallery.style.setProperty('opacity', '0');
+//         desc.style.setProperty('opacity', '0');
+//     }
+//   });
+//   document.addEventListener('astro:after-preparation', async () => {
+//     await timeout(250);
+//   });
+</script>
 <style>
     /* NOTE: Custom properties for colours are re-defined in layouts/LayoutProject.astro, as they are applied to the entire page(header, footer etc) */
     :global(#main) {
@@ -103,7 +135,7 @@ const transitionName = 'project-image-' + project.slug
         padding: var(--gapSize) 0;
         animation: fadeIn .25s var(--defaultTiming) .38s;
         animation-fill-mode: backwards;
-
+        transition: opacity .25s var(--defaultTiming);
         @media (min-width: 1000px) {
             grid-column: 1 / span 4;
             grid-row: 1 / span all;
@@ -116,6 +148,7 @@ const transitionName = 'project-image-' + project.slug
         padding: var(--gapSize);
         animation: fadeIn .25s var(--defaultTiming) .38s;
         animation-fill-mode: backwards;
+        transition: opacity .25s var(--defaultTiming);
         @media (min-width: 1000px) {
             border-left: var(--border);
             grid-column: 5 / span 2;

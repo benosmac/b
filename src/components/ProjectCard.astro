@@ -38,7 +38,6 @@ const transitionName = 'project-image-' + slug
             </div>
         </div>
     </a>
-    <!-- Filthy boy needed to draw horizontal lines in homepage grid animation. -->
     <span class="grid-line"></span>
 </li>
 <script>
@@ -46,24 +45,31 @@ const transitionName = 'project-image-' + slug
     function timeout(ms = 1000) {
         return new Promise((resolve) => setTimeout(resolve, ms))
     }
-
+    // TODO: Refactor this to use Astro's view-transition hooks using synchronous callback
     function setupProjectCardClickHandlers() {
-        const projectCards = document.querySelectorAll('.project-card > a');
-        projectCards.forEach((card) => {
-            card.addEventListener('click', async (event) => {
+        const projectCardLinks = document.querySelectorAll('.project-card > a');
+        // Register click handlers for all cards
+        projectCardLinks.forEach((cardLink) => {
+            cardLink.addEventListener('click', async (event) => {
+                // Stop Astro from starting the view transition
                 event.preventDefault();
-                let href = card.getAttribute('href');
-                let wrapper = card.querySelector('.title-wrapper');
+                let card = cardLink.parentElement;
+                let href = cardLink.getAttribute('href');
+                let wrapper = cardLink.querySelector('.title-wrapper');
+                // Make sure the clicked card is at the top of the stacking context
+                card?.style.setProperty('z-index', '10');
                 if (wrapper instanceof HTMLElement){
-                // wrapper?.style.setProperty('min-height', '100%');
-                wrapper?.setAttribute('clicked', 'true')
+                // Set clicked attr on card wrapper to trigger animation to run before view transition starts
+                wrapper.setAttribute('clicked', 'true')
                 await timeout(250);
                 }
+                // Trigger navigation with Astro's router to start the view transition
                 navigate(href ? href : '');
             });
         });
     }
     if (document.startViewTransition) {
+        // Register the click handlers after navigation with Astro's router (as bundled scripts are not re-executed)
         document.addEventListener('astro:page-load', (event) => {
             setupProjectCardClickHandlers()
         })
