@@ -264,6 +264,13 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
+"woodchucktoys.mdx": {
+	id: "woodchucktoys.mdx";
+  slug: "woodchucktoys";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 };
 
 	};

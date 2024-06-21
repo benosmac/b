@@ -10,6 +10,7 @@ const projectsCollection = defineCollection({
         date: z.string(),
         liveUrl: z.string().optional(),
         isFeatured: z.boolean().optional(),
+        videos: z.array(z.string()).optional(),
     }),
 })
 const articlesCollection = defineCollection({

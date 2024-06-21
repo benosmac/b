@@ -27,7 +27,6 @@ const { project } = Astro.props
 const { Content } = await project.render()
 // Imports all images from given subdirectory in ./assets
 const images = await ImportAllImages(project.slug, 'feature')
-
 //Get custom accent colour
 const customColour: string = project.data.customColour
 //Get project categories
@@ -41,7 +40,6 @@ const transitionName = 'project-image-' + project.slug
     customColour={customColour}
     categories={categories}
     transitionName={transitionName}
-    
 >
     <section class="description">
         <div class="content">
@@ -73,10 +71,11 @@ const transitionName = 'project-image-' + project.slug
             </footer>
         </div>
     </section>
-    <div
-        class="gallery-wrapper"
-    >
-        <Gallery images={images} />
+    <div class="gallery-wrapper">
+        <Gallery
+            images={images}
+            videos={project.data.videos && project.data.videos}
+        />
     </div>
     <div class="back-button-wrapper">
         <Button
@@ -94,33 +93,35 @@ const transitionName = 'project-image-' + project.slug
         return new Promise((resolve) => setTimeout(resolve, ms))
     }
     document.addEventListener('astro:before-preparation', (ev: any) => {
-    if (ev.loader){
-        const originalLoader = ev.loader;
-        ev.loader = async function() {
-
-        const gallery = document.querySelectorAll('.gallery-wrapper')[0];
-        const desc = document.querySelectorAll('.description')[0];
-        if (gallery instanceof HTMLElement && desc instanceof HTMLElement){
-                gallery.style.setProperty('opacity', '0');
-                desc.style.setProperty('opacity', '0');
-                await timeout(250);
+        if (ev.loader) {
+            const originalLoader = ev.loader
+            ev.loader = async function () {
+                const gallery = document.querySelectorAll('.gallery-wrapper')[0]
+                const desc = document.querySelectorAll('.description')[0]
+                if (
+                    gallery instanceof HTMLElement &&
+                    desc instanceof HTMLElement
+                ) {
+                    gallery.style.setProperty('opacity', '0')
+                    desc.style.setProperty('opacity', '0')
+                    await timeout(250)
+                }
+                await originalLoader()
+            }
         }
-        await originalLoader();
-        };
-    }
-  });
+    })
 
-//   document.addEventListener('astro:before-preparation', () => {
-//     const gallery = document.querySelectorAll('.gallery-wrapper')[0];
-//     const desc = document.querySelectorAll('.description')[0];
-//     if (gallery instanceof HTMLElement && desc instanceof HTMLElement){
-//         gallery.style.setProperty('opacity', '0');
-//         desc.style.setProperty('opacity', '0');
-//     }
-//   });
-//   document.addEventListener('astro:after-preparation', async () => {
-//     await timeout(250);
-//   });
+    //   document.addEventListener('astro:before-preparation', () => {
+    //     const gallery = document.querySelectorAll('.gallery-wrapper')[0];
+    //     const desc = document.querySelectorAll('.description')[0];
+    //     if (gallery instanceof HTMLElement && desc instanceof HTMLElement){
+    //         gallery.style.setProperty('opacity', '0');
+    //         desc.style.setProperty('opacity', '0');
+    //     }
+    //   });
+    //   document.addEventListener('astro:after-preparation', async () => {
+    //     await timeout(250);
+    //   });
 </script>
 <style>
     /* NOTE: Custom properties for colours are re-defined in layouts/LayoutProject.astro, as they are applied to the entire page(header, footer etc) */
@@ -133,9 +134,9 @@ const transitionName = 'project-image-' + project.slug
         justify-content: center;
         grid-column: 1 / span all;
         padding: var(--gapSize) 0;
-        animation: fadeIn .25s var(--defaultTiming) .38s;
+        animation: fadeIn 0.25s var(--defaultTiming) 0.38s;
         animation-fill-mode: backwards;
-        transition: opacity .25s var(--defaultTiming);
+        transition: opacity 0.25s var(--defaultTiming);
         @media (min-width: 1000px) {
             grid-column: 1 / span 4;
             grid-row: 1 / span all;
@@ -146,9 +147,9 @@ const transitionName = 'project-image-' + project.slug
         background: var(--surface-3);
         grid-column: 1 / span all;
         padding: var(--gapSize);
-        animation: fadeIn .25s var(--defaultTiming) .38s;
+        animation: fadeIn 0.25s var(--defaultTiming) 0.38s;
         animation-fill-mode: backwards;
-        transition: opacity .25s var(--defaultTiming);
+        transition: opacity 0.25s var(--defaultTiming);
         @media (min-width: 1000px) {
             border-left: var(--border);
             grid-column: 5 / span 2;

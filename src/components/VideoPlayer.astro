@@ -1,0 +1,27 @@
+---
+/*
+ */
+import { Icon } from 'astro-icon'
+
+interface Props {
+    videoUrl: string
+}
+const { videoUrl } = Astro.props
+---
+
+<div class="video-wrapper">
+    <video controls width="400">
+        <source src={videoUrl} />
+    </video>
+</div>
+<style>
+    .video-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        & video {
+            max-width: 100%;
+            border-radius: 1rem;
+        }
+    }
+</style>

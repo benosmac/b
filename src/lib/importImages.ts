@@ -21,10 +21,11 @@ export async function ImportAllImages(folder: string, exclude?: string) {
 
     // Use Vite's import.meta.glob() to get all the .jpg images in the assets. We need to get them all, then filter them later, as import.meta.glob() does not support variables in the query string.
     const allImages: Array<string> = Object.keys(
-        import.meta.glob('/src/assets/images/**/*.jpg', {
+        import.meta.glob('/src/assets/images/**/*.{jpg,gif}', {
             as: 'url',
         })
     )
+    console.log(allImages)
     // Filter the allImages array returned by import.meta.glob() to get only the images in given folder
     // Then we trim everything except the folder and file name (including the extension)
     const filteredImages: Array<string> = allImages
@@ -34,17 +35,16 @@ export async function ImportAllImages(folder: string, exclude?: string) {
                   !imagePath.includes(exclude)
                 : imagePath.includes(filterSrcString)
         )
-        .map((imagePath) =>
-            imagePath.replace('.jpg', '').replace('/src/assets/images/', '')
-        )
+        .map((imagePath) => imagePath.replace('/src/assets/images/', ''))
     // Import all the images as ImageMetadata objects and return them in a new array
     // Split up the path to get around dynamic import limitations
     // https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations
     const imageImports: Array<ImageMetadata> = await Promise.all(
         filteredImages.map(async (image: string) => {
-            const pathSegments = image.split('/')
+            // const pathSegments = image.split('/')
+            const pathSegments = image.split(/[/.]/)
             const img = await import(
-                `../assets/images/${pathSegments[0]}/${pathSegments[1]}.jpg`
+                `../assets/images/${pathSegments[0]}/${pathSegments[1]}.${pathSegments[2]}`
             )
             return img.default
         })

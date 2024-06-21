@@ -1,11 +1,13 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
+import VideoPlayer from './VideoPlayer.astro'
 export interface Props {
     images: Array<ImageMetadata>
+    videos: Array<string> | undefined
 }
 
-const { images } = Astro.props
+const { images, videos } = Astro.props
 
 const defaultImageWidth = 1111
 ---
@@ -28,6 +30,11 @@ const defaultImageWidth = 1111
                 loading={index <= 1 ? 'eager' : 'lazy'}
             />
         ))
+    }
+    {
+        videos?.map((videoUrl) => {
+            return <VideoPlayer videoUrl={videoUrl} />
+        })
     }
 </div>
 <script>
