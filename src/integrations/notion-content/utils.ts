@@ -1,8 +1,15 @@
-import { Client, isFullPage } from '@notionhq/client'
+import {
+    Client,
+    isFullPage,
+    isFullPageOrDatabase,
+    isFullDatabase,
+} from '@notionhq/client'
 import matter from 'gray-matter'
 import * as fs from 'node:fs/promises'
 import type {
+    DatabaseObjectResponse,
     PageObjectResponse,
+    PartialDatabaseObjectResponse,
     PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import type {
@@ -33,11 +40,15 @@ TODO: Use DB name as folder name
 TODO: Add check for existing file, if exists compare last_edited_time before overwriting
 */
 export async function generateMarkdownPages(
-    pages: PageObjectResponse[] | PartialPageObjectResponse[],
+    pages: (
+        | PageObjectResponse
+        | PartialPageObjectResponse
+        | PartialDatabaseObjectResponse
+        | DatabaseObjectResponse
+    )[],
     n2m: NotionToMarkdown
 ) {
     for (const page of pages) {
-        //console.log(page)
         if (!isFullPage(page)) {
             continue
         }
@@ -47,7 +58,9 @@ export async function generateMarkdownPages(
             continue
         }
         // Get the slug to use in the file name
-        const slug = await getPropertyValue(page.properties.slug)
+        const slug = await getPropertyValue(page.properties.slug).catch(
+            (error) => console.log('failed to get slug')
+        )
         n2m.setCustomTransformer('embed', customEmbedTransformer)
         // Returns all blocks within the page in Markdown format
         const mdblocks = await n2m.pageToMarkdown(page.id)
@@ -57,13 +70,17 @@ export async function generateMarkdownPages(
 
         // Generate a object representing the frontmatter for the page
         // This will use the page.properties object as the source, so Zod types in content/config.ts need to match
-        const frontmatter = await getFrontmatter(page)
+        const frontmatter: any = await getFrontmatter(page).catch((error) =>
+            console.log(`failed to get frontmatter ${page}`)
+        )
 
         // const fmMdStr = [frontmatter, '---', mdString.parent].join('')
-        const fmMdStr = matter.stringify(mdString.parent, frontmatter)
-        const filename = `${POSTS_DIR}/${slug}.mdx`
+        if (frontmatter) {
+            const fmMdStr = matter.stringify(mdString.parent, frontmatter)
+            const filename = `${POSTS_DIR}/${slug}.mdx`
 
-        fs.writeFile(filename, fmMdStr)
+            fs.writeFile(filename, fmMdStr)
+        }
     }
 }
 
@@ -146,8 +163,12 @@ async function getFrontmatter(page: PageObjectResponse) {
     for (const propertyKey in properties) {
         const propertyObj: PropertyInPropertiesObject = properties[propertyKey]
         const propertyName = propertyKey as keyof typeof frontmatter
-        const propertyValue = await getPropertyValue(propertyObj)
-        frontmatter[propertyName] = propertyValue
+        const propertyValue = await getPropertyValue(propertyObj).catch(
+            (error) => console.log(`failed to get ${String(propertyName)}`)
+        )
+        if (propertyName) {
+            frontmatter[propertyName] = propertyValue
+        }
     }
     // const frontmatterYaml = matter.stringify(mdString, frontmatter)
     return frontmatter
