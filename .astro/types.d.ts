@@ -192,6 +192,13 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".mdx"] };
+"customising-view-transitions.mdx": {
+	id: "customising-view-transitions.mdx";
+  slug: "customising-view-transitions";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".mdx"] };
 "decent-css-typography.mdx": {
 	id: "decent-css-typography.mdx";
   slug: "decent-css-typography";

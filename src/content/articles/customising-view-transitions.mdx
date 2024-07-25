@@ -1,0 +1,109 @@
+---
+date: '2024-07-21T21:01:00.000Z'
+image: customising-view-transitions
+slug: customising-view-transitions
+description: >-
+  Use Astro’s view transition lifecycle events to conditionally change view
+  transition animations 
+created_by: Bengamin Osborn-Macpherson
+tags:
+  - CSS
+  - view-transitions
+  - Astro
+published: true
+last_edited_time: '2024-07-25T13:44:00.000Z'
+title: Customising View Transitions on-the-fly in Astro
+---
+
+Demo: [https://slidey-view-transitions.netlify.app/](https://slidey-view-transitions.netlify.app/)
+
+
+This week I ran into a challenge when working with the same-document View Transitions API on an Astro site. I needed a transitions where the old content slides out and the new content slides in, **but** I needed the direction of the sliding to change depending on the page being navigated away from. The starting CSS looks like this:
+
+
+```css
+/* index */
+body {
+    view-transition-name: body;
+}
+::view-transition-old(body) {
+    animation: slideDownOut 0.5s ease;
+}
+::view-transition-new(body) {
+    animation: slideDownIn 0.5s ease);
+}
+
+@keyframes slideDownOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+@keyframes slideDownIn {
+  from {
+    transform: translateY(-100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+```
+
+
+This works - the old page slides down and the new pages slides in from the top.
+
+
+But what if, sometimes, we wanted it to slide the other way? 
+
+
+The animation property for a `view-transition-image-pair` is taken from the new document (which makes sense, because same-document view transitions are intended to be used on the _same document)._ This means that if we want to have a different transition between specific pages we need a way to set styles on `::view-transition-*` pseudo-elements in the new document before the view transition runs.
+
+
+Astro gives us some handy lifecycle events, and with the [`astro:before-swap`](https://docs.astro.build/en/guides/view-transitions/#astrobefore-swap) event we can access the `event.newDocument` property and change the `animation` on our view transition pseudo-elements:
+
+
+```typescript
+  <body data-slideOut="up">
+	  <p>Beam me up!</p>
+  </body>
+  <style>
+  body {
+	  view-transition-name: body;
+	  animation: slideDownIn .5s ease;
+  }
+  </style>
+  
+  <script>
+  document.addEventListener("astro:before-swap", (ev) => {
+	  // get the direction for our animation from the current page
+    const direction = document.body.dataset.slideOut;
+    
+		// make an empty style tag
+    const style = document.createElement("style");
+		// conditionally set the contents
+    if (direction == "up") {
+      style.innerHTML = 
+			      `::view-transition-old(body) {
+              animation: slideUpOut 0.5s ease;
+            }
+            ::view-transition-new(body) {
+              animation: slideUpIn 0.5s ease;
+            }`;
+    }
+		// stick it in the head of ev.newDocument
+    ev.newDocument.head.appendChild(style);
+  });
+  </script>
+```
+
+
+Here we define a data attribute on the `body` element that holds the direction for our ‘out’ animation. When the `astro:before-swap` event fires we read the `data-slideOut` attribute of the current document and insert the appropriate CSS into the head of the new document.
+
+
+And that’s pretty much it. Now when we navigate away from any page with `data-slideOut=”up"` the new document will use the animation we specified.
+
+
+Demo: [https://slidey-view-transitions.netlify.app/](https://slidey-view-transitions.netlify.app/)
+
