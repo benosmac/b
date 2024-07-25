@@ -41,16 +41,20 @@ const sortedArticles = articles
         }
         return 0
     })
-    .slice(-2)
+    .slice(0, 2)
 ---
 
 <Layout title="Bengamin Osborn-Macpherson - Design & Development">
     <section class="intro">
         <h1>
-            <span>Designer & front-end developer <wbr>from Melbourne, Australia</span
+            <span
+                >Designer & front-end developer <wbr />from Melbourne, Australia</span
             >
         </h1>
-        <p>I help businesses grow by leveraging design and technology to build brands, products and experiences that they are proud of.</p>
+        <p>
+            I help businesses grow by leveraging design and technology to build
+            brands, products and experiences that they are proud of.
+        </p>
     </section>
 
     <section class="section projects">
@@ -135,7 +139,7 @@ const sortedArticles = articles
             text-wrap: balance;
             max-width: 24ch;
         }
-        & p{
+        & p {
             font-size: calc(var(--midMultiplier) * 1);
             max-width: 66ch;
             text-wrap: balance;
