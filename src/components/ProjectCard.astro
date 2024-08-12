@@ -41,41 +41,39 @@ const transitionName = 'project-image-' + slug
     <span class="grid-line"></span>
 </li>
 <script>
-    import { navigate } from 'astro:transitions/client';
+    import { navigate } from 'astro:transitions/client'
     function timeout(ms = 1000) {
         return new Promise((resolve) => setTimeout(resolve, ms))
     }
     // TODO: Refactor this to use Astro's view-transition hooks using synchronous callback
     function setupProjectCardClickHandlers() {
-        const projectCardLinks = document.querySelectorAll('.project-card > a');
+        const projectCardLinks = document.querySelectorAll('.project-card > a')
         // Register click handlers for all cards
         projectCardLinks.forEach((cardLink) => {
             cardLink.addEventListener('click', async (event) => {
                 // Stop Astro from starting the view transition
-                event.preventDefault();
-                let card = cardLink.parentElement;
-                let href = cardLink.getAttribute('href');
-                let wrapper = cardLink.querySelector('.title-wrapper');
+                event.preventDefault()
+                let card = cardLink.parentElement
+                let href = cardLink.getAttribute('href')
+                let wrapper = cardLink.querySelector('.title-wrapper')
                 // Make sure the clicked card is at the top of the stacking context
-                card?.style.setProperty('z-index', '10');
-                if (wrapper instanceof HTMLElement){
-                // Set clicked attr on card wrapper to trigger animation to run before view transition starts
-                wrapper.setAttribute('clicked', 'true')
-                await timeout(250);
+                card?.style.setProperty('z-index', '10')
+                if (wrapper instanceof HTMLElement) {
+                    // Set clicked attr on card wrapper to trigger animation to run before view transition starts
+                    wrapper.setAttribute('data-clicked', 'true')
+                    await timeout(250)
                 }
                 // Trigger navigation with Astro's router to start the view transition
-                navigate(href ? href : '');
-            });
-        });
+                navigate(href ? href : '')
+            })
+        })
     }
     if (document.startViewTransition) {
         // Register the click handlers after navigation with Astro's router (as bundled scripts are not re-executed)
         document.addEventListener('astro:page-load', (event) => {
             setupProjectCardClickHandlers()
         })
-    } 
-
-            
+    }
 
     // });
 </script>
@@ -156,11 +154,11 @@ const transitionName = 'project-image-' + slug
         padding: var(--gapSize);
         font-size: 1rem;
     }
-    .title-wrapper[clicked="true"] {
+    .title-wrapper[data-clicked='true'] {
         /* min-height: 100%; */
         transform: scaleY(9);
         transition: transform 0.25s var(--outQuadratic) 0.1s;
-        & .content{
+        & .content {
             opacity: 0;
             transition: opacity 0.1s var(--outQuadratic);
         }
@@ -181,7 +179,7 @@ const transitionName = 'project-image-' + slug
         :global(ul:has(> li.project-card):has(li > a:hover, li > a:focus)) {
             & > li > a:not(:hover, :focus) {
                 & img {
-                opacity: .85;
+                    opacity: 0.85;
                 }
             }
         }
@@ -211,7 +209,7 @@ const transitionName = 'project-image-' + slug
             }
             & img {
                 object-position: center;
-                transition: opacity .5s var(--outQuadratic) .25s;
+                transition: opacity 0.5s var(--outQuadratic) 0.25s;
                 opacity: 1;
             }
             & a {
@@ -223,7 +221,7 @@ const transitionName = 'project-image-' + slug
                         opacity: 1;
                         transform: translateY(0);
                     }
-                    .title-wrapper:not([clicked="true"]) {
+                    .title-wrapper:not([data-clicked='true']) {
                         transform: translateY(0);
                     }
                 }

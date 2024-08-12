@@ -28,16 +28,10 @@ const { title } = Astro.props
             <slot />
         </main>
         <Footer /></body
-    >
-
-    <script></script>
-
-    <style is:global>
+    ><style is:global>
         #main {
             overflow-x: hidden;
             transition: all 0.25s var(--defaultTiming);
-        }
-        .transition #main {
         }
     </style>
 </html>
