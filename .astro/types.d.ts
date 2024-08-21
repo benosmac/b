@@ -264,6 +264,13 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
+"thesleepysloth.mdx": {
+	id: "thesleepysloth.mdx";
+  slug: "thesleepysloth";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 "verve360.mdx": {
 	id: "verve360.mdx";
   slug: "verve360";
